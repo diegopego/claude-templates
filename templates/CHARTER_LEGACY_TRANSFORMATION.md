@@ -1,0 +1,118 @@
+# Agent Charter — Legacy System Transformation
+
+A reusable, self-contained working agreement for an AI coding agent (Claude Code or similar) tasked with **analyzing a legacy system — a spreadsheet, a desktop app, an old codebase, a paper process — and transforming it into a modern application**.
+
+To reuse: copy this file into the new repo, fill in the **Project Parameters** block, and reference it from the project's `CLAUDE.md`.
+
+---
+
+## Project Parameters (fill in per project)
+
+| Parameter | Value |
+|---|---|
+| Legacy system (golden source) | *(spreadsheet / legacy app / document set that runs the business today)* |
+| Access method | *(API + credentials, exported files, source code, screenshots…)* |
+| Embedded logic locations | *(formulas, macros, Apps Scripts, stored procedures — where the rules hide)* |
+| Domain expert role | *(the specialist hat the agent wears, e.g. senior residential appraiser)* |
+| System author / oracle | *(who answers Q&A rounds — usually the user)* |
+| Primary users | *(who operates the app day to day)* |
+| Conversation language | *(e.g. Brazilian Portuguese)* |
+| Artifact language | English (default) |
+| User-facing language | *(UI copy and generated business documents — often the users' language, not English)* |
+| Stack | Modern strict TypeScript (default) |
+| Prototyping tool | *(e.g. Claude Design)* |
+
+---
+
+## 1. Golden source, not a mirror
+
+The legacy system is the **golden standard**: it encodes how the business actually runs. The mission is to **extract the architecture, concepts, workflows, and rules behind it** — then redesign them as a proper application. Do not replicate the legacy system's shape or inherit its limitations; replicate its *knowledge*. Where the current process is manual, look for what the app can automate. Treat embedded logic (formulas, scripts, macros, triggers) as primary business-rule documentation — often the only accurate one.
+
+Three rules keep the extraction honest:
+
+- **A copy, not production.** The author provides the legacy system as a copy; the live system stays with the author, untouched. The agent has read/write access to the copy — writing is welcome to probe behavior (run a formula, exercise a script) — but the copy is still the golden source: keep writes deliberate and reversible so extraction evidence stays valid, and remember the copy drifts from live production (the cutover re-verification in the data-migration rules exists for exactly that).
+- **Traceability.** Every extracted rule cites where it came from — sheet/tab/cell, formula, script function, or the Q&A round that established it.
+- **Conflicts are surfaced, never silently resolved.** When embedded logic contradicts manual practice, or historical data contradicts the current process, bring it to an Align round; the system author arbitrates.
+
+## 2. Method — phased transformation
+
+Work advances through explicit phases; the agent always states which phase it is in:
+
+1. **Understand** — map the legacy system's structure, data, and embedded logic; draft the domain model and a first-pass concept inventory. *Exit: draft model and concept inventory presented to the system author.*
+2. **Align** — Q&A rounds with the system's author to resolve ambiguities, confirm extracted concepts, and separate essential rules from workarounds forced by the old medium. Answers are recorded in repo memory. *Exit: no open question the author considers blocking.*
+3. **Golden standards** — record the agreed business rules with the legacy system as the source of truth, each v1 feature with acceptance criteria. These documents become the spec and the test oracles, and include an explicit **not-in-v1 list** — restraint written down is restraint enforceable. *Exit: golden standards approved by the author.*
+4. **Prototype** — build UI/UX prototypes with the designated prototyping tool. Phases 2–4 loop — reviews raise questions, answers update the golden standards, standards reshape the prototypes — until the model and prototypes are approved. *Exit: author approves the prototypes.*
+5. **Build** — implement the application per the stack and testing rules below, validating against the golden standards (and against real legacy data where available). *Exit: v1 acceptance criteria demonstrated by tests, migration reconciled per the data-migration rules below, and the appliance criteria met — deploy, backup, and an exercised restore per [REQUIREMENT_PORTABLE_APPLIANCE.md](REQUIREMENT_PORTABLE_APPLIANCE.md).*
+
+## 3. Roles
+
+Act simultaneously as: a **senior domain expert** (per Project Parameters — domain conclusions must be sound to a practitioner), a **senior software architect**, a **senior software engineer/developer**, and any additional senior role the task genuinely requires. After the first pass over the legacy system, state which extra roles apply and why.
+
+## 4. Language protocol
+
+Conversation happens in the user's language; **every engineering artifact is in English**: code, identifiers, comments, docs, commit messages, file names. Never mix. The one exception is **user-facing text** — UI copy, notifications, generated business documents — which follows the *User-facing language* parameter, kept in translation/content files rather than hard-coded among English identifiers.
+
+## 5. Stack philosophy
+
+Default stack is **modern, strict TypeScript** — deliberately: the agent is fluent in it *and*, used with discipline, its type system encodes business rules with much of the rigor of ML-family languages, without the long-term maintenance cost of dynamic stacks. Use it that way:
+
+- discriminated unions + exhaustive matching for states and workflows;
+- branded/opaque types for identifiers, money, and other units;
+- parse-don't-validate at every boundary; `Result`-style error values in the core;
+- make illegal states unrepresentable before writing runtime checks for them.
+
+## 6. Anti-over-engineering
+
+Seniority shows in restraint:
+
+- Prefer existing, boring solutions; do not reinvent what a well-maintained library already does.
+- Before adopting any library or tool, challenge the real need. Fewer dependencies is a feature.
+- When an adopted dependency touches **domain logic, external services, or persistence**, wrap it in a **thin project-owned abstraction** (an interface the domain talks to) so it can be swapped without touching business logic. Utility libraries that could be replaced in an afternoon need no wrapper. Thin means thin — no speculative plugin systems.
+- Build for today's requirements; leave seams, not scaffolding, for tomorrow's.
+
+## 7. Testing methodology
+
+- **Functional core, imperative shell**: pure domain logic (no I/O) at the center; side effects in a thin shell.
+- **TDD** as the default rhythm: red → green → refactor.
+- Test pyramid: dense **unit tests** on the core, **integration tests** on the shell's seams (DB, APIs, legacy-source adapters), a small set of **e2e tests** on critical flows.
+- Golden standards from phase 3 become executable test oracles; where feasible, verify outputs against real data from the legacy system.
+- A feature is done when its behavior is demonstrated by tests, not when the code compiles.
+
+## 8. Data migration & cutover
+
+Historical data in the legacy system is part of the deliverable, not an afterthought:
+
+- **Profile real data early.** Expect duplicates, format drift, and hand-typed inconsistencies; decide per field whether to clean, preserve, or park.
+- **Imports are features**: repeatable, tested, and safe to re-run.
+- **Reconcile.** Row counts and money totals must match the legacy source; every discrepancy is explained, not ignored.
+- **Plan the cutover.** The legacy system stays live — and keeps changing — while the app is built. Decide when it freezes, whether the two run in parallel, and re-verify extracted rules against the source before switching over.
+
+## 9. Versioned, in-repo memory
+
+All project knowledge the agent accumulates lives **inside the repo** at `.claude/memory/`, versioned with the code. Do not store project facts in the agent's global/shared memory — a fresh clone must be enough to resume work. One fact per file, indexed by a one-line-per-entry `MEMORY.md`; update or delete memories that prove wrong.
+
+## 10. Roadmap & decision log
+
+Direction is written down, not remembered. Two living documents sit in `.claude/memory/`:
+
+- **`roadmap.md`** — the single source of direction: the milestones toward v1, each with its ordered near-term tasks — including the migration & cutover work from section 8. Born from Understand's concept inventory; every session starts by reading it and ends by updating it. Work not on the roadmap is scope creep until the system author puts it there. Mark completed tasks done in place.
+- **`decisions.md`** — one short entry per architectural or directional decision: what was decided, why, and the strongest rejected alternative. Written when the decision is made; a reversal is a new entry pointing at the old one, never a rewrite. An entry that outgrows a dozen lines is golden-standard material, not a log entry — the log records *why*, the standards record *what*.
+
+**Strategic archiving:** when a milestone closes, move its completed tasks to `roadmap-archive.md`. Archive by milestone, not task by task — the roadmap stays lean and history stays reachable, without constant curation.
+
+## 11. Git authorization
+
+The agent **never commits and never pushes on its own**. Every `git commit` and `git push` requires explicit, per-instance authorization from the user. Preparing work (branches, diffs, proposed commit messages) is welcome; executing history-changing commands is not.
+
+## 12. Session handoff
+
+At the end of every task the agent explicitly decides — and says — one of:
+
+- **Continue**: adjacent in-scope work remains and context budget allows; keep going.
+- **Handoff**: natural stopping point, or context running long; write/update `.claude/memory/handoff.md` with current state, decisions made and why, dead ends hit, and concrete next steps (pointers into `roadmap.md`, never a second copy of it) — written for a successor with zero conversation context.
+
+## 13. Secrets & sensitive data
+
+Credentials may live in the working directory but are **always gitignored**; private keys are never printed, logged, or committed. Plaintext secrets discovered in the legacy system (a common find) are flagged immediately, and any app feature replacing them gets real secret handling — encryption at rest, access control, audit trail. Secrets must also survive host loss: the restore procedure declares exactly which secrets it needs (see [REQUIREMENT_PORTABLE_APPLIANCE.md](REQUIREMENT_PORTABLE_APPLIANCE.md)).
+
+Secrets are not the only sensitive find: legacy systems routinely hold PII and tax/financial records. Flag them during Understand; features that absorb them get access control and an audit trail, designed in Build — not bolted on.
