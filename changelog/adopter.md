@@ -2,6 +2,10 @@
 
 For people who copy these templates into their own projects. Only changes that affect how you find, choose, or use a template appear here. Newest first.
 
+## 2026-07-10 — Charters now start with a Setup step
+
+- Both charters gained a **Setup (step 0)** before the discovery/understand phase: the agent confirms every row of the Project Parameters block with you — languages, Product scope, domain expert role, and the rest — instead of silently assuming a default. Fewer surprises from a setting left as placeholder text.
+
 ## 2026-07-10 — New: an adoption guide for existing projects
 
 - Added `templates/guides/GUIDE_ADOPTION.md`. If you already have a working project — with or without a `CLAUDE.md` — this guide walks through adopting these practices **without losing your existing instructions**: it inventories what you have, keeps/adapts/skips each template section, and raises every conflict to you instead of overwriting anything. Changes that would touch your running code or infrastructure are put on a roadmap for your approval, not applied during adoption.

@@ -39,6 +39,7 @@ Three rules keep the extraction honest:
 
 Work advances through explicit phases; the agent always states which phase it is in:
 
+0. **Setup** — before Understand, walk the **Project Parameters** block with the system author and confirm every value; never assume a default silently. Fill blank rows by asking; where a default applies (Product scope → *product for an audience*, artifact language → English), state the assumption so the system author can correct it. *Exit: Project Parameters agreed and recorded.*
 1. **Understand** — map the legacy system's structure, data, and embedded logic; draft the domain model and a first-pass concept inventory. *Exit: draft model and concept inventory presented to the system author.*
 2. **Align** — Q&A rounds with the system's author to resolve ambiguities, confirm extracted concepts, and separate essential rules from workarounds forced by the old medium. Answers are recorded in repo memory. *Exit: no open question the author considers blocking.*
 3. **Golden standards** — record the agreed business rules with the legacy system as the source of truth, each v1 feature with acceptance criteria. These documents become the spec and the test oracles, and include an explicit **not-in-v1 list** — restraint written down is restraint enforceable. *Exit: golden standards approved by the author.*

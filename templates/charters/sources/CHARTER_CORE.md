@@ -39,6 +39,7 @@ To reuse: copy this file into the new repo, fill in the **Project Parameters** b
 
 Work advances through explicit phases; the agent always states which phase it is in:
 
+0. **Setup** — before {{ phase1 }}, walk the **Project Parameters** block with the {{ oracle }} and confirm every value; never assume a default silently. Fill blank rows by asking; where a default applies (Product scope → *product for an audience*, artifact language → English), state the assumption so the {{ oracle }} can correct it. *Exit: Project Parameters agreed and recorded.*
 <!-- SLOT: method_phase_one -->
 2. **Align** — <!-- SLOT: method_align -->
 3. **{{ specify_phase_title }}** — <!-- SLOT: method_specify -->

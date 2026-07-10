@@ -2,6 +2,13 @@
 
 Technical changelog for whoever maintains this repository. Each entry ends with a plain-language addendum and, when needed, a jargon glossary. Newest first.
 
+## 2026-07-10 — Setup (step 0) phase added to the charters (language-setup incorporated)
+
+- Incorporated `ideas/language-setup.md` (now `Status: incorporated`), broadened by owner decision from languages-only to a **Setup phase (step 0)** in `CHARTER_CORE.md`, before Discover/Understand. The agent walks the whole Project Parameters block with the oracle and confirms every value; blank rows are asked, defaults (Product scope → product-for-an-audience, artifact language → English) are stated for correction.
+- Reassembled both composed charters and retranslated their pt-BR counterparts. Phase numbering: Setup is 0, so "phase 3" and "phases 2–4" references elsewhere remain correct.
+
+**In plain language:** every project built from a charter now begins with an explicit setup step where the agent confirms the project's settings (which languages, whether it's a product or a bespoke tool, who the users are, …) with the owner instead of quietly guessing. It closes the gap where a left-blank setting used to be filled by assumption.
+
 ## 2026-07-10 — GUIDE_ADOPTION.md authored (adopt-into-existing-project agreed)
 
 - Took `ideas/adopt-into-existing-project.md` to `Status: agreed` after a Q&A round, then authored the deliverable `templates/guides/GUIDE_ADOPTION.md` (first `GUIDE_` type; new `templates/guides/` directory).

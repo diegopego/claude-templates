@@ -42,6 +42,7 @@ Três regras mantêm a extração honesta:
 
 O trabalho avança por fases explícitas; o agente sempre declara em qual fase está:
 
+0. **Setup** — antes de Compreender, percorra o bloco **Parâmetros do Projeto** com o autor do sistema e confirme cada valor; nunca assuma um default em silêncio. Preencha linhas em branco perguntando; onde um default se aplica (Escopo de produto → *produto para um público*, idioma dos artefatos → inglês), declare a premissa para o autor do sistema poder corrigi-la. *Saída: Parâmetros do Projeto acordados e registrados.*
 1. **Compreender (Understand)** — mapear a estrutura, os dados e a lógica embutida do sistema legado; rascunhar o modelo de domínio e um inventário inicial de conceitos. *Saída: modelo rascunhado e inventário de conceitos apresentados ao autor do sistema.*
 2. **Alinhar (Align)** — rodadas de Q&A com o autor do sistema para resolver ambiguidades, confirmar conceitos extraídos e separar regras essenciais de gambiarras impostas pelo meio antigo. As respostas são registradas na memória do repositório. *Saída: nenhuma questão aberta que o autor considere bloqueante.*
 3. **Padrões-ouro (Golden standards)** — registrar as regras de negócio acordadas com o sistema legado como fonte de verdade, cada feature da v1 com critérios de aceitação. Esses documentos se tornam a especificação e os oráculos de teste, e incluem uma **lista explícita de fora-da-v1** — contenção escrita é contenção aplicável. *Saída: padrões-ouro aprovados pelo autor.*
