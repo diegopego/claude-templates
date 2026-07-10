@@ -25,8 +25,10 @@ Single source of direction. Every session starts by reading this file and ends b
 - [ ] Resolve `product-not-bespoke` open questions: per-tenant backup/restore vs. whole-system in `REQUIREMENT_PORTABLE_APPLIANCE.md`; tenant provisioning as v1 feature vs. migration-seeded tenant #1
 - [x] `ideas/adopt-into-existing-project.md` agreed (2026-07-10) and authored as `templates/guides/GUIDE_ADOPTION.md` (new `GUIDE_` type) — conflict rule = always ask; no-instructions case in scope; code/infra practices deferred to roadmap
 - [x] `ideas/language-setup.md` agreed + incorporated (2026-07-10) — broadened to a **Setup (step 0)** phase in `CHARTER_CORE.md` that walks the whole Project Parameters block, confirming every value (languages, Product scope, …) instead of silent defaults
-- [ ] Mature `ideas/audience-aware-changelogs.md` (draft → agreed); decide core section vs. new module
+- [x] `ideas/living-product-doc.md` agreed + built (2026-07-10) — living landing page (root `README.md`) kept current by the `update-product-doc` skill; hook rule 4 enforces it on adopter-facing deliverable changes
+- [ ] Mature `ideas/audience-aware-changelogs.md` (draft → agreed); decide core section vs. new module — kept distinct from `living-product-doc` (changelog = history, landing page = current state)
 - [ ] Decide whether `translated-templates` graduates into a reusable module for template-consuming projects
+- [ ] `living-product-doc` open questions: pt-BR landing page? graduate the living-manual practice into a charter section / embeddable skill for adopters
 
 ## Milestone 4 — Skill templates (future)
 

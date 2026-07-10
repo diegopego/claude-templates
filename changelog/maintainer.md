@@ -2,6 +2,18 @@
 
 Technical changelog for whoever maintains this repository. Each entry ends with a plain-language addendum and, when needed, a jargon glossary. Newest first.
 
+## 2026-07-10 — Living landing page (root README.md) + update-product-doc skill
+
+- Graduated `ideas/living-product-doc.md` to `agreed` and built it: the root `README.md` is now the living, current-state, adopter-facing source of truth (distinct from `changelog/` history and from `templates/README.md` catalog).
+- New skill `.claude/skills/update-product-doc/`: run before a commit, it reads the staged diff and updates `README.md` to reflect user-facing impact — present tense, not a changelog.
+- Hook rule 4: a commit that changes an adopter-facing deliverable (composed charters, requirements, guides, catalog) is blocked unless the root `README.md` is staged. Sources and translations are excluded.
+- `CLAUDE.md` updated: layout (root README as living landing page), the `.claude/` skill list, and the commit ritual (assemble → update landing page → translate → changelog).
+- Kept `audience-aware-changelogs` as a separate idea (owner decision): changelog is history, the landing page is current state; the same pre-commit moment can feed both.
+
+**In plain language:** the repo now has a front page (`README.md`) that always describes what the templates are and how to use them, as they are right now. A helper keeps it accurate: before each commit that changes what users get, it reads the change and updates the front page in plain user terms. This is different from the changelog, which is the dated history — the front page is the always-current picture.
+
+**Glossary:** *living document / landing page* — a file that is continuously kept in sync with the current state, rather than a log of past changes; *adopter-facing* — the parts a person copying the templates actually sees and uses (charters, requirements, guides, catalog).
+
 ## 2026-07-10 — Setup (step 0) phase added to the charters (language-setup incorporated)
 
 - Incorporated `ideas/language-setup.md` (now `Status: incorporated`), broadened by owner decision from languages-only to a **Setup phase (step 0)** in `CHARTER_CORE.md`, before Discover/Understand. The agent walks the whole Project Parameters block with the oracle and confirms every value; blank rows are asked, defaults (Product scope → product-for-an-audience, artifact language → English) are stated for correction.

@@ -6,4 +6,4 @@ An entry **graduates** when it becomes a proper spec in this directory (`Status:
 
 ---
 
-*(empty — previous entries graduated to [language-setup.md](language-setup.md), [audience-aware-changelogs.md](audience-aware-changelogs.md), [product-not-bespoke.md](product-not-bespoke.md), and [adopt-into-existing-project.md](adopt-into-existing-project.md))*
+*(empty — previous entries graduated to [language-setup.md](language-setup.md), [audience-aware-changelogs.md](audience-aware-changelogs.md), [product-not-bespoke.md](product-not-bespoke.md), [adopt-into-existing-project.md](adopt-into-existing-project.md), and [living-product-doc.md](living-product-doc.md))*

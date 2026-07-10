@@ -5,6 +5,8 @@
 #      composed charters — run the assemble-charters skill.
 #   2. An English template is staged without its pt-BR counterpart.
 #   3. templates/ or ideas/ change without any changelog/ update.
+#   4. An adopter-facing deliverable changes without the living landing page
+#      (root README.md) staged — run the update-product-doc skill.
 # Charter sources are inputs, not deliverables: they are not translated and
 # are excluded from rule 2. Exit 2 blocks the tool call and feeds stderr back
 # to the agent.
@@ -68,6 +70,18 @@ if printf '%s\n' "$staged" | grep -E '^(templates|ideas)/' | grep -qv '^ideas/in
   {
     echo "Commit blocked: templates/ or ideas/ changed but no changelog/ file is staged."
     echo "Update changelog/maintainer.md and changelog/adopter.md for this change, then stage them."
+  } >&2
+  exit 2
+fi
+
+# Rule 4: an adopter-facing deliverable (composed charters, requirements,
+# guides, catalog) changed — the living landing page (root README.md) must be
+# revisited and staged. Sources and translations are excluded.
+if printf '%s\n' "$staged" | grep -qE '^templates/(charters/CHARTER_[^/]+\.md|requirements/.+|guides/.+|README\.md)$' \
+   && ! printf '%s\n' "$staged" | grep -qx 'README.md'; then
+  {
+    echo "Commit blocked: adopter-facing deliverables changed but the living landing page (README.md) is not staged."
+    echo "Run the update-product-doc skill, then stage README.md."
   } >&2
   exit 2
 fi

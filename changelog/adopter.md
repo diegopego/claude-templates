@@ -2,6 +2,10 @@
 
 For people who copy these templates into their own projects. Only changes that affect how you find, choose, or use a template appear here. Newest first.
 
+## 2026-07-10 — A front page that stays current
+
+- The repo now has a root `README.md` landing page that always describes, in plain terms, what the templates are and how to adopt them — kept in sync as the templates evolve. If you want the quick "what is this and how do I start", read it first; the catalog (`templates/README.md`) remains the detailed index.
+
 ## 2026-07-10 — Charters now start with a Setup step
 
 - Both charters gained a **Setup (step 0)** before the discovery/understand phase: the agent confirms every row of the Project Parameters block with you — languages, Product scope, domain expert role, and the rest — instead of silently assuming a default. Fewer surprises from a setting left as placeholder text.
