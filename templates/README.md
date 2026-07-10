@@ -15,6 +15,12 @@ Cross-cutting requirement documents, referenced by the charters and reusable on 
 
 - **`REQUIREMENT_PORTABLE_APPLIANCE.md`** — every application is a portable appliance: the server is disposable, the backup is the system, and `repo + secrets + backup` must rebuild everything on a fresh machine in under 30 minutes.
 
+## Guides (`guides/`)
+
+Procedures for using the templates themselves.
+
+- **`GUIDE_ADOPTION.md`** — bring these practices into an existing, working project without losing the instructions it already has: a non-destructive merge that inventories what exists, adapts or skips template sections, surfaces every conflict to the owner, and keeps the project running.
+
 ## Translations (`i18n/`)
 
 Generated Brazilian Portuguese versions of every template, mirroring the English tree under `i18n/pt-BR/`. The English files are the source of truth; edit those, then regenerate the translations (see the repo's `CLAUDE.md`). Never edit a translation by hand.

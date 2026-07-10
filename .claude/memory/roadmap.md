@@ -23,7 +23,7 @@ Single source of direction. Every session starts by reading this file and ends b
 
 - [x] Incorporate `ideas/product-not-bespoke.md` (agreed 2026-07-10) into both charters — landed in `CHARTER_CORE.md` (Product scope parameter, multi-tenant-from-v1, domain/instance separation) with the extraction-classification bullet in `MODULE_EXTRACTION_LEGACY`
 - [ ] Resolve `product-not-bespoke` open questions: per-tenant backup/restore vs. whole-system in `REQUIREMENT_PORTABLE_APPLIANCE.md`; tenant provisioning as v1 feature vs. migration-seeded tenant #1
-- [ ] Resolve `ideas/adopt-into-existing-project.md` open questions (draft → agreed), then author `templates/guides/GUIDE_ADOPTION.md` (new `GUIDE_` type) — richer once Milestone 2 lands (adoption = select applicable modules + merge)
+- [x] `ideas/adopt-into-existing-project.md` agreed (2026-07-10) and authored as `templates/guides/GUIDE_ADOPTION.md` (new `GUIDE_` type) — conflict rule = always ask; no-instructions case in scope; code/infra practices deferred to roadmap
 - [ ] Mature `ideas/language-setup.md` (draft → agreed) and incorporate into the charters
 - [ ] Mature `ideas/audience-aware-changelogs.md` (draft → agreed); decide core section vs. new module
 - [ ] Decide whether `translated-templates` graduates into a reusable module for template-consuming projects

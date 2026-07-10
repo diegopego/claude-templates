@@ -18,6 +18,12 @@ Documentos de requisitos transversais, referenciados pelos charters e reutilizá
 
 - **`REQUIREMENT_PORTABLE_APPLIANCE.md`** — toda aplicação é um appliance portátil: o servidor é descartável, o backup é o sistema, e `repositório + segredos + backup` deve reconstruir tudo em uma máquina nova em menos de 30 minutos.
 
+## Guias (`guides/`)
+
+Procedimentos para usar os próprios templates.
+
+- **`GUIDE_ADOPTION.md`** — trazer estas práticas para um projeto existente e funcionando sem perder as instruções que ele já tem: um merge não-destrutivo que inventaria o que existe, adapta ou pula seções do template, expõe todo conflito ao owner e mantém o projeto funcionando.
+
 ## Traduções (`i18n/`)
 
 Versões em português do Brasil geradas de cada template, espelhando a árvore inglesa sob `i18n/pt-BR/`. Os arquivos em inglês são a fonte de verdade; edite-os e regenere as traduções (veja o `CLAUDE.md` do repositório). Nunca edite uma tradução à mão.

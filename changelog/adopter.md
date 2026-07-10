@@ -2,6 +2,11 @@
 
 For people who copy these templates into their own projects. Only changes that affect how you find, choose, or use a template appear here. Newest first.
 
+## 2026-07-10 — New: an adoption guide for existing projects
+
+- Added `templates/guides/GUIDE_ADOPTION.md`. If you already have a working project — with or without a `CLAUDE.md` — this guide walks through adopting these practices **without losing your existing instructions**: it inventories what you have, keeps/adapts/skips each template section, and raises every conflict to you instead of overwriting anything. Changes that would touch your running code or infrastructure are put on a roadmap for your approval, not applied during adoption.
+- A pt-BR version is available under `templates/i18n/pt-BR/guides/`.
+
 ## 2026-07-10 — Charters now cover multi-tenant products; same file to copy
 
 - Both charters gained a **Product for an audience, not a bespoke tool** section and a **Product scope** row in Project Parameters. The default stance: what you build is a product for an audience, **multi-tenant from v1** — the organization asking for it is tenant #1, and its specifics become configuration, not hardcoded behavior. Set *Product scope* to `internal/bespoke tool` if that is genuinely what you want.

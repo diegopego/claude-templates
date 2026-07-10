@@ -2,6 +2,17 @@
 
 Technical changelog for whoever maintains this repository. Each entry ends with a plain-language addendum and, when needed, a jargon glossary. Newest first.
 
+## 2026-07-10 — GUIDE_ADOPTION.md authored (adopt-into-existing-project agreed)
+
+- Took `ideas/adopt-into-existing-project.md` to `Status: agreed` after a Q&A round, then authored the deliverable `templates/guides/GUIDE_ADOPTION.md` (first `GUIDE_` type; new `templates/guides/` directory).
+- Resolved decisions (in `decisions.md`): conflict rule is **always ask** — no default winner between an existing instruction and a template practice; the guide also covers projects with **no existing instructions** (charter selection + memory seeding, no merge); code/infra practices (portable-appliance, etc.) **defer to the roadmap**, never applied during the merge.
+- Guide structure: non-destructive merge (inventory → classify keep/adapt/already-covered/skip → always-ask conflicts → two layers → traceable output → prove by functioning), a no-instructions branch, and a definition of done.
+- Catalog (`templates/README.md`) gained a **Guides** section; pt-BR translation of the guide and README added; roadmap Milestone 3 item checked off.
+
+**In plain language:** we wrote the how-to for bringing these practices into a project that already exists and works. Its core promise: nothing already in the project is changed behind the owner's back — every clash is raised as a question, and anything that would alter the running software is scheduled, not done on the spot.
+
+**Glossary:** *inventory* — reading and listing what instructions the project already has before changing anything; *disposition* — the recorded decision (keep / adapt / already-covered / skip) for each template section.
+
 ## 2026-07-10 — Charters modularized (core + slots) and product-not-bespoke incorporated
 
 - Decomposed both charters into `templates/charters/sources/`: `CHARTER_CORE.md` (shared spine with `{{ vars }}` + `<!-- SLOT -->` markers), `MODULE_DISCOVERY_GREENFIELD.md`, `MODULE_EXTRACTION_LEGACY.md`, and the pluggable `MODULE_DATA_MIGRATION.md`, wired by `charters.manifest.md`.
