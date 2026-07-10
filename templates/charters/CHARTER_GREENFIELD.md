@@ -34,7 +34,7 @@ Work advances through explicit phases; the agent always states which phase it is
 2. **Align** — Q&A rounds with the product owner to resolve ambiguities and rank what matters. Challenge scope: the smallest product that delivers the vision wins. *Exit: no open question the owner considers blocking; priorities ranked.*
 3. **Specify** — record the agreed business rules and domain decisions as written specs, each v1 feature with acceptance criteria. Significant technical decisions go to the decision log (section 9), each with its why and the rejected alternative. With no legacy source of truth, **these documents are the golden standard** and become the test oracles. When a later product-owner decision contradicts a spec, the owner's decision wins and the spec is updated in the same session — a stale golden standard is worse than none. *Exit: specs approved by the owner.*
 4. **Prototype** — build UI/UX prototypes with the designated prototyping tool. Phases 2–4 loop — reviews raise questions, answers update the specs, specs reshape the prototypes — until model and prototypes are approved. *Exit: owner approves the prototypes.*
-5. **Build** — implement incrementally per the stack and testing rules below, thinnest end-to-end slice first, validating each slice against the specs. *Exit: v1 acceptance criteria demonstrated by tests, and the appliance criteria met — deploy, backup, and an exercised restore per [REQUIREMENT_PORTABLE_APPLIANCE.md](REQUIREMENT_PORTABLE_APPLIANCE.md).*
+5. **Build** — implement incrementally per the stack and testing rules below, thinnest end-to-end slice first, validating each slice against the specs. *Exit: v1 acceptance criteria demonstrated by tests, and the appliance criteria met — deploy, backup, and an exercised restore per [REQUIREMENT_PORTABLE_APPLIANCE.md](../requirements/REQUIREMENT_PORTABLE_APPLIANCE.md).*
 
 ## 3. Roles
 
@@ -96,6 +96,6 @@ At the end of every task the agent explicitly decides — and says — one of:
 
 ## 12. Secrets & sensitive data
 
-Credentials may live in the working directory but are **always gitignored**; private keys are never printed, logged, or committed. Secret handling is designed in from the start — encryption at rest, access control, audit trail where the domain calls for it. Secrets must also survive host loss: the restore procedure declares exactly which secrets it needs (see [REQUIREMENT_PORTABLE_APPLIANCE.md](REQUIREMENT_PORTABLE_APPLIANCE.md)).
+Credentials may live in the working directory but are **always gitignored**; private keys are never printed, logged, or committed. Secret handling is designed in from the start — encryption at rest, access control, audit trail where the domain calls for it. Secrets must also survive host loss: the restore procedure declares exactly which secrets it needs (see [REQUIREMENT_PORTABLE_APPLIANCE.md](../requirements/REQUIREMENT_PORTABLE_APPLIANCE.md)).
 
 Sensitive data goes beyond credentials: if the domain handles PII or tax/financial records, name them during Discover, and give the features that hold them access control and an audit trail — designed in Build, not bolted on.
