@@ -21,6 +21,8 @@ Single source of direction. Every session starts by reading this file and ends b
 
 ## Milestone 3 — Ideas backlog
 
+- [ ] Incorporate `ideas/product-not-bespoke.md` (agreed 2026-07-10) into both charters — Product scope parameter, multi-tenant-from-v1, domain/instance separation, extraction classification; natural fit alongside the Milestone 2 modularization
+- [ ] Resolve `product-not-bespoke` open questions: per-tenant backup/restore vs. whole-system in `REQUIREMENT_PORTABLE_APPLIANCE.md`; tenant provisioning as v1 feature vs. migration-seeded tenant #1
 - [ ] Mature `ideas/language-setup.md` (draft → agreed) and incorporate into the charters
 - [ ] Mature `ideas/audience-aware-changelogs.md` (draft → agreed); decide core section vs. new module
 - [ ] Decide whether `translated-templates` graduates into a reusable module for template-consuming projects
