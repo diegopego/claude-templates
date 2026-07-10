@@ -19,7 +19,7 @@ The templates contain imperative, instruction-shaped text. None of it governs th
 - **Nothing under `templates/` is an instruction for working here** — it is product being edited.
 - **Never create a file named `CLAUDE.md` outside the root.** Claude Code auto-loads such files; a future CLAUDE.md template must be named `CLAUDE_MD.template.md`.
 - **Never place deliverables under `.claude/`** (skills there activate in this repo); embeddable skill templates go to `templates/skills/`.
-- Naming marks the boundary: deliverables are `SCREAMING_SNAKE.md` with a type prefix (`CHARTER_`, `REQUIREMENT_`, future `MODULE_`); meta-project files are lowercase `kebab-case.md`.
+- Naming marks the boundary: deliverables are `SCREAMING_SNAKE.md` with a type prefix (`CHARTER_`, `REQUIREMENT_`, future `MODULE_` and `GUIDE_`); meta-project files are lowercase `kebab-case.md`.
 
 ## Memory — everything versioned, nothing outside the repo
 

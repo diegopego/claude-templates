@@ -2,6 +2,17 @@
 
 Technical changelog for whoever maintains this repository. Each entry ends with a plain-language addendum and, when needed, a jargon glossary. Newest first.
 
+## 2026-07-10 — Inbox graduation: adopt-into-existing-project (draft)
+
+- `ideas/inbox.md` entry graduated to `ideas/adopt-into-existing-project.md` (`Status: draft`) after a Q&A round selected the form. Concern: adopting the templates into an existing, working project without losing its instructions — a third axis, distinct from both charters (the project keeps running; only its instruction/practice layer is merged).
+- Decided form: a new standalone deliverable, `templates/guides/GUIDE_ADOPTION.md`, under a new `GUIDE_` type prefix (recorded in `decisions.md`; naming convention in `CLAUDE.md` updated). Rejected a charter section and a skill-first approach.
+- Roadmap: authoring task added to Milestone 3 (gated on resolving the spec's open questions); Milestone 4 notes the guide as the first `templates/skills/` automation candidate.
+- Left at `draft`, not `agreed`: the conflict-resolution default (existing-instructions-win-and-surface) and three other open questions still gate the draft→agreed transition, per the graduation rule.
+
+**In plain language:** the owner wants to bring these practices into projects that already exist and already work — without trampling the notes and rules those projects already rely on. We agreed this deserves its own how-to document (a new "adoption guide" kind of template) that merges the new practices in gently instead of overwriting. The document isn't written yet; we recorded the plan and the questions still to settle before writing it.
+
+**Glossary:** *brownfield* — an existing project with history and constraints, as opposed to *greenfield* (a blank start); *non-destructive merge* — combining new material with existing content without deleting or overwriting what's already there.
+
 ## 2026-07-10 — First inbox graduation: product-not-bespoke (agreed)
 
 - `ideas/inbox.md` entry graduated to `ideas/product-not-bespoke.md`, and straight to `Status: agreed` after a Q&A round with the owner: product-for-an-audience is the default scope (assumption declared in the scope proposal when unstated); **products are multi-tenant from v1** (owner's call, against the recommended single-tenant-configurable — recorded in `decisions.md`); legacy extraction classifies each rule as domain | instance-config | workaround *and* consolidates instance values into tenant #1's configuration profile.

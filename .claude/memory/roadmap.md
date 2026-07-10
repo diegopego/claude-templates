@@ -23,6 +23,7 @@ Single source of direction. Every session starts by reading this file and ends b
 
 - [ ] Incorporate `ideas/product-not-bespoke.md` (agreed 2026-07-10) into both charters — Product scope parameter, multi-tenant-from-v1, domain/instance separation, extraction classification; natural fit alongside the Milestone 2 modularization
 - [ ] Resolve `product-not-bespoke` open questions: per-tenant backup/restore vs. whole-system in `REQUIREMENT_PORTABLE_APPLIANCE.md`; tenant provisioning as v1 feature vs. migration-seeded tenant #1
+- [ ] Resolve `ideas/adopt-into-existing-project.md` open questions (draft → agreed), then author `templates/guides/GUIDE_ADOPTION.md` (new `GUIDE_` type) — richer once Milestone 2 lands (adoption = select applicable modules + merge)
 - [ ] Mature `ideas/language-setup.md` (draft → agreed) and incorporate into the charters
 - [ ] Mature `ideas/audience-aware-changelogs.md` (draft → agreed); decide core section vs. new module
 - [ ] Decide whether `translated-templates` graduates into a reusable module for template-consuming projects
@@ -30,3 +31,4 @@ Single source of direction. Every session starts by reading this file and ends b
 ## Milestone 4 — Skill templates (future)
 
 - [ ] Define what an embeddable skill template looks like under `templates/skills/`
+- [ ] First candidate: automate `GUIDE_ADOPTION.md` into an `adopt-template` skill (inventory existing CLAUDE.md → propose merge → apply with approval)

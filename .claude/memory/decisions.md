@@ -22,6 +22,10 @@ Translations live at `templates/i18n/pt-BR/` mirroring the English tree, regener
 
 Every project the templates govern is a product for an audience by default (assumption declared in the scope proposal when unstated), and the product is born multi-tenant: the interlocutor's organization is tenant #1. Owner decided this **against the agent's recommendation** of single-tenant-but-configurable — rationale: retrofitting tenancy is among the most expensive migrations, so it counts as a today-requirement, a deliberate exception to build-for-today. Legacy extraction classifies each rule (domain | instance-config | workaround) and consolidates instance values into tenant #1's configuration profile. Rejected: single-tenant v1 with parameterized config (cheaper, but pays the migration later); blocking setup question with no default (friction on every project).
 
+## 2026-07-10 — Adopting the templates into an existing project is its own `GUIDE_` deliverable
+
+Bringing these practices into a live, working repo (with its own instructions) is a third axis, distinct from both charters — the project keeps running; only its instruction/practice layer is adopted via a non-destructive merge. Handled as a new standalone deliverable type, `GUIDE_ADOPTION.md` (new `GUIDE_` prefix, home `templates/guides/`). Spec drafted at `ideas/adopt-into-existing-project.md`; the merge's conflict default (existing-instructions-win-and-surface) is proposed, pending the draft→agreed gate. Rejected: a section inside both charters (buries a cross-cutting concern, duplicates text); a skill-first approach (premature before the process is written — the guide can later be automated into the first `templates/skills/` entry).
+
 ## 2026-07-10 — Charters will be modularized into core + pluggable modules (not yet executed)
 
 Legacy transformation is the same expert-conversation loop as greenfield — the legacy system acts as one more domain expert that can be interrogated directly; what differs plugs in (discovery vs. extraction, data migration). Preferred assembly: generate a single composed charter per project, preserving today's copy-one-file experience. Scheduled as Milestone 2.
