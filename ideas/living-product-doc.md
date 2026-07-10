@@ -25,6 +25,10 @@ A project built from a charter would keep its own living user manual / landing p
 
 The landing page is the **root `README.md`**, not under `templates/` — it documents *our* product and must not be copied into adopter repos (anti-contamination). The catalog stays at `templates/README.md`.
 
+## Published landing page
+
+Done (2026-07-10, dogfooding): a rendered landing page derived from `README.md` is published as an Artifact at `https://claude.ai/code/artifact/213558f8-c877-4046-8476-714e542a855e` (private unless shared). The HTML is a generated view, not versioned; the `update-product-doc` skill republishes it to the same URL when README changes.
+
 ## Open questions
 
 - pt-BR landing page? The root README is a meta-project artifact (English per repo rule); revisit if a Portuguese landing page is wanted (it is outside the `translate-templates` scope, which covers only `templates/`).

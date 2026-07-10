@@ -2,6 +2,14 @@
 
 Technical changelog for whoever maintains this repository. Each entry ends with a plain-language addendum and, when needed, a jargon glossary. Newest first.
 
+## 2026-07-10 — Published a rendered landing page for this repo (dogfooding)
+
+- Applied the `living-product-doc` practice to claude-templates itself: published a rendered landing page as an Artifact (`https://claude.ai/code/artifact/213558f8-c877-4046-8476-714e542a855e`, private unless shared), derived from the root `README.md`.
+- The HTML is a **generated view**, not versioned — README stays the single source of truth. The `update-product-doc` skill now documents republishing to the same URL when README changes.
+- Design: a "charter" visual identity (serif display + monospace structural voice + § seal + honest numbered method) in the **Nord palette** (Polar Night / Snow Storm grounds, Frost accent), theme-aware for light/dark.
+
+**In plain language:** we used our own new practice on ourselves — turned the front-page markdown into an actual web page and published it. The web page is regenerated from the markdown, so there's still only one place to edit.
+
 ## 2026-07-10 — Living landing page (root README.md) + update-product-doc skill
 
 - Graduated `ideas/living-product-doc.md` to `agreed` and built it: the root `README.md` is now the living, current-state, adopter-facing source of truth (distinct from `changelog/` history and from `templates/README.md` catalog).

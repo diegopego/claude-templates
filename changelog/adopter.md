@@ -2,6 +2,10 @@
 
 For people who copy these templates into their own projects. Only changes that affect how you find, choose, or use a template appear here. Newest first.
 
+## 2026-07-10 — A published landing page
+
+- claude-templates now has a rendered landing page (a real web page, not just the markdown), published from the same `README.md` source. It's private to the maintainer for now; the markdown front page in the repo remains the thing that's always current.
+
 ## 2026-07-10 — A front page that stays current
 
 - The repo now has a root `README.md` landing page that always describes, in plain terms, what the templates are and how to adopt them — kept in sync as the templates evolve. If you want the quick "what is this and how do I start", read it first; the catalog (`templates/README.md`) remains the detailed index.

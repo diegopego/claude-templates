@@ -24,6 +24,10 @@ Before any commit that touches the adopter-facing surface: composed charters (`t
 - Keep it a landing page: what the templates are → what you get → how to adopt → what the charters give a project. Link to the catalog and the guide; don't duplicate their full text.
 - Source of truth: a published/rendered landing page (Artifact) may be derived from this file later, so keep the markdown clean and self-describing.
 
+## Published landing page
+
+A rendered landing page is derived from `README.md` and published as an Artifact — the canonical URL is `https://claude.ai/code/artifact/213558f8-c877-4046-8476-714e542a855e` (private to the owner unless shared). The HTML is a **generated view**, not versioned (README stays the single source of truth). When `README.md` changes materially, regenerate the HTML view from it and republish to that same URL (pass it as `url` from a fresh conversation; the same file path keeps the URL within one conversation). Keep the design system stable across redeploys.
+
 ## After updating
 
 Stage `README.md` together with the deliverable changes so the pre-commit hook passes.

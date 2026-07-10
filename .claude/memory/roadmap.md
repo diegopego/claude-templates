@@ -28,6 +28,7 @@ Single source of direction. Every session starts by reading this file and ends b
 - [x] `ideas/living-product-doc.md` agreed + built (2026-07-10) — living landing page (root `README.md`) kept current by the `update-product-doc` skill; hook rule 4 enforces it on adopter-facing deliverable changes
 - [ ] Mature `ideas/audience-aware-changelogs.md` (draft → agreed); decide core section vs. new module — kept distinct from `living-product-doc` (changelog = history, landing page = current state)
 - [ ] Decide whether `translated-templates` graduates into a reusable module for template-consuming projects
+- [x] Publish a rendered landing page for this repo (dogfooding, 2026-07-10) — Artifact derived from `README.md`, republished by `update-product-doc`
 - [ ] `living-product-doc` open questions: pt-BR landing page? graduate the living-manual practice into a charter section / embeddable skill for adopters
 
 ## Milestone 4 — Skill templates (future)
