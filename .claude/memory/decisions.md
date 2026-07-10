@@ -26,6 +26,10 @@ Every project the templates govern is a product for an audience by default (assu
 
 Bringing these practices into a live, working repo (with its own instructions) is a third axis, distinct from both charters — the project keeps running; only its instruction/practice layer is adopted via a non-destructive merge. Handled as a new standalone deliverable type, `GUIDE_ADOPTION.md` (new `GUIDE_` prefix, home `templates/guides/`). Spec drafted at `ideas/adopt-into-existing-project.md`; the merge's conflict default (existing-instructions-win-and-surface) is proposed, pending the draft→agreed gate. Rejected: a section inside both charters (buries a cross-cutting concern, duplicates text); a skill-first approach (premature before the process is written — the guide can later be automated into the first `templates/skills/` entry).
 
-## 2026-07-10 — Charters will be modularized into core + pluggable modules (not yet executed)
+## 2026-07-10 — Charters modularized into core + slots, assembled by a skill (executed)
+
+Executed the modularization decided below, using the **core + slots (light templating)** strategy (owner's choice). `templates/charters/sources/CHARTER_CORE.md` holds the shared spine with `{{ vars }}` and `<!-- SLOT -->` markers; `MODULE_DISCOVERY_GREENFIELD`, `MODULE_EXTRACTION_LEGACY`, and the pluggable `MODULE_DATA_MIGRATION` fill them per `charters.manifest.md`. The `assemble-charters` skill generates the self-contained composed charters adopters copy; the pre-commit hook blocks a source change whose composed output is not restaged. `product-not-bespoke` was folded into the core in the same pass. Composed output verified lossless by diff. Rejected: whole-section modules (reintroduces duplication of near-identical sections); thin charters that link to sources (breaks copy-one-file self-containment).
+
+## 2026-07-10 — Charters will be modularized into core + pluggable modules (decided; executed above)
 
 Legacy transformation is the same expert-conversation loop as greenfield — the legacy system acts as one more domain expert that can be interrogated directly; what differs plugs in (discovery vs. extraction, data migration). Preferred assembly: generate a single composed charter per project, preserving today's copy-one-file experience. Scheduled as Milestone 2.

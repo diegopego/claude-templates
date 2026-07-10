@@ -2,6 +2,19 @@
 
 Technical changelog for whoever maintains this repository. Each entry ends with a plain-language addendum and, when needed, a jargon glossary. Newest first.
 
+## 2026-07-10 — Charters modularized (core + slots) and product-not-bespoke incorporated
+
+- Decomposed both charters into `templates/charters/sources/`: `CHARTER_CORE.md` (shared spine with `{{ vars }}` + `<!-- SLOT -->` markers), `MODULE_DISCOVERY_GREENFIELD.md`, `MODULE_EXTRACTION_LEGACY.md`, and the pluggable `MODULE_DATA_MIGRATION.md`, wired by `charters.manifest.md`.
+- New `assemble-charters` skill generates the self-contained composed charters (`templates/charters/CHARTER_*.md`) — the files adopters copy — from those sources; it numbers sections at assembly, so a charter that omits a slotted section still numbers cleanly.
+- Incorporated `ideas/product-not-bespoke.md` into the core in the same pass: a new **Product for an audience** section and a **Product scope** parameter row in both charters, plus a **Classify on extraction** bullet (domain | instance-config | workaround) in the legacy charter. Composed output verified **lossless by diff** vs. the previous monolithic charters (only these intended additions + section renumbering + a few wording normalizations that survive renumbering).
+- pt-BR: composed charters retranslated; `translate-templates` scope now excludes `templates/charters/sources/` (build inputs are not adopter-facing, so not translated).
+- Hook: added rule 1 — staging a charter source without restaging the composed charters blocks the commit (assembly is deterministic); charter sources are excluded from the pt-BR-counterpart rule. Verified all rules with an isolated temp-index test.
+- `CLAUDE.md` updated: layout (sources vs. composed), commit ritual (assemble → translate → changelog), and "Editing the templates" (edit sources, never composed).
+
+**In plain language:** the two charters used to repeat about 70% of the same text, kept in sync by hand. Now that shared text lives in one place (a "core"), and the parts that differ live in small plug-in pieces; a tool stitches them back into the two complete, copy-ready charters. In the same move we folded in the earlier decision that every project is a multi-tenant product. We proved by comparison that nothing in the delivered charters was lost — only the intended additions were made.
+
+**Glossary:** *core + slots* — one shared document with labeled gaps that smaller modules fill in; *assemble* — mechanically combine the core and modules into the final document; *lossless* — the regenerated output contains everything the original did.
+
 ## 2026-07-10 — Inbox graduation: adopt-into-existing-project (draft)
 
 - `ideas/inbox.md` entry graduated to `ideas/adopt-into-existing-project.md` (`Status: draft`) after a Q&A round selected the form. Concern: adopting the templates into an existing, working project without losing its instructions — a third axis, distinct from both charters (the project keeps running; only its instruction/practice layer is merged).

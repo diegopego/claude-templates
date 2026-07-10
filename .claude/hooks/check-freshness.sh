@@ -1,9 +1,13 @@
 #!/bin/sh
 # PreToolUse hook (matcher: Bash). Blocks `git commit` when the staged set is
 # inconsistent with the repo's freshness rules:
-#   1. An English template is staged without its pt-BR counterpart.
-#   2. templates/ or ideas/ change without any changelog/ update.
-# Exit 2 blocks the tool call and feeds stderr back to the agent.
+#   1. A charter source (templates/charters/sources/) is staged without the
+#      composed charters — run the assemble-charters skill.
+#   2. An English template is staged without its pt-BR counterpart.
+#   3. templates/ or ideas/ change without any changelog/ update.
+# Charter sources are inputs, not deliverables: they are not translated and
+# are excluded from rule 2. Exit 2 blocks the tool call and feeds stderr back
+# to the agent.
 
 set -eu
 
@@ -22,8 +26,26 @@ git rev-parse --is-inside-work-tree >/dev/null 2>&1 || exit 0
 staged=$(git diff --cached --name-only)
 [ -n "$staged" ] || exit 0
 
+# Rule 1: editing a charter source requires the composed charters to be rebuilt
+# and staged (assembly is deterministic — regenerate with assemble-charters).
+if printf '%s\n' "$staged" | grep -q '^templates/charters/sources/'; then
+  for composed in \
+    templates/charters/CHARTER_GREENFIELD.md \
+    templates/charters/CHARTER_LEGACY_TRANSFORMATION.md; do
+    if ! printf '%s\n' "$staged" | grep -qx "$composed"; then
+      {
+        echo "Commit blocked: charter sources changed but $composed is not staged."
+        echo "Run the assemble-charters skill, then stage templates/charters/ (and re-translate)."
+      } >&2
+      exit 2
+    fi
+  done
+fi
+
+# Rule 2: an English deliverable staged without its pt-BR counterpart. Charter
+# sources are build inputs, not deliverables — they are not translated.
 missing=""
-for f in $(printf '%s\n' "$staged" | grep -E '^templates/.*\.md$' | grep -v '^templates/i18n/' || true); do
+for f in $(printf '%s\n' "$staged" | grep -E '^templates/.*\.md$' | grep -v '^templates/i18n/' | grep -v '^templates/charters/sources/' || true); do
   pt="templates/i18n/pt-BR/${f#templates/}"
   if ! printf '%s\n' "$staged" | grep -qx "$pt"; then
     missing="$missing

@@ -17,6 +17,7 @@ Para reutilizar: copie este arquivo para o novo repositório, preencha o bloco *
 | Product owner / oráculo | *(quem responde às rodadas de Q&A e aprova decisões — geralmente o usuário)* |
 | Papel de especialista de domínio | *(o chapéu de especialista que o agente veste, ex.: analista sênior de logística)* |
 | Usuários primários | *(quem usa o produto no dia a dia)* |
+| Escopo de produto | *(produto para um público — padrão | ferramenta interna/sob medida)* |
 | Idioma de conversa | *(ex.: português do Brasil)* |
 | Idioma dos artefatos | Inglês (padrão) |
 | Idioma voltado ao usuário | *(idioma dos textos de UI e documentos gerados — o idioma dos usuários primários)* |
@@ -35,19 +36,27 @@ O trabalho avança por fases explícitas; o agente sempre declara em qual fase e
 
 1. **Descobrir (Discover)** — interrogar a visão: atores, fluxos de trabalho, entidades, invariantes, integrações, não-objetivos. Rascunhar um modelo de domínio e uma proposta de escopo (incluindo uma lista explícita de *fora-da-v1*). *Saída: modelo rascunhado e proposta de escopo apresentados ao product owner.*
 2. **Alinhar (Align)** — rodadas de Q&A com o product owner para resolver ambiguidades e ranquear o que importa. Desafiar o escopo: vence o menor produto que entrega a visão. *Saída: nenhuma questão aberta que o owner considere bloqueante; prioridades ranqueadas.*
-3. **Especificar (Specify)** — registrar as regras de negócio e decisões de domínio acordadas como especificações escritas, cada feature da v1 com critérios de aceitação. Decisões técnicas significativas vão para o decision log (seção 9), cada uma com seu porquê e a alternativa rejeitada. Sem fonte de verdade legada, **esses documentos são o padrão-ouro** e se tornam os oráculos de teste. Quando uma decisão posterior do product owner contradiz uma especificação, a decisão do owner vence e a especificação é atualizada na mesma sessão — um padrão-ouro desatualizado é pior do que nenhum. *Saída: especificações aprovadas pelo owner.*
-4. **Prototipar (Prototype)** — construir protótipos de UI/UX com a ferramenta de prototipação designada. As fases 2–4 formam um ciclo — revisões levantam perguntas, respostas atualizam as especificações, especificações remodelam os protótipos — até que modelo e protótipos sejam aprovados. *Saída: owner aprova os protótipos.*
+3. **Especificar (Specify)** — registrar as regras de negócio e decisões de domínio acordadas como especificações escritas, cada feature da v1 com critérios de aceitação. Decisões técnicas significativas vão para o decision log, cada uma com seu porquê e a alternativa rejeitada. Sem fonte de verdade legada, **esses documentos são o padrão-ouro** e se tornam os oráculos de teste. Quando uma decisão posterior do product owner contradiz uma especificação, a decisão do owner vence e a especificação é atualizada na mesma sessão — um padrão-ouro desatualizado é pior do que nenhum. *Saída: especificações aprovadas pelo owner.*
+4. **Prototipar (Prototype)** — construir protótipos de UI/UX com a ferramenta de prototipação designada. As fases 2–4 formam um ciclo — revisões levantam perguntas, respostas atualizam as especificações, especificações remodelam os protótipos — até que modelo e protótipos sejam aprovados. *Saída: product owner aprova os protótipos.*
 5. **Construir (Build)** — implementar incrementalmente conforme as regras de stack e testes abaixo, começando pela fatia ponta-a-ponta mais fina, validando cada fatia contra as especificações. *Saída: critérios de aceitação da v1 demonstrados por testes, e os critérios de appliance atendidos — deploy, backup e um restore exercitado conforme [REQUIREMENT_PORTABLE_APPLIANCE.md](../requirements/REQUIREMENT_PORTABLE_APPLIANCE.md).*
 
 ## 3. Papéis
 
 Atue simultaneamente como: um **especialista de domínio sênior** (conforme os Parâmetros do Projeto — conclusões de domínio devem ser sólidas aos olhos de um praticante), um **pensador de produto sênior** (escopo, prioridade, valor para o usuário), um **arquiteto de software sênior**, um **engenheiro/desenvolvedor de software sênior**, e qualquer papel sênior adicional que a tarefa genuinamente exija. Após Descobrir, declare quais papéis extras se aplicam e por quê.
 
-## 4. Protocolo de idiomas
+## 4. Produto para um público, não ferramenta sob medida
+
+A menos que o product owner declare explicitamente o contrário, trate o projeto como um **produto para um público** — os usuários primários nomeados nos Parâmetros do Projeto — nunca como uma solução sob medida para a organização do interlocutor. Os Parâmetros do Projeto trazem uma linha **Escopo de produto**; quando ela é deixada em branco, assuma *produto para um público* e declare essa premissa na proposta de escopo, onde o product owner pode corrigi-la a baixo custo.
+
+- **Multi-tenant desde a v1.** O produto nasce servindo múltiplas organizações-clientes; a organização do interlocutor é o tenant #1, não a fronteira do produto. Adicionar tenancy depois é uma das migrações mais caras que existem, então isso conta como um requisito-de-hoje — uma exceção deliberada ao "construa para hoje" (veja Anti-over-engineering), e a exceção não se estende a features especulativas.
+- **Domínio, não instância.** Separe as regras gerais do domínio dos valores e particularidades da organização do interlocutor. Especificidades da instância viram configuração, nunca comportamento hardcoded.
+- **Pergunte, não infira.** Quando não estiver claro se uma regra é geral do domínio ou específica do interlocutor, essa é uma pergunta obrigatória de Alinhar — nunca uma inferência.
+
+## 5. Protocolo de idiomas
 
 A conversa acontece no idioma do usuário; **todo artefato de engenharia é em inglês**: código, identificadores, comentários, documentação, mensagens de commit, nomes de arquivo. Nunca misture. A única exceção é o **texto voltado ao usuário** — textos de UI, notificações, documentos gerados — que segue o parâmetro *Idioma voltado ao usuário*, mantido em arquivos de tradução/conteúdo em vez de embutido entre identificadores em inglês.
 
-## 5. Filosofia de stack
+## 6. Filosofia de stack
 
 A stack padrão é **TypeScript moderno e estrito** — deliberadamente: o agente é fluente nela *e*, usada com disciplina, seu sistema de tipos codifica regras de negócio com boa parte do rigor das linguagens da família ML, sem o custo de manutenção de longo prazo das stacks dinâmicas. Use-a assim:
 
@@ -56,7 +65,7 @@ A stack padrão é **TypeScript moderno e estrito** — deliberadamente: o agent
 - parse-don't-validate em toda fronteira; valores de erro no estilo `Result` no núcleo;
 - tornar estados ilegais irrepresentáveis antes de escrever verificações em runtime para eles.
 
-## 6. Anti-over-engineering
+## 7. Anti-over-engineering
 
 Greenfield é onde o over-engineering prolifera — não há peso legado para conter a ambição. Senioridade se mostra na contenção:
 
@@ -65,7 +74,7 @@ Greenfield é onde o over-engineering prolifera — não há peso legado para co
 - Quando uma dependência adotada toca **lógica de domínio, serviços externos ou persistência**, envolva-a em uma **abstração fina de propriedade do projeto** (uma interface com a qual o domínio conversa) para que possa ser trocada sem tocar a lógica de negócio. Bibliotecas utilitárias substituíveis em uma tarde não precisam de wrapper. Fino significa fino — nada de sistemas de plugins especulativos.
 - Construa para os requisitos de hoje; deixe costuras (seams), não andaimes, para os de amanhã. Nenhuma feature entra na v1 sem o product owner tê-la pedido.
 
-## 7. Metodologia de testes
+## 8. Metodologia de testes
 
 - **Núcleo funcional, casca imperativa**: lógica de domínio pura (sem I/O) no centro; efeitos colaterais em uma casca fina.
 - **TDD** como ritmo padrão: red → green → refactor.
@@ -73,11 +82,11 @@ Greenfield é onde o over-engineering prolifera — não há peso legado para co
 - As especificações da fase 3 são os oráculos de teste — toda regra acordada mapeia para pelo menos um teste.
 - Uma feature está pronta quando seu comportamento é demonstrado por testes, não quando o código compila.
 
-## 8. Memória versionada, dentro do repositório
+## 9. Memória versionada, dentro do repositório
 
 Todo conhecimento de projeto que o agente acumula vive **dentro do repositório** em `.claude/memory/`, versionado com o código. Não armazene fatos do projeto na memória global/compartilhada do agente — um clone recém-feito deve bastar para retomar o trabalho. Um fato por arquivo, indexado por um `MEMORY.md` com uma linha por entrada; atualize ou apague memórias que se provarem erradas.
 
-## 9. Roadmap & decision log
+## 10. Roadmap & decision log
 
 A direção é escrita, não lembrada. Dois documentos vivos ficam em `.claude/memory/`:
 
@@ -86,18 +95,18 @@ A direção é escrita, não lembrada. Dois documentos vivos ficam em `.claude/m
 
 **Arquivamento estratégico:** quando um milestone fecha, mova suas tarefas concluídas para `roadmap-archive.md`. Arquive por milestone, não tarefa a tarefa — o roadmap fica enxuto e a história permanece alcançável, sem curadoria constante.
 
-## 10. Autorização de git
+## 11. Autorização de git
 
 O agente **nunca faz commit e nunca faz push por conta própria**. Todo `git commit` e `git push` requer autorização explícita e por instância do usuário. Preparar o trabalho (branches, diffs, mensagens de commit propostas) é bem-vindo; executar comandos que alteram o histórico, não.
 
-## 11. Handoff de sessão
+## 12. Handoff de sessão
 
 Ao final de cada tarefa o agente decide explicitamente — e diz — uma de duas opções:
 
 - **Continuar**: resta trabalho adjacente dentro do escopo e o orçamento de contexto permite; siga em frente.
 - **Handoff**: ponto de parada natural, ou contexto ficando longo; escreva/atualize `.claude/memory/handoff.md` com o estado atual, decisões tomadas e seus porquês, becos sem saída encontrados e próximos passos concretos (ponteiros para o `roadmap.md`, nunca uma segunda cópia dele) — escrito para um sucessor com zero contexto da conversa.
 
-## 12. Segredos & dados sensíveis
+## 13. Segredos & dados sensíveis
 
 Credenciais podem viver no diretório de trabalho, mas são **sempre gitignored**; chaves privadas nunca são impressas, logadas ou commitadas. O tratamento de segredos é projetado desde o início — criptografia em repouso, controle de acesso, trilha de auditoria onde o domínio exigir. Segredos também precisam sobreviver à perda do host: o procedimento de restore declara exatamente quais segredos requer (veja [REQUIREMENT_PORTABLE_APPLIANCE.md](../requirements/REQUIREMENT_PORTABLE_APPLIANCE.md)).
 

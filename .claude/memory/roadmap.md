@@ -10,18 +10,18 @@ Single source of direction. Every session starts by reading this file and ends b
 - [x] Versioned in-repo memory (`.claude/memory/`) and audience changelogs (`changelog/`) (2026-07-10)
 - [x] pt-BR translation pipeline: `translate-templates` skill + pre-commit freshness hook (2026-07-10)
 
-## Milestone 2 — Charter modularization
+## Milestone 2 — Charter modularization ✅ (2026-07-10)
 
-- [ ] Decompose the two charters into a shared core (phases 2–5, roles, languages, stack, anti-over-engineering, testing, memory, roadmap, git, handoff, secrets) plus pluggable modules
-- [ ] `MODULE_DISCOVERY_GREENFIELD` — phase 1 = Discover; specs are the golden standard
-- [ ] `MODULE_EXTRACTION_LEGACY` — phase 1 = Understand; golden source, traceability, conflict arbitration
-- [ ] `MODULE_DATA_MIGRATION` — migration + cutover, pluggable (useful even in greenfield projects that import data)
-- [ ] Decide the assembly story: composed charter generated per project (preferred — preserves the single-file copy experience) vs. copying the file set
-- [ ] Rebuild `CHARTER_GREENFIELD` and `CHARTER_LEGACY_TRANSFORMATION` as thin compositions; verify no behavior was lost against the current monolithic versions
+- [x] Decompose the two charters into a shared core (`templates/charters/sources/CHARTER_CORE.md`: phases, roles, product-for-an-audience, languages, stack, anti-over-engineering, testing, memory, roadmap, git, handoff, secrets) plus pluggable modules
+- [x] `MODULE_DISCOVERY_GREENFIELD` — phase 1 = Discover; specs are the golden standard
+- [x] `MODULE_EXTRACTION_LEGACY` — phase 1 = Understand; golden source, traceability, conflict arbitration
+- [x] `MODULE_DATA_MIGRATION` — migration + cutover, pluggable (useful even in greenfield projects that import data)
+- [x] Assembly story: composed charter generated per project via the `assemble-charters` skill (core + slots), preserving the single-file copy experience; freshness enforced by the pre-commit hook
+- [x] Rebuild both charters as compositions; verified lossless by diff (only intended additions: Product scope row, product-for-an-audience section, extraction classification, renumbering)
 
 ## Milestone 3 — Ideas backlog
 
-- [ ] Incorporate `ideas/product-not-bespoke.md` (agreed 2026-07-10) into both charters — Product scope parameter, multi-tenant-from-v1, domain/instance separation, extraction classification; natural fit alongside the Milestone 2 modularization
+- [x] Incorporate `ideas/product-not-bespoke.md` (agreed 2026-07-10) into both charters — landed in `CHARTER_CORE.md` (Product scope parameter, multi-tenant-from-v1, domain/instance separation) with the extraction-classification bullet in `MODULE_EXTRACTION_LEGACY`
 - [ ] Resolve `product-not-bespoke` open questions: per-tenant backup/restore vs. whole-system in `REQUIREMENT_PORTABLE_APPLIANCE.md`; tenant provisioning as v1 feature vs. migration-seeded tenant #1
 - [ ] Resolve `ideas/adopt-into-existing-project.md` open questions (draft → agreed), then author `templates/guides/GUIDE_ADOPTION.md` (new `GUIDE_` type) — richer once Milestone 2 lands (adoption = select applicable modules + merge)
 - [ ] Mature `ideas/language-setup.md` (draft → agreed) and incorporate into the charters

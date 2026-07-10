@@ -10,8 +10,9 @@ Regenerate the pt-BR mirror of the template deliverables. English is the source 
 ## Scope
 
 1. Determine which files to translate:
-   - Default: every `templates/**/*.md` (excluding `templates/i18n/`) that is new, modified, or staged per `git status`, plus any whose counterpart under `templates/i18n/pt-BR/` is missing.
-   - With `--all`: every `templates/**/*.md` excluding `templates/i18n/`.
+   - Default: every `templates/**/*.md` (excluding `templates/i18n/` and `templates/charters/sources/`) that is new, modified, or staged per `git status`, plus any whose counterpart under `templates/i18n/pt-BR/` is missing.
+   - With `--all`: every `templates/**/*.md` excluding `templates/i18n/` and `templates/charters/sources/`.
+   - **Charter sources are not translated.** `templates/charters/sources/` holds the build inputs (core + modules); only the composed charters under `templates/charters/` are adopter-facing and get a pt-BR counterpart. Regenerate composed charters with `assemble-charters` before translating.
 2. For each source file `templates/<path>`, write the translation to `templates/i18n/pt-BR/<path>` (same relative path and file name — file names are not translated).
 
 ## Translation rules
