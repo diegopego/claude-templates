@@ -13,6 +13,7 @@ The product here is prompt text: charters, requirements, and guides. There is no
   - **Legacy transformation** — extracting the knowledge inside an existing system (spreadsheet, old app, paper process) and rebuilding it as a modern application, with data migration and cutover.
 - **Portable-appliance requirement** — [`templates/requirements/`](templates/requirements/): every application must be destroyable and rebuildable on a fresh machine from `repo + secrets + backup` in under 30 minutes.
 - **Adoption guide** — [`templates/guides/GUIDE_ADOPTION.md`](templates/guides/GUIDE_ADOPTION.md): bring these practices into a project that already exists and works, without losing the instructions it already has.
+- **Embeddable skills** — [`templates/skills/`](templates/skills/): drop-in Claude Code skills an adopting project copies into its own `.claude/skills/`. First up: **`graduate-idea`**, which drives a rough idea from the inbox through its Q&A round into an agreed spec on the roadmap.
 
 The full index is the catalog at [`templates/README.md`](templates/README.md). Every template also ships a generated Brazilian Portuguese version under [`templates/i18n/pt-BR/`](templates/i18n/pt-BR/) — the English file is the source of truth.
 
@@ -30,6 +31,7 @@ The full index is the catalog at [`templates/README.md`](templates/README.md). E
 - **Anti-over-engineering** — boring solutions, few dependencies, seams not scaffolding.
 - **Functional core, imperative shell** with TDD; agreed specs are the test oracles.
 - **Versioned in-repo memory** — roadmap and decision log live in the repo, so a fresh clone can resume the work.
+- **Idea inbox** — a scratchpad for half-formed ideas that graduates, on request, into a proper spec through a Q&A round; the inbox is where scope is proposed, the roadmap where it is accepted. The `graduate-idea` skill automates the ritual.
 - **Portable-appliance** delivery and **explicit git authorization** (the agent never commits on its own).
 
 ## Languages

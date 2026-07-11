@@ -2,6 +2,12 @@
 
 For people who copy these templates into their own projects. Only changes that affect how you find, choose, or use a template appear here. Newest first.
 
+## 2026-07-10 — New: an idea inbox your project can keep, and a drop-in skill to work through it
+
+- Both charters gained an **Idea inbox** practice: keep an `ideas/inbox.md` scratchpad for half-formed ideas, and when you're ready, ask the agent to **graduate** one — it runs a round of questions (each with options and a recommendation), writes down the decisions, turns the note into a proper spec, and adds it to your roadmap. The inbox is where scope is proposed; the roadmap is where it's accepted.
+- New **embeddable skill** at `templates/skills/graduate-idea/`: copy the folder into your project's `.claude/skills/` and the agent runs that graduation ritual on request. It's the first of a new kind of drop-in skill (see `templates/skills/README.md`); a pt-BR version is under `templates/i18n/pt-BR/skills/`.
+- You still copy the same single charter file — the new section travels inside it.
+
 ## 2026-07-10 — The charters now spell out how the agent works through questions with you
 
 - Both charters gained a **Working through questions** section: the agent works through "Q&A rounds" (a term the charters used everywhere but never explained). A round now means — related questions asked together, each with options and a recommendation so you decide from a position not a blank page, a fixed baseline followed by smart follow-ups based on your answers, and every answer written down where it belongs. This makes the discovery/alignment steps predictable instead of relying on you to know the ritual.

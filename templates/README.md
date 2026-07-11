@@ -27,4 +27,6 @@ Generated Brazilian Portuguese versions of every template, mirroring the English
 
 ## Skills (`skills/`)
 
-Reserved for future embeddable skill templates. They live here — never in `.claude/skills/` — precisely so they stay inert in this repo.
+Embeddable Claude Code skills an adopting project copies into its own `.claude/skills/`. They live here — never in this repo's `.claude/skills/` — precisely so they stay inert in the meta-project. See `skills/README.md` for the skill-template convention.
+
+- **`graduate-idea/`** — graduate a rough idea from `ideas/inbox.md` into a proper spec: runs a Q&A round to resolve every outcome-changing question, records the decisions, drafts the spec, adds it to the roadmap, and removes the inbox entry. Pairs with the charter's *Idea inbox* practice.

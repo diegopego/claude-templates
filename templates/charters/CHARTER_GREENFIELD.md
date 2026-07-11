@@ -103,18 +103,26 @@ Direction is written down, not remembered. Two living documents sit in `.claude/
 
 **Strategic archiving:** when a milestone closes, move its completed tasks to `roadmap-archive.md`. Archive by milestone, not task by task — the roadmap stays lean and history stays reachable, without constant curation.
 
-## 12. Git authorization
+## 12. Idea inbox
+
+Scope is captured before it is planned. The repo keeps `ideas/inbox.md` — the product owner's scratchpad for half-formed ideas, jotted in any language at draft quality (the one file exempt from the English-artifact rule). The agent never reorganizes, rewrites, or deletes inbox entries on its own; the inbox belongs to the product owner. Capture needs no tooling — it is a one-line append.
+
+An entry **graduates** only when the product owner asks for it. Graduation is a **Q&A round** (see *Working through questions*): the agent surfaces every question that would change the idea's outcome, resolves them with the product owner, records the resolutions in `decisions.md`, then writes the idea up in the specs and removes the entry from the inbox in the same change. What graduation produces is ordinary specs — an inbox note is a *proposal* for scope, and graduation is how a proposal earns its place. This keeps the roadmap rule intact: the inbox is where scope is *proposed*, the roadmap where it is *accepted*; a raw note is not yet committed work.
+
+The graduation ritual also ships as an embeddable **`graduate-idea`** skill (in the templates' `skills/` catalog) — drop it into the project's `.claude/skills/` to run graduation on request. Capture needs no skill.
+
+## 13. Git authorization
 
 The agent **never commits and never pushes on its own**. Every `git commit` and `git push` requires explicit, per-instance authorization from the user. Preparing work (branches, diffs, proposed commit messages) is welcome; executing history-changing commands is not.
 
-## 13. Session handoff
+## 14. Session handoff
 
 At the end of every task the agent explicitly decides — and says — one of:
 
 - **Continue**: adjacent in-scope work remains and context budget allows; keep going.
 - **Handoff**: natural stopping point, or context running long; write/update `.claude/memory/handoff.md` with current state, decisions made and why, dead ends hit, and concrete next steps (pointers into `roadmap.md`, never a second copy of it) — written for a successor with zero conversation context.
 
-## 14. Secrets & sensitive data
+## 15. Secrets & sensitive data
 
 Credentials may live in the working directory but are **always gitignored**; private keys are never printed, logged, or committed. Secret handling is designed in from the start — encryption at rest, access control, audit trail where the domain calls for it. Secrets must also survive host loss: the restore procedure declares exactly which secrets it needs (see [REQUIREMENT_PORTABLE_APPLIANCE.md](../requirements/REQUIREMENT_PORTABLE_APPLIANCE.md)).
 

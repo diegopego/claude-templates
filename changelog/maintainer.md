@@ -2,6 +2,17 @@
 
 Technical changelog for whoever maintains this repository. Each entry ends with a plain-language addendum and, when needed, a jargon glossary. Newest first.
 
+## 2026-07-10 — Idea-inbox practice added to the charters, plus the first embeddable skill (`graduate-idea`)
+
+- Graduated the inbox entry *"make the idea-ingestion system part of the template"* after a Q&A round (five outcome-changing questions settled in `decisions.md`): home = `CHARTER_CORE`; scope = inbox + graduation ritual reusing the existing `spec_term`; ship a skill now (owner override); skill covers graduation only; this skill defines the skill-template convention. Spec at `ideas/idea-inbox.md` (`Status: agreed`), removed from `ideas/inbox.md` in the same change.
+- Added an **Idea inbox** section to `CHARTER_CORE.md` (new section 12 greenfield / 13 legacy), beside *Roadmap & decision log*: `ideas/inbox.md` as the owner's scratchpad + a graduation ritual (Q&A round → the charter's existing golden-source `spec_term` + a roadmap entry). Reuses the existing spec machinery — no new artifact type. Framed as the pre-roadmap staging area (scope *proposed* vs. *accepted*).
+- Shipped the **first embeddable skill template**: `templates/skills/graduate-idea/SKILL.md` (graduation only — capture is a one-line append). It also **defines the skill-template convention** (`templates/skills/<name>/SKILL.md`, a leading "copy into `.claude/skills/`" adoption note, kebab-case name), documented in a new `templates/skills/README.md` — closes the first half of Milestone 4.
+- Catalog (`templates/README.md`) Skills section is no longer "reserved"; it lists `graduate-idea`. Reassembled both composed charters (sections renumbered — greenfield now 1–15, legacy 1–16) and verified sequential numbering; regenerated pt-BR for both charters, both READMEs, and the new skill; updated the root `README.md` landing page (new *Idea inbox* practice + *Embeddable skills* offering).
+
+**In plain language:** the owner liked how this repo collects rough ideas in an "inbox" file and later turns each into a proper spec — so we made that a feature adopters get too. Their charter now describes keeping an idea inbox and a ritual for "graduating" a note into a spec (ask the questions that matter, write down the decisions, add it to the plan). We also shipped the first ready-made skill a project can drop in to run that ritual, and used it to set the pattern for future drop-in skills.
+
+**Glossary:** *graduate* — turn a rough inbox note into a formal spec via a Q&A round; *embeddable skill* — a reusable Claude Code skill an adopter copies into their project's `.claude/skills/`; *spec_term* — the charter's word for its golden-source specs (greenfield "specs", legacy "golden standards").
+
 ## 2026-07-10 — Defined the Q&A-round method once in the charter core (and dogfooded it)
 
 - The owner didn't understand the "question-and-answer flow." It was under-documented: **"Q&A round" was used ~8× across the charters but never defined**, and the mechanics were scattered (options+recommendation only in `CLAUDE.md`; scripted-then-adaptive only in the `adaptive-setup-questions` draft, Setup-only).

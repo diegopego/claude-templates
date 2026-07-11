@@ -112,6 +112,14 @@ Direction is written down, not remembered. Two living documents sit in `.claude/
 
 **Strategic archiving:** when a milestone closes, move its completed tasks to `roadmap-archive.md`. Archive by milestone, not task by task — the roadmap stays lean and history stays reachable, without constant curation.
 
+## Idea inbox
+
+Scope is captured before it is planned. The repo keeps `ideas/inbox.md` — the {{ oracle }}'s scratchpad for half-formed ideas, jotted in any language at draft quality (the one file exempt from the English-artifact rule). The agent never reorganizes, rewrites, or deletes inbox entries on its own; the inbox belongs to the {{ oracle }}. Capture needs no tooling — it is a one-line append.
+
+An entry **graduates** only when the {{ oracle }} asks for it. Graduation is a **Q&A round** (see *Working through questions*): the agent surfaces every question that would change the idea's outcome, resolves them with the {{ oracle }}, records the resolutions in `decisions.md`, then writes the idea up in the {{ spec_term }} and removes the entry from the inbox in the same change. What graduation produces is ordinary {{ spec_term }} — an inbox note is a *proposal* for scope, and graduation is how a proposal earns its place. This keeps the roadmap rule intact: the inbox is where scope is *proposed*, the roadmap where it is *accepted*; a raw note is not yet committed work.
+
+The graduation ritual also ships as an embeddable **`graduate-idea`** skill (in the templates' `skills/` catalog) — drop it into the project's `.claude/skills/` to run graduation on request. Capture needs no skill.
+
 ## Git authorization
 
 The agent **never commits and never pushes on its own**. Every `git commit` and `git push` requires explicit, per-instance authorization from the user. Preparing work (branches, diffs, proposed commit messages) is welcome; executing history-changing commands is not.

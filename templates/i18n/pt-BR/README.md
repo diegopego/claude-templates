@@ -30,4 +30,6 @@ Versões em português do Brasil geradas de cada template, espelhando a árvore 
 
 ## Skills (`skills/`)
 
-Reservado para futuros templates de skills embarcáveis. Eles vivem aqui — nunca em `.claude/skills/` — exatamente para permanecerem inertes neste repositório.
+Skills embutíveis do Claude Code que um projeto adotante copia para o próprio `.claude/skills/`. Elas vivem aqui — nunca no `.claude/skills/` deste repositório — exatamente para permanecerem inertes no meta-projeto. Veja `skills/README.md` para a convenção de template de skill.
+
+- **`graduate-idea/`** — gradua uma ideia crua do `ideas/inbox.md` em uma spec de verdade: roda uma rodada de Q&A para resolver toda pergunta que muda o resultado, registra as decisões, redige a spec, adiciona-a ao roadmap e remove a entrada do inbox. Faz par com a prática de *Inbox de ideias* do charter.

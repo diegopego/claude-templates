@@ -71,3 +71,15 @@ Executed the modularization decided below, using the **core + slots (light templ
 ## 2026-07-10 — Charters will be modularized into core + pluggable modules (decided; executed above)
 
 Legacy transformation is the same expert-conversation loop as greenfield — the legacy system acts as one more domain expert that can be interrogated directly; what differs plugs in (discovery vs. extraction, data migration). Preferred assembly: generate a single composed charter per project, preserving today's copy-one-file experience. Scheduled as Milestone 2.
+
+## 2026-07-10 — The idea-inbox practice ships in the templates (core section + `graduate-idea` skill)
+
+The meta-project's own inbox → graduation → spec loop graduates into a product feature so adopters get it too. Resolved in a Q&A round on the inbox entry:
+
+- **Home: `CHARTER_CORE`**, a new *Idea inbox* section beside *Roadmap & decision log* — the practice is transversal (greenfield and legacy alike), like memory/roadmap/decisions.
+- **Scope: inbox + graduation ritual, reusing the existing `spec_term`** — an `ideas/inbox.md` capture file plus a graduation ritual (Q&A round → write-up in the charter's ordinary golden-source specs + a roadmap entry). No second spec format is introduced; in a real project a graduated spec becomes built software, not template text.
+- **Ship a skill now, not just prose** (owner overrode the recommendation to defer to Milestone 4): a `graduate-idea` skill under `templates/skills/` — the first embeddable skill template.
+- **Skill covers graduation only** — capture is a trivial one-line append to the inbox, documented in the charter prose; the skill concentrates on the valuable part (the Q&A round → a well-formed spec).
+- **This skill defines the skill-template convention** — establishing the embeddable-skill format (`templates/skills/<name>/SKILL.md`, a "copy me into `.claude/skills/`" adoption note, kebab-case naming), closing the first half of Milestone 4.
+
+Rejected: a pluggable module or a standalone `GUIDE_` (the practice is universal — it belongs in the core, not opt-in or out-of-charter); porting the full meta-project machinery incl. the detailed spec format and the changelog rule (redundant with the existing `spec_term`, and a real project's specs are built, not published); capture-only or a single do-everything skill (capture is trivial; two triggers in one skill hurt auto-selection); deferring the skill-template format to a later round (owner wanted the reference example built now).

@@ -28,6 +28,7 @@ Single source of direction. Every session starts by reading this file and ends b
 - [x] `ideas/living-product-doc.md` agreed + built (2026-07-10) — living landing page (root `README.md`) kept current by the `update-product-doc` skill; hook rule 4 enforces it on adopter-facing deliverable changes
 - [ ] Decide whether `translated-templates` graduates into a reusable module for template-consuming projects
 - [x] Publish a rendered landing page for this repo (dogfooding, 2026-07-10) — Artifact derived from `README.md`, republished by `update-product-doc`
+- [x] `ideas/idea-inbox.md` graduated (agreed) + incorporated (2026-07-10) — new **Idea inbox** section in `CHARTER_CORE.md` (inbox scratchpad + graduation ritual reusing the existing `spec_term`; the pre-roadmap staging area). Shipped alongside the first embeddable skill, `templates/skills/graduate-idea/` (see Milestone 4)
 
 ### Setup + changelog→landing pipeline (graduated 2026-07-10, drafts)
 
@@ -38,7 +39,8 @@ Single source of direction. Every session starts by reading this file and ends b
 - [x] `ideas/adaptive-setup-questions.md` **incorporated** (2026-07-10): broadened from a Setup mechanism into the general **Q&A-round** method — a new *Working through questions* section in `CHARTER_CORE.md` defines the round once (batched · options + recommendation · scripted-baseline-then-adaptive · answers become artifacts); phases point to it, and `CLAUDE.md` runs the same method when graduating an inbox entry (dogfooding). Composed charters regenerated + renumbered
 - [ ] `living-product-doc` open questions: pt-BR landing page? graduate the living-manual practice into a charter section / embeddable skill for adopters
 
-## Milestone 4 — Skill templates (future)
+## Milestone 4 — Skill templates (in progress)
 
-- [ ] Define what an embeddable skill template looks like under `templates/skills/`
-- [ ] First candidate: automate `GUIDE_ADOPTION.md` into an `adopt-template` skill (inventory existing CLAUDE.md → propose merge → apply with approval)
+- [x] Define what an embeddable skill template looks like under `templates/skills/` (2026-07-10) — convention set by the first entry, `graduate-idea`: one `templates/skills/<name>/SKILL.md` per skill, YAML frontmatter first, a leading "copy me into `.claude/skills/`" adoption note, kebab-case name matching the activation trigger; documented in `templates/skills/README.md`
+- [x] First skill template shipped: `graduate-idea` — drives an inbox idea through its Q&A round into an agreed spec + roadmap entry (pairs with the charter's *Idea inbox* practice)
+- [ ] Next candidate: automate `GUIDE_ADOPTION.md` into an `adopt-template` skill (inventory existing CLAUDE.md → propose merge → apply with approval)
