@@ -4,9 +4,9 @@ Written 2026-07-11, at the close of the session that (a) shipped the `adopt-temp
 
 ## Current state
 
-- Branch `master` (we always work directly on master — see `decisions.md`). Tip when this handoff was written: `d1a9ae4`. Two things happened this session:
-  1. **Committed:** `715c956` *Ship adopt-template skill* + `d1a9ae4` *status correction* — the second embeddable skill (`templates/skills/adopt-template/`, automating `GUIDE_ADOPTION.md`), catalog, landing, pt-BR, changelogs. The Artifact landing was republished after owner approval (two-skills content).
-  2. **Staged, NOT yet committed:** the Q&A-round closure of the Milestone 3 tail (see below). Committing needs the owner's per-instance authorization.
+- Branch `master` (we always work directly on master — see `decisions.md`). Two clusters of work this session, both **committed**:
+  1. `715c956` *Ship adopt-template skill* + `d1a9ae4` *status correction* — the second embeddable skill (`templates/skills/adopt-template/`, automating `GUIDE_ADOPTION.md`), catalog, landing, pt-BR, changelogs. Artifact republished after approval (two-skills content).
+  2. `95af458` *Close Milestone 3 tail* — the Q&A-round closure (16 files, hook passed; see below). This handoff update is the follow-up **status correction** recording the post-commit landing republication.
 - **The Q&A round** (all four resolutions + rejected alternatives in `decisions.md`, entry *Q&A round closes the Milestone 3 tail*):
   - Backup/restore stays **whole-system**; per-tenant export/import = product feature decided at Align. `REQUIREMENT_PORTABLE_APPLIANCE.md` unchanged.
   - **v1 includes a minimal, operator-level tenant-creation path**; self-service onboarding = roadmap-on-demand.
@@ -15,18 +15,17 @@ Written 2026-07-11, at the close of the session that (a) shipped the `adopt-temp
 - **Template text change:** one sentence block appended to the `CHARTER_CORE` *Multi-tenant from v1* bullet ("Two boundaries keep the exception honest: …" — operator-level tenant creation + whole-system backup, linking `../requirements/REQUIREMENT_PORTABLE_APPLIANCE.md`). Applied surgically to the source + both composed charters + both pt-BR mirrors; verified no heading/numbering changes (`git diff … | grep '^[+-]## '` empty). pt-BR rendering: "Duas fronteiras mantêm a exceção honesta … caminho mínimo, de nível operador, para criar tenants … backup/restore permanece do sistema inteiro … no Alinhar".
 - `ideas/product-not-bespoke.md` → **incorporated** (open questions resolved in place); `ideas/translated-templates.md` → **incorporated**; pt-BR-landing question struck through as resolved in `living-product-doc.md` + `landing-publishing.md`.
 - Landing `README.md`: *Product for an audience* practice bullet gained the two boundaries. **Marker** advanced `0e77455` → `d1a9ae4` (full SHA verified via `git rev-parse`, not guessed). Roadmap updated.
-- The **Artifact** landing has NOT been republished for this change yet — the README practice bullet changed, so after the commit it should go through the approval loop (intent → preview → approval → publish; same URL `…/artifact/213558f8-…`, Nord skin, favicon 📜). The reconstructed HTML lives at this session's `scratchpad/landing.html`; from a fresh session, WebFetch the URL instead.
+- The **Artifact** landing **was republished to the same URL after owner approval** (2026-07-11; same URL `…/artifact/213558f8-…`, Nord skin unchanged, favicon 📜; one content edit — the *Product for an audience* practice card gained the two-boundaries sentence). The reconstructed HTML lives at this session's `scratchpad/landing.html`; from a fresh session, WebFetch the URL instead.
 - `ideas/inbox.md` is empty.
 
 ## Next steps
 
-1. **Commit the staged Q&A-round closure** once authorized; then republish the Artifact landing after owner approval.
-2. **Deferred items** (all reaffirmed, none blocking): living-manual practice → charter section / embeddable skill; marker-freshness rule in `check-freshness.sh`; GitHub Pages as the landing's public primary. Build-for-today: add when warranted.
+1. **Deferred items** (all reaffirmed, none blocking): living-manual practice → charter section / embeddable skill; marker-freshness rule in `check-freshness.sh`; GitHub Pages as the landing's public primary. Build-for-today: add when warranted.
 3. **Milestone 4 tail** — next skill candidate open (a commit-ritual skill was floated; or whatever the owner queues next). Milestone 3 is otherwise **fully closed**.
 
-## Commit ritual (for the staged change)
+## Commit ritual (for the record — committed as `95af458`)
 
-Staged set: `templates/charters/sources/CHARTER_CORE.md` + both composed charters + both pt-BR mirrors, `ideas/product-not-bespoke.md` + `translated-templates.md` + `living-product-doc.md` + `landing-publishing.md`, root `README.md`, both `changelog/` files, `.claude/memory/*` (roadmap, decisions, handoff, last-processed-commit). Hook rules: 1 (source→composed ✓), 2 (EN→pt-BR ✓), 3 (changelog ✓), 4 (README ✓). No assembly script — the source edit was mirrored surgically (see cautions).
+The Milestone-3-tail closure committed with: `templates/charters/sources/CHARTER_CORE.md` + both composed charters + both pt-BR mirrors, `ideas/product-not-bespoke.md` + `translated-templates.md` + `living-product-doc.md` + `landing-publishing.md`, root `README.md`, both `changelog/` files, `.claude/memory/*` (roadmap, decisions, handoff, last-processed-commit). Hook rules: 1 (source→composed ✓), 2 (EN→pt-BR ✓), 3 (changelog ✓), 4 (README ✓). No assembly script — the source edit was mirrored surgically (see cautions).
 
 ## Dead ends / cautions
 
