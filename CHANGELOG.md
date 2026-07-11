@@ -2,6 +2,10 @@
 
 Curated for template adopters, one entry per significant change (newest first). The git history is the full technical record underneath. Entries before 2026-07-11 live in the old `changelog/` directory, reachable in git history.
 
+## 2026-07-11 — Adoption cleans up after itself
+
+Adopting into an existing project now ends tidily. Once the merge is done, each template section you chose to **keep** lands in a single versioned home — under `.claude/` by default (e.g. `.claude/requirements/`), referenced by your merged `CLAUDE.md` — and the delivered kit (the `agent/` folder) plus the one-shot `adopt-template` skill are removed. No more duplicate copies of a requirement sitting in both `agent/` and your repo, quietly drifting apart. Both the adoption guide and the `adopt-template` skill gained an explicit final teardown step; the installer is unchanged. Surfaced by the first real adoption.
+
 ## 2026-07-11 — Installer: `make new` / `make adopt` with a destination
 
 Adoption is now one command from a clone of this repo. `make new DEST=~/devel/myapp CHARTER=greenfield|legacy [MODULES="product-audience living-docs data-migration"]` composes the charter (add-on modules included on demand) into a namespaced `agent/` folder (`PREFIX=` overrides), copies the appliance requirement, and seeds the working kit — `CLAUDE.md` wired to the charter, `.claude/memory/`, `ideas/inbox.md`, and the `graduate-idea` skill. `make adopt DEST=~/devel/existing` delivers the template set plus the `adopt-template` skill and touches nothing else. Nothing is ever overwritten. Under the hood, charter assembly is now a deterministic script (`tools/assemble.py`) — the same engine regenerates the shipped charters and backs the repo's freshness checks — and the template repo itself installs its own skills with `make adopt DEST=.` (it is its own first adopter). A new `templates/CLAUDE_MD.template.md` deliverable is the stub `make new` instantiates.

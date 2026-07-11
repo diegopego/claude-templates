@@ -411,6 +411,9 @@
           the <code class="path">adopt-template</code> skill, touching nothing else. Then ask the agent to
           adopt: it inventories your current instructions, keeps or adapts each section, and defers code
           and infrastructure changes to a roadmap — the running system is never touched by surprise.
+          When the merge is done it tidies up after itself: each section you keep lands in a single
+          versioned home (under <code class="path">.claude/</code> by default) and the one-shot delivery
+          kit and skill are removed, so no duplicate copies linger.
           If a Claude Code session is already open there, run <code class="path">/reload-skills</code>
           first.</p>
         </article>

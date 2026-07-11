@@ -12,6 +12,7 @@ The templates have never been adopted outside this repo; further meta-refinement
 - [ ] Adopt a charter (or run `adopt-template`) in one real project of the owner's
 - [ ] Record every friction point during adoption and the first weeks of use (what the agent ignored, what felt like ceremony, what was missing) — as inbox notes in this repo
 - [ ] Iterate the template text from that friction; only then consider new deliverables
+  - 2026-07-11 — first friction fixed (orderboard install): adoption now tears down its delivery kit and gives each kept deliverable a single versioned home under `.claude/` (`GUIDE_ADOPTION.md` + `adopt-template`); installer unchanged
 
 ## Parked (reactivate on demand)
 

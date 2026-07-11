@@ -11,7 +11,7 @@ This skill drives the **Adoption Guide** (`GUIDE_ADOPTION.md`) — the non-destr
 
 ## When to run
 
-When the owner asks to adopt / bring in / merge / "set up these templates in" a project that already exists. Adoption is a one-time reconciliation of the instruction layer, not ongoing work — run it once per project, then remove the skill or leave it inert.
+When the owner asks to adopt / bring in / merge / "set up these templates in" a project that already exists. Adoption is a one-time reconciliation of the instruction layer, not ongoing work — run it once per project, then tear down the delivered kit and remove this skill (or leave it inert) — the final step below.
 
 ## What to do
 
@@ -37,18 +37,22 @@ Follow the guide's non-destructive merge. Read `GUIDE_ADOPTION.md` first if it i
    - A **merged `CLAUDE.md`** that layers the adopted template practices over the preserved project instructions.
    - A seeded **`.claude/memory/`**: a `roadmap.md` splitting *adopted now* from *deferred* practices, a `decisions.md`, and a `MEMORY.md` index.
    - A **decision-log entry** recording, per section, what was kept / adapted / skipped and why. The adoption itself is traceable.
+   - **A single versioned home for every kept deliverable.** A requirement (or other standalone reference doc) classified *keep* is copied into the project under `.claude/` by default (e.g. `.claude/requirements/`), referenced by the merged `CLAUDE.md` — and, for a code/infra practice, by the roadmap item that will apply it later (step 4). The owner may repath to match the project's conventions; what matters is **one owner, versioned**. The charter and any adopted modules fold into `CLAUDE.md`, not separate files.
 
-6. **Prove by functioning.** After the instruction merge, confirm the project still builds and its tests still pass **exactly as before** — adoption is proven by the project continuing to work, not by the merge looking clean.
+6. **Tear down the delivery kit.** Once every kept deliverable has its versioned home, remove the delivered template set (the install folder — `agent/` by default, wherever `PREFIX` placed it) and remove this one-shot skill (or leave it inert). A lingering kit is a second copy of everything the merge just took a single owner for — two copies invite the drift adoption exists to prevent.
+
+7. **Prove by functioning.** After the instruction merge, confirm the project still builds and its tests still pass **exactly as before** — adoption is proven by the project continuing to work, not by the merge looking clean.
 
 ## No existing instructions
 
-If step 1 finds no instruction files, there is nothing to preserve and no conflicts to resolve. Adoption reduces to: choose a charter, fill its Project Parameters (confirming each value with the owner, per the charter's Setup step), seed `.claude/memory/` (roadmap + decisions + index), and put any code/infra practice onto the roadmap rather than applying it immediately. The two-layer rule (step 4) and *prove by functioning* (step 6) still hold.
+If step 1 finds no instruction files, there is nothing to preserve and no conflicts to resolve. Adoption reduces to: choose a charter, fill its Project Parameters (confirming each value with the owner, per the charter's Setup step), seed `.claude/memory/` (roadmap + decisions + index), and put any code/infra practice onto the roadmap rather than applying it immediately. The two-layer rule (step 4), the kit teardown (step 6), and *prove by functioning* (step 7) still hold.
 
 ## Definition of done
 
 - Every charter section, chosen module, and requirement has a recorded disposition (keep / adapt / already-covered / skip-with-reason).
 - No existing instruction was changed without the owner deciding the conflict.
 - `CLAUDE.md` and `.claude/memory/` reflect the merged result; the decision log explains it.
+- Each kept deliverable has a single versioned home (under `.claude/` by default); the delivery kit and the one-shot `adopt-template` skill are removed, leaving no duplicate copies.
 - The project builds and passes its tests exactly as it did before the merge.
 - Code / infra practice adoption lives on the roadmap, not in surprise edits to the running system.
 

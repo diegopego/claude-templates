@@ -34,8 +34,11 @@ The existing project is the source of truth about what works. The templates offe
    - A **merged `CLAUDE.md`** that layers the adopted template practices over the preserved project instructions.
    - A seeded **`.claude/memory/`**: a `roadmap.md` splitting *adopted now* from *deferred* practices, a `decisions.md`, and a `MEMORY.md` index.
    - A **decision-log entry** recording, per section, what was kept / adapted / skipped and why. The adoption itself is traceable.
+   - **A single versioned home for every kept deliverable.** A requirement (or other standalone reference doc) classified *keep* is copied into the project under `.claude/` by default (e.g. `.claude/requirements/`), referenced by the merged `CLAUDE.md` — and, when it describes a code/infra practice, by the roadmap item that will apply it later (step 4). The owner may choose another path to match the project's conventions; what matters is **one owner, versioned**. The charter and any adopted modules are folded into `CLAUDE.md`, not kept as separate files.
 
-6. **Prove by functioning.** After the instruction merge, the project still builds and its tests still pass. Adoption is proven by the project continuing to work — not by the merge looking clean.
+6. **Tear down the delivery kit.** Once every kept deliverable has its versioned home, the delivered template set has done its job. Remove the install folder (`agent/` by default — wherever `make adopt`'s `PREFIX` placed it) and remove the one-shot `adopt-template` skill (or leave it inert). This keeps the migrated copy the *single* owner: a lingering kit is a second copy of everything, and two copies invite the drift the adoption just resolved.
+
+7. **Prove by functioning.** After the instruction merge, the project still builds and its tests still pass. Adoption is proven by the project continuing to work — not by the merge looking clean.
 
 ## Choosing what to adopt
 
@@ -45,12 +48,13 @@ The existing project is the source of truth about what works. The templates offe
 
 ## No existing instructions
 
-If the inventory in step 1 finds no instruction files, there is nothing to preserve and no conflicts to resolve. Adoption reduces to: choose a charter, fill its Project Parameters (confirming each value with the owner, per the charter's Setup step), seed `.claude/memory/` (roadmap + decisions + index), and — for any code/infra practice — put it on the roadmap rather than applying it immediately. The two-layer rule (step 4) and "prove by functioning" (step 6) still hold.
+If the inventory in step 1 finds no instruction files, there is nothing to preserve and no conflicts to resolve. Adoption reduces to: choose a charter, fill its Project Parameters (confirming each value with the owner, per the charter's Setup step), seed `.claude/memory/` (roadmap + decisions + index), and — for any code/infra practice — put it on the roadmap rather than applying it immediately. The two-layer rule (step 4), the kit teardown (step 6), and *prove by functioning* (step 7) still hold — even here the delivered kit is removed once the seeding is done.
 
 ## Definition of done
 
 - Every charter section, chosen module, and requirement has a recorded disposition (keep / adapt / already-covered / skip-with-reason).
 - No existing instruction was changed without the owner deciding the conflict.
 - `CLAUDE.md` and `.claude/memory/` reflect the merged result; the decision log explains it.
+- Each kept deliverable has a single versioned home (under `.claude/` by default); the delivery kit (`agent/`) and the one-shot `adopt-template` skill are removed, leaving no duplicate copies.
 - The project builds and passes its tests exactly as it did before the merge.
 - Code/infra practice adoption lives on the roadmap, not in surprise edits to the running system.
