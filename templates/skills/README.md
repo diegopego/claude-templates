@@ -11,7 +11,7 @@ A skill template is a directory whose contract mirrors a normal Claude Code skil
 - **A leading adoption note** — the first line of the body is a blockquote marking the file as a template and telling the adopter to copy the directory into `.claude/skills/<name>/`. It is written to be harmless if left in place after copying.
 - **Body written for the adopter's agent** — the instructions address the agent running inside the adopting project, referencing that project's files (`ideas/inbox.md`, `.claude/memory/`, its charter) by name rather than by relative path (paths break when the directory is copied into a foreign repo).
 
-To adopt one: copy `templates/skills/<name>/` into your project's `.claude/skills/<name>/`. That is the whole install.
+To adopt one: copy `templates/skills/<name>/` into your project's `.claude/skills/<name>/` (or let `make new` / `make adopt` do it). That is the whole install — but skills load at session startup, so if a Claude Code session is already open in the project, run `/reload-skills` there before asking for the skill.
 
 ## Available skills
 

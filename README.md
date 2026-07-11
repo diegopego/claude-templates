@@ -36,6 +36,8 @@ make adopt DEST=~/devel/existing-project
 - **New project** (`make new`) — composes the charter (with any add-on modules) into `DEST/agent/charters/`, copies the appliance requirement, and seeds the kit: a `CLAUDE.md` wired to the charter, `.claude/memory/`, `ideas/inbox.md`, and the `graduate-idea` skill. Then open Claude Code in the project and say *"read CLAUDE.md and start Setup"* — the charter's **Setup** step confirms every parameter with you (stated defaults, never silent assumptions) and **scaffolds a minimum runnable project**, so real work starts against a project that already runs.
 - **Existing project** (`make adopt`) — copies the template set and the **`adopt-template`** skill into the project and touches nothing else. Then ask the agent to adopt: it inventories your current instructions, keeps or adapts each template section per the [adoption guide](templates/guides/GUIDE_ADOPTION.md), raises every conflict to you instead of overwriting, and defers code/infra changes to a roadmap so the running system is never touched by surprise.
 
+> Skills load when a Claude Code session starts. If a session is already open in the target project when you install, run **`/reload-skills`** there before asking the agent to adopt (or to graduate an idea).
+
 No `make`? Copying the files by hand works exactly the same — the installer is convenience, not machinery: composed charters travel with `requirements/` (relative links), skills go into `.claude/skills/`.
 
 ## What the charters give a project

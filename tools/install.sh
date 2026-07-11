@@ -22,6 +22,13 @@ note() { echo "  $*"; }
 [ -n "$MODE" ] || fail "mode missing (new|adopt)"
 [ -n "$DEST" ] || fail "DEST is required, e.g. make $MODE DEST=~/devel/myapp"
 
+# `make adopt DEST=~/...` reaches us with a literal ~ (shells only expand it
+# in real assignments) — expand it ourselves.
+case "$DEST" in
+  "~")   DEST=$HOME ;;
+  "~/"*) DEST=$HOME/${DEST#"~/"} ;;
+esac
+
 # Copy a single file unless the destination already exists.
 install_file() { # src dst
   if [ -e "$2" ]; then
@@ -120,6 +127,7 @@ EOF
   echo ""
   echo "Done. Next step: open Claude Code in $DEST and say:"
   echo "  \"Read CLAUDE.md and start the charter's Setup phase.\""
+  echo "(If a Claude Code session is already open there, run /reload-skills first — or restart the session, which always works.)"
   ;;
 
 adopt)
@@ -136,7 +144,7 @@ adopt)
     install_skill adopt-template
 
     echo ""
-    echo "Done. Next step: ask Claude in this repo:"
+    echo "Done. Next step: run /reload-skills in the open session (or restart it — skills load at startup), then ask Claude in this repo:"
     echo "  \"Adopt the templates in templates/ into this project.\"  (non-destructive merge against CLAUDE.md)"
     exit 0
   fi
@@ -153,6 +161,7 @@ adopt)
   echo ""
   echo "Done. Nothing of the existing project was touched. Next step: open Claude Code in $DEST and say:"
   echo "  \"Adopt the templates in $PREFIX/ into this project.\"  (runs the adopt-template skill's non-destructive merge)"
+  echo "(If a Claude Code session is already open there, run /reload-skills first — or restart the session, which always works.)"
   ;;
 
 *)
