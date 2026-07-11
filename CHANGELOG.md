@@ -2,6 +2,10 @@
 
 Curated for template adopters, one entry per significant change (newest first). The git history is the full technical record underneath. Entries before 2026-07-11 live in the old `changelog/` directory, reachable in git history.
 
+## 2026-07-11 — New skill: `update-living-docs` builds and maintains your living docs
+
+`MODULE_LIVING_DOCS` now ships an executable arm. The new **`update-living-docs`** embeddable skill runs the whole living-documentation pipeline — the dual changelogs (technical + audience), the living product doc, and the landing page — so the practice is automated, not just described. Two modes: **rebuild** regenerates the whole set from your project's current state (the path for a large project adopting the pipeline mid-life, or a forced re-creation — it reconciles an existing changelog into the technical/audience split and seeds the audience changelog from what the product does today), and **update** folds a single change in incrementally. The landing still publishes only behind the approval loop. The skill is delivered with the module: `make new … MODULES="living-docs"` installs it, and it travels in the adoption kit so a project that adopts the module gets it too.
+
 ## 2026-07-11 — Adoption cleans up after itself
 
 Adopting into an existing project now ends tidily. Once the merge is done, each template section you chose to **keep** lands in a single versioned home — under `.claude/` by default (e.g. `.claude/requirements/`), referenced by your merged `CLAUDE.md` — and the delivered kit (the `agent/` folder) plus the one-shot `adopt-template` skill are removed. No more duplicate copies of a requirement sitting in both `agent/` and your repo, quietly drifting apart. Both the adoption guide and the `adopt-template` skill gained an explicit final teardown step; the installer is unchanged. Surfaced by the first real adoption.

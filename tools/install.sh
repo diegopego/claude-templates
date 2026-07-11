@@ -130,6 +130,10 @@ EOF
 Owner's scratchpad — any language, draft quality, one line per idea. The agent never reorganizes, rewrites, or deletes entries; an idea graduates into a spec only when the owner asks.
 EOF
   install_skill graduate-idea
+  # MODULE_LIVING_DOCS ships a paired skill; install it when that module is composed in.
+  case " $MODULES " in
+    *" living-docs "*) install_skill update-living-docs ;;
+  esac
 
   echo ""
   echo "Done. Next step: open Claude Code in $DEST and say:"
@@ -161,8 +165,11 @@ adopt)
   echo "Installing the template set into $DEST for adoption (prefix: $PREFIX/)"
 
   # Reference set the merge classifies against; relative links stay valid.
+  # MODULE_LIVING_DOCS and its paired skill travel too, so the merge can adopt
+  # that opt-in module and install its skill when the project wants a public face.
   for f in charters/CHARTER_GREENFIELD.md charters/CHARTER_LEGACY_TRANSFORMATION.md \
-           requirements/REQUIREMENT_PORTABLE_APPLIANCE.md guides/GUIDE_ADOPTION.md; do
+           requirements/REQUIREMENT_PORTABLE_APPLIANCE.md guides/GUIDE_ADOPTION.md \
+           charters/sources/MODULE_LIVING_DOCS.md skills/update-living-docs/SKILL.md; do
     install_file "$REPO/templates/$f" "$DEST/$PREFIX/$f"
   done
   install_skill adopt-template

@@ -14,9 +14,10 @@ The templates have never been adopted outside this repo; further meta-refinement
 - [ ] Iterate the template text from that friction; only then consider new deliverables
   - 2026-07-11 — first friction fixed (orderboard install): adoption now tears down its delivery kit and gives each kept deliverable a single versioned home under `.claude/` (`GUIDE_ADOPTION.md` + `adopt-template`); installer unchanged
   - 2026-07-11 — second friction fixed: `make adopt DEST=.` now force-refreshes the self-adopted skill working copies (`tools/install.sh`), so the CLAUDE.md refresh path works without a manual `rm`
+  - 2026-07-11 — third friction fixed: the living-docs pipeline (change → audience changelog → living doc → landing) is now automated by the new `update-living-docs` skill (rebuild + update), the executable arm of MODULE_LIVING_DOCS — it was prose-only after the rewrite removed `update-product-doc`
 
 ## Parked (reactivate on demand)
 
-- `ideas/lifecycle-cli.md` — the project CLI spec; graduates back to a `REQUIREMENT_` when a real adopter wants to build it
+- `ideas/lifecycle-cli.md` — the project CLI spec; graduates back to a `REQUIREMENT_` when a real adopter wants to build it (its docs-pipeline part is now covered by the `update-living-docs` skill; the single-door CLI itself stays parked)
 - pt-BR (or other) translations — return when an adopting project asks
 - Living-manual practice as a charter section beyond `MODULE_LIVING_DOCS`

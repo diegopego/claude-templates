@@ -347,7 +347,8 @@ make new   DEST=~/path/to/new-project CHARTER=greenfield  <span class="cm"># or 
           <p><code class="path">MODULE_PRODUCT_AUDIENCE</code> — a product for an audience: multi-tenant
           from v1, your organization as tenant #1, domain rules separated from instance configuration.
           <br><code class="path">MODULE_LIVING_DOCS</code> — curated changelogs, a living product doc,
-          and a landing page whose skin is designed once at Setup, with an approval loop on every publish.
+          and a landing page whose skin is designed once at Setup, with an approval loop on every publish;
+          automated by the <code class="path">update-living-docs</code> skill (rebuild + update).
           <br><code class="path">MODULE_DATA_MIGRATION</code> — built into the legacy charter; addable
           to a greenfield project that imports inherited data.</p>
         </article>
@@ -365,11 +366,17 @@ make new   DEST=~/path/to/new-project CHARTER=greenfield  <span class="cm"># or 
         <article class="card">
           <h3>Embeddable skills <span class="tag">skill</span></h3>
           <p>Drop-in Claude Code skills a project copies into its own
-          <code class="path">.claude/skills/</code>. Two so far: <code class="path">graduate-idea</code>,
-          which drives a rough idea from the inbox through its Q&amp;A round into an agreed spec; and
+          <code class="path">.claude/skills/</code>. Three so far: <code class="path">graduate-idea</code>,
+          which drives a rough idea from the inbox through its Q&amp;A round into an agreed spec;
           <code class="path">adopt-template</code>, which runs the adoption guide for you — inventorying an
           existing project's instructions, classifying each section, and producing a merged
-          <code>CLAUDE.md</code> with every conflict raised to you.</p>
+          <code>CLAUDE.md</code> with every conflict raised to you; and
+          <code class="path">update-living-docs</code>, the executable arm of
+          <code class="path">MODULE_LIVING_DOCS</code> — it builds and keeps a project's dual changelogs,
+          living product doc, and landing page current, with a <b>rebuild</b> mode that regenerates the
+          whole set from a project's current state (a large project adopting the pipeline mid-life, or a
+          forced re-creation) and an <b>update</b> mode for single changes, publishing only behind an
+          approval loop.</p>
         </article>
       </div>
     </section>

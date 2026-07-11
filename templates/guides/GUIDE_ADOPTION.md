@@ -43,7 +43,7 @@ The existing project is the source of truth about what works. The templates offe
 ## Choosing what to adopt
 
 - Pick the charter that matches the project's situation: [CHARTER_GREENFIELD.md](../charters/CHARTER_GREENFIELD.md) for continued new-feature work, [CHARTER_LEGACY_TRANSFORMATION.md](../charters/CHARTER_LEGACY_TRANSFORMATION.md) if the project is itself replacing a legacy system.
-- The shipped charters are **minimal**; add-on modules (`MODULE_PRODUCT_AUDIENCE`, `MODULE_LIVING_DOCS`, `MODULE_DATA_MIGRATION` — see the sources' `charters.manifest.md`) are adopted à la carte, only when the project is that kind of project.
+- The shipped charters are **minimal**; add-on modules (`MODULE_PRODUCT_AUDIENCE`, `MODULE_LIVING_DOCS`, `MODULE_DATA_MIGRATION` — see the sources' `charters.manifest.md`) are adopted à la carte, only when the project is that kind of project. A module that ships a paired skill — `MODULE_LIVING_DOCS` ↔ `update-living-docs` — brings that skill with it: install it into `.claude/skills/` when you adopt the module.
 - Adopt requirements à la carte too. A requirement classified **skip** is recorded, not deleted from consideration — it can move onto the roadmap later.
 
 ## No existing instructions

@@ -35,7 +35,7 @@ Files land in a namespaced `agent/` folder by default (override with `PREFIX=…
   - [`CHARTER_LEGACY_TRANSFORMATION.md`](templates/charters/CHARTER_LEGACY_TRANSFORMATION.md) — extracting the knowledge inside an existing system (spreadsheet, old app, paper process) and rebuilding it as a modern application, with traceable extraction, data migration, and cutover.
 - **Add-on modules** — [`templates/charters/sources/`](templates/charters/sources/). The shipped charters are deliberately **minimal**; a project that wants more composes these in (ask the agent to re-run assembly with the module added to your charter's row in [`charters.manifest.md`](templates/charters/sources/charters.manifest.md)):
   - `MODULE_PRODUCT_AUDIENCE` — your project is a product for an audience: multi-tenant from v1 (your organization is tenant #1, with an operator-level way to create the next one), domain rules separated from instance configuration.
-  - `MODULE_LIVING_DOCS` — curated changelogs for maintainers and users, plus a living product doc rendered as a landing page whose skin is designed once at Setup and whose every publish passes your approval.
+  - `MODULE_LIVING_DOCS` — curated changelogs for maintainers and users, plus a living product doc rendered as a landing page whose skin is designed once at Setup and whose every publish passes your approval. Its pipeline is automated by the `update-living-docs` skill (rebuild + update).
   - `MODULE_DATA_MIGRATION` — migration and cutover rules; built into the legacy charter, addable to a greenfield project that imports inherited data.
 - **Requirements** — [`templates/requirements/`](templates/requirements/):
   - [`REQUIREMENT_PORTABLE_APPLIANCE.md`](templates/requirements/REQUIREMENT_PORTABLE_APPLIANCE.md) — every application must be destroyable and rebuildable on a fresh machine from `repo + secrets + backup` in under 30 minutes.
@@ -43,6 +43,7 @@ Files land in a namespaced `agent/` folder by default (override with `PREFIX=…
 - **Embeddable skills** — [`templates/skills/`](templates/skills/): drop-in Claude Code skills an adopting project copies into its own `.claude/skills/`:
   - **`graduate-idea`** — drives a rough idea from the inbox through a Q&A round into an agreed spec on the roadmap.
   - **`adopt-template`** — runs the adoption guide for you: inventories an existing project's instructions, classifies each template section, and produces a merged `CLAUDE.md` with every conflict raised to you.
+  - **`update-living-docs`** — the executable arm of `MODULE_LIVING_DOCS`: builds and keeps a project's living docs current — the dual changelogs, the living product doc, and its landing page. Two modes: **rebuild** (regenerate the whole set from the project's current state — for a large project adopting the pipeline mid-life, or a forced re-creation) and **update** (fold one change in incrementally); the landing publishes only behind an approval loop.
 
 Templates are authored in **English** (translations return when an adopter asks for them).
 
