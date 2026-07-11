@@ -1,53 +1,18 @@
 # Roadmap
 
-Single source of direction. Every session starts by reading this file and ends by updating it. Work not listed here is scope creep until the owner adds it.
+Single source of direction. Every session starts by reading this file and ends by updating it. Work not listed here is scope creep until the owner adds it. Closed milestones live in `roadmap-archive.md` (currently: 1 — structure, 2 — modularization, 3 — ideas backlog, 4 — skill templates, 5 — the 2026-07-11 rewrite).
 
-## Milestone 1 — Meta-project structure (v0)
+## Milestone 6 — Validation in a real project (current)
 
-- [x] Root CLAUDE.md describing the meta-project (2026-07-10)
-- [x] Reorganize deliverables into `templates/charters/` and `templates/requirements/`, with a catalog README (2026-07-10)
-- [x] `ideas/` spec format established, first three specs written (2026-07-10)
-- [x] Versioned in-repo memory (`.claude/memory/`) and audience changelogs (`changelog/`) (2026-07-10)
-- [x] pt-BR translation pipeline: `translate-templates` skill + pre-commit freshness hook (2026-07-10)
+The templates have never been adopted outside this repo; further meta-refinement has diminishing returns until they are. This milestone exists to generate real friction data.
 
-## Milestone 2 — Charter modularization ✅ (2026-07-10)
+- [ ] Adopt a charter (or run `adopt-template`) in one real project of the owner's
+- [ ] Record every friction point during adoption and the first weeks of use (what the agent ignored, what felt like ceremony, what was missing) — as inbox notes in this repo
+- [ ] Iterate the template text from that friction; only then consider new deliverables
 
-- [x] Decompose the two charters into a shared core (`templates/charters/sources/CHARTER_CORE.md`: phases, roles, product-for-an-audience, languages, stack, anti-over-engineering, testing, memory, roadmap, git, handoff, secrets) plus pluggable modules
-- [x] `MODULE_DISCOVERY_GREENFIELD` — phase 1 = Discover; specs are the golden standard
-- [x] `MODULE_EXTRACTION_LEGACY` — phase 1 = Understand; golden source, traceability, conflict arbitration
-- [x] `MODULE_DATA_MIGRATION` — migration + cutover, pluggable (useful even in greenfield projects that import data)
-- [x] Assembly story: composed charter generated per project via the `assemble-charters` skill (core + slots), preserving the single-file copy experience; freshness enforced by the pre-commit hook
-- [x] Rebuild both charters as compositions; verified lossless by diff (only intended additions: Product scope row, product-for-an-audience section, extraction classification, renumbering)
+## Parked (reactivate on demand)
 
-## Milestone 3 — Ideas backlog
-
-- [x] Incorporate `ideas/product-not-bespoke.md` (agreed 2026-07-10) into both charters — landed in `CHARTER_CORE.md` (Product scope parameter, multi-tenant-from-v1, domain/instance separation) with the extraction-classification bullet in `MODULE_EXTRACTION_LEGACY`
-- [x] Resolved `product-not-bespoke` open questions (2026-07-11 Q&A round): backup/restore stays **whole-system** (per-tenant export = product feature decided at Align); **v1 includes a minimal operator-level tenant-creation path** (self-service onboarding = roadmap). Incorporated into the `CHARTER_CORE` *Multi-tenant from v1* bullet; spec marked incorporated
-- [x] `ideas/adopt-into-existing-project.md` agreed (2026-07-10) and authored as `templates/guides/GUIDE_ADOPTION.md` (new `GUIDE_` type) — conflict rule = always ask; no-instructions case in scope; code/infra practices deferred to roadmap
-- [x] `ideas/language-setup.md` agreed + incorporated (2026-07-10) — broadened to a **Setup (step 0)** phase in `CHARTER_CORE.md` that walks the whole Project Parameters block, confirming every value (languages, Product scope, …) instead of silent defaults
-- [x] `ideas/living-product-doc.md` agreed + built (2026-07-10) — living landing page (root `README.md`) kept current by the `update-product-doc` skill; hook rule 4 enforces it on adopter-facing deliverable changes
-- [x] Decided (2026-07-11 Q&A round): `translated-templates` stays **meta-project tooling** — no reusable module/skill until an adopting project asks; spec marked incorporated
-- [x] Publish a rendered landing page for this repo (dogfooding, 2026-07-10) — Artifact derived from `README.md`, republished by `update-product-doc`
-- [x] `ideas/idea-inbox.md` graduated (agreed) + incorporated (2026-07-10) — new **Idea inbox** section in `CHARTER_CORE.md` (inbox scratchpad + graduation ritual reusing the existing `spec_term`; the pre-roadmap staging area). Shipped alongside the first embeddable skill, `templates/skills/graduate-idea/` (see Milestone 4)
-
-### Setup + changelog→landing pipeline — cluster **incorporated** ✅ (2026-07-11)
-
-The five newest inbox entries turned out to refine this cluster; graduated together in a two-round Q&A (see `decisions.md` → *Graduated the Setup→changelog→landing inbox cluster*). **All 6 specs are now in template text** — incorporated across three passes on 2026-07-11: Spec-driven + Changelogs, then Setup-scaffolding + the project CLI, then landing-publishing + the living-product-doc rewiring (each carried the full ritual: assemble → landing → translate → changelog).
-
-- [x] `ideas/setup-scaffolds-project.md` **incorporated (2026-07-11)** — new `CHARTER_CORE` *Setup scaffolding* section (§4 both charters) + expanded Method §0 Setup bullet + *Stack philosophy* overridable-default clause; tech picks are the developer's choice at Setup; minimum runnable skeleton only. Shipped with the CLI requirement.
-- [x] `ideas/audience-aware-changelogs.md` **incorporated (2026-07-11)** — new `CHARTER_CORE` *Changelogs* section (greenfield §12 / legacy §13); split cadence; audience = existing *Primary users* parameter (no new row)
-- [x] `ideas/living-product-doc.md` refinement **incorporated (2026-07-11)** — `update-product-doc` rewired to work by **delta from a versioned last-processed-commit marker** (`.claude/memory/last-processed-commit.md`) driven by the target-audience changelog, advancing the marker each run (meta-project tooling; template-practice facet stays deferred). Owner Q&A: pre-commit hook left unchanged, marker-freshness rule deferred (see below)
-- [x] `ideas/landing-publishing.md` **incorporated (2026-07-11)** — a **focused Setup addition** to `CHARTER_CORE` (owner Q&A): *Landing skin, designed once* bullet + Method §0 mention — landing page, design interview, skin-fixed-once vs. content-regenerated, approval loop, content pipeline → `REQUIREMENT_PROJECT_CLI.md`. A full living-doc/landing charter section was **not** added (deferred). GitHub Pages public target still pending (Artifact-only today)
-- [x] `ideas/spec-driven-work.md` **incorporated (2026-07-11)** — new `CHARTER_CORE` *Spec-driven work* section beside *Idea inbox* (greenfield §14 / legacy §15)
-- [x] `ideas/lifecycle-cli.md` **incorporated (2026-07-11)** — new deliverable `REQUIREMENT_PROJECT_CLI.md` (single-door `setup`/`adopt`/`update-docs`/`graduate-idea` CLI styled after `claude`, specified as a thin orchestrator). Q&A settled: CLI orchestrates + hook is backstop; CLI invokes the skills. Catalog + landing + pt-BR updated. We ship the spec only.
-- [x] `ideas/adaptive-setup-questions.md` **incorporated** (2026-07-10): broadened from a Setup mechanism into the general **Q&A-round** method — a new *Working through questions* section in `CHARTER_CORE.md` defines the round once (batched · options + recommendation · scripted-baseline-then-adaptive · answers become artifacts); phases point to it, and `CLAUDE.md` runs the same method when graduating an inbox entry (dogfooding). Composed charters regenerated + renumbered
-- [x] `living-product-doc` pt-BR-landing question resolved (2026-07-11 Q&A round, owner's principle): **the landing's language is a Setup choice** — it follows the *User-facing language* parameter already in the language protocol; no template change. This repo's choice: English
-- [ ] Graduate the living-manual practice into a charter section / embeddable skill for adopters (deferred — reaffirmed 2026-07-11)
-- [ ] Deferred (2026-07-11 owner Q&A): a **marker-freshness rule** in `check-freshness.sh` (block a commit that leaves the last-processed-commit marker behind); GitHub Pages as the landing's public primary (Artifact-only today). Build-for-today: add when warranted
-
-## Milestone 4 — Skill templates (in progress)
-
-- [x] Define what an embeddable skill template looks like under `templates/skills/` (2026-07-10) — convention set by the first entry, `graduate-idea`: one `templates/skills/<name>/SKILL.md` per skill, YAML frontmatter first, a leading "copy me into `.claude/skills/`" adoption note, kebab-case name matching the activation trigger; documented in `templates/skills/README.md`
-- [x] First skill template shipped: `graduate-idea` — drives an inbox idea through its Q&A round into an agreed spec + roadmap entry (pairs with the charter's *Idea inbox* practice)
-- [x] Second skill template shipped (2026-07-11): `adopt-template` — automates `GUIDE_ADOPTION.md` (inventory existing CLAUDE.md → classify each section keep/adapt/already-covered/skip → conflicts to owner → merged CLAUDE.md + seeded `.claude/memory/`). Catalog + landing + pt-BR + both changelogs updated. Runs *at adoption time* (references the template set, not "your charter"), unlike `graduate-idea` which runs inside an already-adopted project
-- [ ] Next candidate: a skill for the recurring commit ritual, or maturing the remaining open questions (see Milestone 3 tail)
+- `ideas/lifecycle-cli.md` — the project CLI spec; graduates back to a `REQUIREMENT_` when a real adopter wants to build it
+- pt-BR (or other) translations — return when an adopting project asks
+- GitHub Pages as the landing's public target (Artifact-only today)
+- Living-manual practice as a charter section beyond `MODULE_LIVING_DOCS`

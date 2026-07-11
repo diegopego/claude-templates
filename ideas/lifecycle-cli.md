@@ -1,36 +1,27 @@
-# lifecycle-cli
+# Lifecycle CLI — the single door to a charter-driven project
 
-Status: incorporated
-Applies to: a new `REQUIREMENT_` deliverable (the CLI is specified here; adopter projects / a toolchain implement it). Touches core (Setup phase) and the update/adopt skills.
+Status: deferred
+Applies to: a future `REQUIREMENT_PROJECT_CLI.md` deliverable (existed as one from 2026-07-11 until the same-day rewrite, when it was parked back here — see `.claude/memory/decisions.md`, *Rewrite from scratch in ideal form*)
 
 ## Behavior
 
-The templates specify a **project CLI** — the single door to a charter-driven project's lifecycle, styled after the `claude` CLI (interactive, prompt-first). One tool covers the whole lifecycle rather than a scatter of scripts and skills:
+When a project wants its whole lifecycle behind one tool, it builds an interactive, prompt-first CLI styled after `claude` — a **thin, deterministic orchestrator over Claude and the embeddable skills**, never a second brain:
 
-- **`setup`** — runs the Setup (step 0) interview (Project Parameters, tech stack, target audience, design) and **scaffolds** the project: skeleton + config for the chosen stack, `CLAUDE.md` referencing the charter, and a seeded `.claude/memory/` (see [setup-scaffolds-project.md](setup-scaffolds-project.md)).
-- **`adopt`** — brings the practices into an existing project via the non-destructive merge (see `GUIDE_ADOPTION.md`): inventory existing instructions → propose merge → apply with approval.
-- **`update-docs`** — runs the delta-driven documentation pipeline: technical + target-audience changelogs → living-product-doc → landing page, with the publish approval loop (see [living-product-doc.md](living-product-doc.md), [audience-aware-changelogs.md](audience-aware-changelogs.md), [landing-publishing.md](landing-publishing.md)).
-- **`graduate-idea`** — drives an inbox idea through its Q&A round into an agreed spec + roadmap entry (the existing `graduate-idea` skill, surfaced as a command).
+- `setup` — runs the charter's Setup interview (Project Parameters, stack) and scaffolds the minimum runnable project.
+- `adopt` — runs the `GUIDE_ADOPTION.md` non-destructive merge for an existing project.
+- `update-docs` — regenerates changelogs / living doc / landing from the delta since its last run (a versioned last-processed-commit marker), ending in a publish approval loop. Only meaningful for projects using `MODULE_LIVING_DOCS`.
+- `graduate-idea` — the `graduate-idea` skill surfaced as a command.
 
-The CLI is a thin, deterministic **orchestrator over Claude and the embeddable skills** — it owns the command surface, argument handling, and the ordering rituals (e.g. assemble → update-docs → translate → changelog), while the judgment-heavy steps run as Claude conversations / skills underneath. The charter's conversational phases stay authoritative for judgment; the CLI operationalizes the deterministic scaffolding, wiring, and sequencing around them.
+Invariants settled in the 2026-07-11 Q&A rounds: each subcommand **invokes** the matching skill (which stays usable stand-alone); the CLI sequences rituals so nothing is silently skipped, with any pre-commit hook as backstop; its config is versioned in-repo under `.claude/`; publishing always passes intent → preview → approval; distribution/runtime and exact flags are implementation concerns.
 
 ## Why
 
-A project has many variations, and its lifecycle steps (setup, adopt, doc updates, idea graduation) are today spread across separate skills and manual rituals. A single CLI gives the developer one predictable entry point — like `claude` itself — that guarantees the steps run in the right order and nothing (translation, changelog, landing refresh) is silently skipped. Specifying it now (rather than deferring) pins the command surface so the skills and charter phases can be designed to plug into it.
+A single door keeps the rituals in order without the owner memorizing them. But it is a spec for software no adopter has asked to build — shipping it as a normative deliverable was speculation.
 
-## Example
+## Reactivation criterion
 
-`myproj setup` → interview + scaffold a runnable Node/strict-TS project. Later, `myproj update-docs` → regenerates the changelogs and landing from the delta since the last-processed-commit marker, previews the landing, waits for approval, publishes. `myproj adopt` in a legacy repo → inventories its `CLAUDE.md`, proposes a merge, applies on approval.
-
-## Resolved (Q&A round, 2026-07-10)
-
-- **Specify now** (against the agent's recommendation to defer as a future direction) — the owner wants the CLI pinned down now.
-- **Scope: full lifecycle** — the single door for setup, adopt, doc/landing updates, idea graduation (not Setup-only, not a thin convenience wrapper). Rejected: Setup+scaffold-only (too narrow for the owner's intent) and a pure wrapper with no orchestration rituals.
-- **We ship the specification, not the implementation** — as a meta-project (text only, no application code), the deliverable graduates into a `REQUIREMENT_` (e.g. `REQUIREMENT_PROJECT_CLI.md`); a real project or a shared toolchain builds the CLI.
+A real adopting project wants to build the tool. Then this spec graduates back into a `REQUIREMENT_PROJECT_CLI.md` deliverable (the full earlier text is in git history at `templates/requirements/REQUIREMENT_PROJECT_CLI.md`, commit `600a06b` and earlier).
 
 ## Open questions
 
-- Command surface details: exact subcommand names and flags, and how project-local config is stored/read.
-- Relationship to the embeddable skills: does the CLI **invoke** the skills, or do the skills become **subcommands** of the CLI (leaning: invoke, so skills stay usable stand-alone inside Claude Code).
-- Distribution/runtime of the CLI (language, install path) — an implementation concern for the project that builds it, deliberately left out of the `REQUIREMENT_`.
-- Does the CLI subsume the pre-commit hook's rituals, or run alongside it?
+- None while deferred.

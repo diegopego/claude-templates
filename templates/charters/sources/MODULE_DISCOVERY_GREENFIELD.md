@@ -28,7 +28,6 @@ A reusable, self-contained working agreement for an AI coding agent (Claude Code
 | Product owner / oracle | *(who answers Q&A rounds and approves decisions — usually the user)* |
 | Domain expert role | *(the specialist hat the agent wears, e.g. senior logistics analyst)* |
 | Primary users | *(who uses the product day to day)* |
-| Product scope | *(product for an audience — default | internal/bespoke tool)* |
 | Conversation language | *(e.g. Brazilian Portuguese)* |
 | Artifact language | English (default) |
 | User-facing language | *(language of UI copy and generated documents — the primary users' language)* |
@@ -56,8 +55,6 @@ implement incrementally per the stack and testing rules below, thinnest end-to-e
 ===SLOT: roles_first_pass===
 After Discover
 
-===SLOT: instance_extraction===
-
 ===SLOT: anti_over_eng_intro===
 Greenfield is where over-engineering breeds — there is no legacy weight to restrain ambition. 
 
@@ -68,9 +65,7 @@ Greenfield is where over-engineering breeds — there is no legacy weight to res
 DB, external APIs
 
 ===SLOT: testing_oracle===
-The specs from phase 3 are the test oracles — every agreed rule maps to at least one test.
-
-===SLOT: data_migration===
+The specs from the Specify phase are the test oracles — every agreed rule maps to at least one test.
 
 ===SLOT: roadmap_scope===
 the milestones toward the vision, each with its ordered near-term tasks

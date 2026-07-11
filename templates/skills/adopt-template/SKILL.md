@@ -19,7 +19,7 @@ Follow the guide's non-destructive merge. Read `GUIDE_ADOPTION.md` first if it i
 
 1. **Inventory first, before touching anything.** Read every existing instruction source: `CLAUDE.md`, `AGENTS.md`, `.cursorrules`, `CONTRIBUTING`, and any ad-hoc convention docs. Catalog the current rules. **If the inventory finds nothing** — the project does not use Claude yet — there is no merge to do: jump to *No existing instructions* below.
 
-2. **Pick the charter that fits, then classify every section against the project.** Choose `CHARTER_GREENFIELD.md` for continued new-feature work, or `CHARTER_LEGACY_TRANSFORMATION.md` if the project is itself replacing a legacy system. For **each section of that charter and each requirement**, record exactly one disposition:
+2. **Pick the charter that fits, then classify every section against the project.** Choose `CHARTER_GREENFIELD.md` for continued new-feature work, or `CHARTER_LEGACY_TRANSFORMATION.md` if the project is itself replacing a legacy system. The shipped charters are minimal — offer the add-on modules (`MODULE_PRODUCT_AUDIENCE`, `MODULE_LIVING_DOCS`, `MODULE_DATA_MIGRATION`) only where the project is that kind of project. For **each section of that charter, each chosen module, and each requirement**, record exactly one disposition:
    - **keep as-is** — the project has no equivalent; adopt the template's version verbatim;
    - **adapt** — the project already does this informally; rephrase the existing rule into the template's framing, keeping the project's specifics;
    - **already covered** — the project's instruction is equivalent or better; leave it, note the overlap;
@@ -27,7 +27,7 @@ Follow the guide's non-destructive merge. Read `GUIDE_ADOPTION.md` first if it i
 
    The template is a menu, not a mandate. A **skip** is recorded, not deleted from consideration — it can move onto the roadmap later.
 
-3. **Conflicts: always ask.** When an existing instruction conflicts with a template practice, **stop and put it to the owner with a recommendation** — batched with the other open questions, in the Q&A round the charter defines under *Working through questions*. Neither side wins automatically: nothing is silently overwritten, nothing is silently kept.
+3. **Conflicts: always ask.** When an existing instruction conflicts with a template practice, **stop and put it to the owner with a recommendation** — batched with the other open questions, in the Q&A round the charter defines in its Method section. Neither side wins automatically: nothing is silently overwritten, nothing is silently kept.
 
 4. **Separate the two layers — and never cross them during the merge.**
    - **Instruction-layer adoption** (merging `CLAUDE.md`, memory conventions, roadmap / decision-log structure) is safe and immediate: it changes how the agent works, not how the software runs. Do it now.
@@ -42,11 +42,11 @@ Follow the guide's non-destructive merge. Read `GUIDE_ADOPTION.md` first if it i
 
 ## No existing instructions
 
-If step 1 finds no instruction files, there is nothing to preserve and no conflicts to resolve. Adoption reduces to: choose a charter, fill its Project Parameters (confirming each value with the owner, per the charter's *Setup* step), seed `.claude/memory/` (roadmap + decisions + index), and put any code/infra practice onto the roadmap rather than applying it immediately. The two-layer rule (step 4) and *prove by functioning* (step 6) still hold.
+If step 1 finds no instruction files, there is nothing to preserve and no conflicts to resolve. Adoption reduces to: choose a charter, fill its Project Parameters (confirming each value with the owner, per the charter's Setup step), seed `.claude/memory/` (roadmap + decisions + index), and put any code/infra practice onto the roadmap rather than applying it immediately. The two-layer rule (step 4) and *prove by functioning* (step 6) still hold.
 
 ## Definition of done
 
-- Every charter section and requirement has a recorded disposition (keep / adapt / already-covered / skip-with-reason).
+- Every charter section, chosen module, and requirement has a recorded disposition (keep / adapt / already-covered / skip-with-reason).
 - No existing instruction was changed without the owner deciding the conflict.
 - `CLAUDE.md` and `.claude/memory/` reflect the merged result; the decision log explains it.
 - The project builds and passes its tests exactly as it did before the merge.

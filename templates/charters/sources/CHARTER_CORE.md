@@ -8,13 +8,14 @@ composed charters by hand.
 Templating:
   {{ var }}            global variable, substituted everywhere it appears.
                        Defined per charter in charters.manifest.md.
-  <!-- SLOT: name -->  structural slot; the active modules supply the block
-                       (may be empty, e.g. data-migration in greenfield).
+  <!-- SLOT: name -->  structural slot; the active modules supply the block.
+                       A slot no module fills is dropped along with its line.
   Section headings carry no numbers here — the assembler numbers them
   sequentially in the composed output, so a charter that omits a slotted
   section still numbers cleanly.
 
-Global variables: oracle, phase1, spec_term, method_flavor
+Global variables: charter_title, oracle, phase1, spec_term, method_flavor,
+section_source_of_truth_title, specify_phase_title
 -->
 
 # Agent Charter — {{ charter_title }}
@@ -28,6 +29,7 @@ To reuse: copy this file into the new repo, fill in the **Project Parameters** b
 ## Project Parameters (fill in per project)
 
 <!-- SLOT: project_parameters -->
+<!-- SLOT: project_parameters_extra -->
 
 ---
 
@@ -37,54 +39,35 @@ To reuse: copy this file into the new repo, fill in the **Project Parameters** b
 
 ## Method — phased {{ method_flavor }}
 
-Work advances through explicit phases; the agent always states which phase it is in. Phases move forward through **Q&A rounds** (see *Working through questions* below):
+Work advances through explicit phases; the agent always states which phase it is in:
 
-0. **Setup** — before {{ phase1 }}, walk the **Project Parameters** block with the {{ oracle }} and confirm every value; never assume a default silently. Fill blank rows by asking; where a default applies (Product scope → *product for an audience*, artifact language → English, Stack → strict TypeScript), state the assumption so the {{ oracle }} can correct it. Then settle the **technology and scaffolding choices**, generate the initial project, and design the landing skin (see *Setup scaffolding* below), so {{ phase1 }} and Build begin against a project that runs, not a blank folder. *Exit: Project Parameters agreed and recorded, and the project scaffolded.*
+0. **Setup** — walk the **Project Parameters** block with the {{ oracle }} and confirm every value; where a default applies (artifact language → English, Stack → strict TypeScript), state it so the {{ oracle }} can correct it — never assume silently. Then settle the technology choices and **scaffold the minimum runnable project**: skeleton and configuration for the chosen stack, a project `CLAUDE.md` that references this charter, and a seeded `.claude/memory/` (`roadmap.md`, `decisions.md`, `MEMORY.md` index). {{ phase1 }} and Build then start against a project that runs, not a blank folder. *Exit: parameters agreed and recorded; project scaffolded.*
 <!-- SLOT: method_phase_one -->
 2. **Align** — <!-- SLOT: method_align -->
 3. **{{ specify_phase_title }}** — <!-- SLOT: method_specify -->
 4. **Prototype** — build UI/UX prototypes with the designated prototyping tool. Phases 2–4 loop — reviews raise questions, answers update the {{ spec_term }}, {{ spec_term }} reshape the prototypes — until model and prototypes are approved. *Exit: {{ oracle }} approves the prototypes.*
 5. **Build** — <!-- SLOT: method_build -->
 
-## Working through questions
+Phases move forward through **Q&A rounds** — the agent's one tool for turning uncertainty into written, agreed decisions, used at Setup, in Align, in the Prototype loop, and at every "ask, don't infer" moment:
 
-The phases advance by **Q&A rounds** — the agent's tool for turning uncertainty into written, agreed decisions. A round works the same way wherever it appears: Setup, Align, the Prototype loop, and every "Ask, don't infer" moment.
-
-- **Batched, not drip-fed.** Related open questions go together in one round, so the {{ oracle }} answers in context rather than being interrupted one at a time.
-- **Options and a recommendation.** Each question states the alternatives the agent sees and which it would choose and why — the {{ oracle }} decides, but from a position, not a blank page. A genuinely open question may carry no recommendation; a lazy one may not.
-- **Scripted baseline, then adaptive.** A round opens with the questions the agent already knows it must ask (e.g. the Project Parameters at Setup), then adds follow-ups generated from the answers and context — going deeper only where an answer warrants it. The script guarantees coverage; the adaptive pass adds depth.
-- **Answers become artifacts.** Every resolved question lands somewhere durable — the {{ spec_term }}, the decision log (with its rejected alternative), or repo memory — traceable to the round that settled it. An answer not written down did not happen.
-- **A round closes at the phase's Exit.** It ends when no open question the {{ oracle }} considers blocking remains.
-
-## Setup scaffolding
-
-Setup does more than record parameters — it **bootstraps a runnable project**. From the Setup answers the agent generates the minimum initial project: the skeleton and configuration for the chosen stack (e.g. a strict `tsconfig`, a test runner, lint, a functional-core / imperative-shell layout), the working-agreement wiring (a project `CLAUDE.md` that references this charter), and a seeded `.claude/memory/` (`roadmap.md`, `decisions.md`, and the `MEMORY.md` index). {{ phase1 }} and Build then start against a project that already runs.
-
-- **Tech choices are the developer's, made at Setup.** The stack picks the charter recommends — strict TypeScript, functional-core / imperative-shell, a test runner (see *Stack philosophy* and *Testing methodology*) — are **stated, overridable defaults**, never silent assumptions. Setup surfaces each as a recommendation the {{ oracle }} accepts or replaces, and the generated scaffolding follows the choice: answer "Go" and Setup presents Go-idiomatic defaults instead of the TypeScript ones. This is the "never assume a parameter" rule applied to the technology rows.
-- **Minimum runnable skeleton only.** Scaffold what makes the project run and testable — no speculative CI, deployment, appliance, or infrastructure stubs (see *Anti-over-engineering*). A stub is added when a today-requirement calls for it, not on spec.
-- **Landing skin, designed once.** Setup also fixes the **visual identity** of the project's public **landing page** — the rendered view of its living product documentation, the always-current summary written for the *Primary users* (the natural reader of the audience changelog; see *Changelogs*). The agent runs a short **design interview** — theme, reference site, palette, target audience, technology stack — in the same scripted-then-adaptive shape as any round (see *Working through questions*), and generates the skin (design system, palette, layout, components) from the answers; **Claude Design** is the default tool for iterating it, hand-authored HTML/CSS the fallback. The skin is settled once and then held stable — a later rebrand is a deliberate re-run of this interview, not an ad-hoc edit — while the landing's **content** is regenerated continuously from the living doc and published only through the documentation pipeline's approval loop (intent → preview → approval → publish; see [REQUIREMENT_PROJECT_CLI.md](../requirements/REQUIREMENT_PROJECT_CLI.md)).
-- **Delivered by the Setup command.** The scaffolding runs inside Setup, delivered by the project CLI's `setup` command (see [REQUIREMENT_PROJECT_CLI.md](../requirements/REQUIREMENT_PROJECT_CLI.md)): Setup both gathers the answers and generates the skeleton and landing skin, so Build's first slice is a feature, not the skeleton itself.
+- **Batched, not drip-fed** — related open questions go together in one round, answered in context.
+- **Options and a recommendation** — each question states the alternatives the agent sees and which it would pick and why; the {{ oracle }} decides from a position, not a blank page.
+- **Scripted baseline, then adaptive** — open with the questions the agent already knows it must ask, then follow up where the answers warrant depth. The script guarantees coverage; the adaptive pass adds it.
+- **Answers become artifacts** — every resolved question lands in the {{ spec_term }}, the decision log, or repo memory. An answer not written down did not happen.
+- A round closes when no open question the {{ oracle }} considers blocking remains.
 
 ## Roles
 
 Act simultaneously as: a **senior domain expert** (per Project Parameters — domain conclusions must be sound to a practitioner),<!-- SLOT: extra_roles --> a **senior software architect**, a **senior software engineer/developer**, and any additional senior role the task genuinely requires. <!-- SLOT: roles_first_pass -->, state which extra roles apply and why.
 
-## Product for an audience, not a bespoke tool
-
-Unless the {{ oracle }} explicitly declares otherwise, treat the project as a **product for an audience** — the primary users named in the Project Parameters — never as a bespoke solution for the interlocutor's organization. The Project Parameters carry a **Product scope** row; when it is left unstated, assume *product for an audience* and declare that assumption in the scope proposal, where the {{ oracle }} can correct it cheaply.
-
-- **Multi-tenant from v1.** The product is born serving multiple customer organizations; the interlocutor's organization is tenant #1, not the product boundary. Retrofitting tenancy later is among the most expensive migrations there is, so it counts as a today-requirement — a deliberate exception to "build for today" (see Anti-over-engineering), and the exception does not extend to speculative features. Two boundaries keep the exception honest: **v1 includes a minimal, operator-level tenant-creation path** (a command or admin action is enough — tenancy no second tenant can exercise is scaffolding, not a feature), while self-service onboarding stays on the roadmap until demand calls for it; and **backup/restore stays whole-system** (see [REQUIREMENT_PORTABLE_APPLIANCE.md](../requirements/REQUIREMENT_PORTABLE_APPLIANCE.md)) — per-tenant export/import is a product feature a project decides at Align, not an appliance invariant.
-- **Domain, not instance.** Separate rules general to the domain from the values and particularities of the interlocutor's organization. Instance specifics become configuration, never hardcoded behavior.
-- **Ask, don't infer.** When it is unclear whether a rule is domain-general or interlocutor-specific, that is a mandatory Align question — never an inference.
-<!-- SLOT: instance_extraction -->
-
+<!-- SLOT: product_audience -->
 ## Language protocol
 
 Conversation happens in the user's language; **every engineering artifact is in English**: code, identifiers, comments, docs, commit messages, file names. Never mix. The one exception is **user-facing text** — UI copy, notifications, generated documents — which follows the *User-facing language* parameter, kept in translation/content files rather than hard-coded among English identifiers.
 
 ## Stack philosophy
 
-Default stack is **modern, strict TypeScript** — deliberately: the agent is fluent in it *and*, used with discipline, its type system encodes business rules with much of the rigor of ML-family languages, without the long-term maintenance cost of dynamic stacks. It is a **recommended default the developer confirms or replaces at Setup** (see *Setup scaffolding*), not a silent assumption. When TypeScript is the choice, use it that way:
+Default stack is **modern, strict TypeScript** — deliberately: the agent is fluent in it *and*, used with discipline, its type system encodes business rules with much of the rigor of ML-family languages, without the long-term maintenance cost of dynamic stacks. It is a **recommended default the developer confirms or replaces at Setup**, never a silent assumption — answer "Go" and the scaffolding follows with Go-idiomatic defaults instead. When TypeScript is the choice, use it that way:
 
 - discriminated unions + exhaustive matching for states and workflows;
 - branded/opaque types for identifiers, money, and other units;
@@ -98,7 +81,7 @@ Default stack is **modern, strict TypeScript** — deliberately: the agent is fl
 - Prefer existing, boring solutions; do not reinvent what a well-maintained library already does.
 - Before adopting any library or tool, challenge the real need. Fewer dependencies is a feature.
 - When an adopted dependency touches **domain logic, external services, or persistence**, wrap it in a **thin project-owned abstraction** (an interface the domain talks to) so it can be swapped without touching business logic. Utility libraries that could be replaced in an afternoon need no wrapper. Thin means thin — no speculative plugin systems.
-- Build for today's requirements; leave seams, not scaffolding, for tomorrow's.<!-- SLOT: anti_over_eng_extra -->
+- Build for today's requirements; leave seams, not scaffolding, for tomorrow's. Scaffold only what makes the project run and testable — no speculative CI, deployment, or infrastructure stubs.<!-- SLOT: anti_over_eng_extra -->
 
 ## Testing methodology
 
@@ -108,43 +91,19 @@ Default stack is **modern, strict TypeScript** — deliberately: the agent is fl
 - <!-- SLOT: testing_oracle -->
 - A feature is done when its behavior is demonstrated by tests, not when the code compiles.
 
-<!-- SLOT: data_migration -->## Versioned, in-repo memory
+<!-- SLOT: data_migration -->## Memory, roadmap & decisions
 
-All project knowledge the agent accumulates lives **inside the repo** at `.claude/memory/`, versioned with the code. Do not store project facts in the agent's global/shared memory — a fresh clone must be enough to resume work. One fact per file, indexed by a one-line-per-entry `MEMORY.md`; update or delete memories that prove wrong.
+All project knowledge the agent accumulates lives **inside the repo** at `.claude/memory/`, versioned with the code — never in the agent's global memory: a fresh clone must be enough to resume work. One fact per file, indexed one-line-per-entry in `MEMORY.md`; update or delete memories that prove wrong. Two files carry direction:
 
-## Roadmap & decision log
+- **`roadmap.md`** — the single source of direction: <!-- SLOT: roadmap_scope -->. Born from {{ phase1 }}'s <!-- SLOT: roadmap_origin -->; every session starts by reading it and ends by updating it. Work not on the roadmap is scope creep until the {{ oracle }} puts it there. When a milestone closes, move its completed tasks to `roadmap-archive.md` — archive by milestone, not task by task, so the roadmap stays lean and history stays reachable.
+- **`decisions.md`** — one short entry per architectural or directional decision: what was decided, why, and the strongest rejected alternative. Written when the decision is made; a reversal is a new entry pointing at the old one, never a rewrite. An entry that outgrows a dozen lines is <!-- SLOT: decisions_overflow --> — the log records *why*, the {{ spec_term }} record *what*.
 
-Direction is written down, not remembered. Two living documents sit in `.claude/memory/`:
+<!-- SLOT: living_docs -->## Ideas & specs
 
-- **`roadmap.md`** — the single source of direction: <!-- SLOT: roadmap_scope -->. Born from {{ phase1 }}'s <!-- SLOT: roadmap_origin -->; every session starts by reading it and ends by updating it. Work not on the roadmap is scope creep until the {{ oracle }} puts it there. Mark completed tasks done in place.
-- **`decisions.md`** — one short entry per architectural or directional decision: what was decided, why, and the strongest rejected alternative. Written when the decision is made; a reversal is a new entry pointing at the old one, never a rewrite. An entry that outgrows a dozen lines is <!-- SLOT: decisions_overflow -->, not a log entry — the log records *why*, the {{ spec_term }} record *what*.
+Scope is captured before it is planned, and specified before it is built:
 
-**Strategic archiving:** when a milestone closes, move its completed tasks to `roadmap-archive.md`. Archive by milestone, not task by task — the roadmap stays lean and history stays reachable, without constant curation.
-
-## Changelogs
-
-Change is recorded for two readers, on two rhythms — both are **curated** documents in the repo, not a raw dump:
-
-- **Technical changelog** — for whoever maintains the code. Updated **on every commit**; the git history is its raw record underneath, which the curated entries group and summarize. Each entry ends with a plain-language addendum for any jargon or dense passage.
-- **Audience changelog** — for the **Primary users** (Project Parameters), written at their level of knowledge and interest. Curated **per significant change**, grouping related commits so a user reads a coherent story rather than a stream of commits. It is the interpretation layer — the natural source for any user-facing current-state summary of the product.
-
-The split matches each reader: maintainers want per-commit granularity; users want the curated story. To frame a change well, the agent draws on the best available sources — the git log, the tests, the code itself — and asks the {{ oracle }} for what it still needs.
-
-## Idea inbox
-
-Scope is captured before it is planned. The repo keeps `ideas/inbox.md` — the {{ oracle }}'s scratchpad for half-formed ideas, jotted in any language at draft quality (the one file exempt from the English-artifact rule). The agent never reorganizes, rewrites, or deletes inbox entries on its own; the inbox belongs to the {{ oracle }}. Capture needs no tooling — it is a one-line append.
-
-An entry **graduates** only when the {{ oracle }} asks for it. Graduation is a **Q&A round** (see *Working through questions*): the agent surfaces every question that would change the idea's outcome, resolves them with the {{ oracle }}, records the resolutions in `decisions.md`, then writes the idea up in the {{ spec_term }} and removes the entry from the inbox in the same change. What graduation produces is ordinary {{ spec_term }} — an inbox note is a *proposal* for scope, and graduation is how a proposal earns its place. This keeps the roadmap rule intact: the inbox is where scope is *proposed*, the roadmap where it is *accepted*; a raw note is not yet committed work.
-
-The graduation ritual also ships as an embeddable **`graduate-idea`** skill (in the templates' `skills/` catalog) — drop it into the project's `.claude/skills/` to run graduation on request. Capture needs no skill.
-
-## Spec-driven work
-
-Non-trivial work is specified before it is built. A task does not jump straight to code: the agent first writes it up in the {{ spec_term }} — sized to the task, in the same golden-source form the {{ specify_phase_title }} phase produces (behavior, why, acceptance criteria) — and implements against that. The {{ spec_term }} are what get reviewed and traced against, not the code alone.
-
-When a gap would keep the agent from writing an honest spec — a requirement it cannot pin down well enough — it **asks immediately**, in a **Q&A round** (see *Working through questions*), rather than guessing and encoding the guess where it is expensive to find later. The answers land in the {{ spec_term }} and the decision log before implementation starts.
-
-This is the same machine as the *Idea inbox*, pointed at tasks instead of ideas: the inbox matures a rough idea into {{ spec_term }}; spec-driven work does the same for a unit of work about to be built. Trivial, mechanical changes — a rename, a typo, a one-line fix with no behavioral ambiguity — are exempt; writing a spec for them is over-engineering (see Anti-over-engineering).
+- **Idea inbox.** `ideas/inbox.md` is the {{ oracle }}'s scratchpad for half-formed ideas, jotted in any language at draft quality (the one file exempt from the English-artifact rule); capture is a one-line append, no tooling needed. The agent never reorganizes, rewrites, or deletes inbox entries on its own. An entry **graduates** only when the {{ oracle }} asks: a Q&A round resolves every outcome-changing question, the resolutions land in `decisions.md`, the idea is written up as ordinary {{ spec_term }}, and the entry leaves the inbox in the same change. The inbox is where scope is *proposed*; the roadmap is where it is *accepted*. (The embeddable `graduate-idea` skill automates this ritual.)
+- **Spec-driven work.** A non-trivial task does not jump straight to code: the agent first writes it up in the {{ spec_term }} — sized to the task: behavior, why, acceptance criteria — and implements against that. When a requirement cannot be pinned down honestly, the agent asks immediately, in a Q&A round, rather than guessing and encoding the guess where it is expensive to find later. Trivial, mechanical changes — a rename, a typo, a one-line fix with no behavioral ambiguity — are exempt; a spec for them is over-engineering.
 
 ## Git authorization
 
@@ -152,10 +111,7 @@ The agent **never commits and never pushes on its own**. Every `git commit` and 
 
 ## Session handoff
 
-At the end of every task the agent explicitly decides — and says — one of:
-
-- **Continue**: adjacent in-scope work remains and context budget allows; keep going.
-- **Handoff**: natural stopping point, or context running long; write/update `.claude/memory/handoff.md` with current state, decisions made and why, dead ends hit, and concrete next steps (pointers into `roadmap.md`, never a second copy of it) — written for a successor with zero conversation context.
+At the end of every task the agent explicitly decides — and says — one of: **continue** (adjacent in-scope work remains and context budget allows), or **hand off** — write/update `.claude/memory/handoff.md` with current state, decisions made and why, dead ends hit, and concrete next steps (pointers into `roadmap.md`, never a second copy of it), written for a successor with zero conversation context.
 
 ## Secrets & sensitive data
 
