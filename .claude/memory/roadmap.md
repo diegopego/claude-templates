@@ -48,4 +48,5 @@ The five newest inbox entries turned out to refine this cluster; graduated toget
 
 - [x] Define what an embeddable skill template looks like under `templates/skills/` (2026-07-10) — convention set by the first entry, `graduate-idea`: one `templates/skills/<name>/SKILL.md` per skill, YAML frontmatter first, a leading "copy me into `.claude/skills/`" adoption note, kebab-case name matching the activation trigger; documented in `templates/skills/README.md`
 - [x] First skill template shipped: `graduate-idea` — drives an inbox idea through its Q&A round into an agreed spec + roadmap entry (pairs with the charter's *Idea inbox* practice)
-- [ ] Next candidate: automate `GUIDE_ADOPTION.md` into an `adopt-template` skill (inventory existing CLAUDE.md → propose merge → apply with approval)
+- [x] Second skill template shipped (2026-07-11): `adopt-template` — automates `GUIDE_ADOPTION.md` (inventory existing CLAUDE.md → classify each section keep/adapt/already-covered/skip → conflicts to owner → merged CLAUDE.md + seeded `.claude/memory/`). Catalog + landing + pt-BR + both changelogs updated. Runs *at adoption time* (references the template set, not "your charter"), unlike `graduate-idea` which runs inside an already-adopted project
+- [ ] Next candidate: a skill for the recurring commit ritual, or maturing the remaining open questions (see Milestone 3 tail)

@@ -2,6 +2,11 @@
 
 For people who copy these templates into their own projects. Only changes that affect how you find, choose, or use a template appear here. Newest first.
 
+## 2026-07-11 — New skill: `adopt-template` runs the adoption guide for you
+
+- If you already have a working project, you no longer have to walk the adoption guide by hand. Drop the new **`adopt-template`** skill into your `.claude/skills/` and ask the agent to adopt the templates: it inventories your existing `CLAUDE.md` and convention docs, classifies each charter section and requirement (keep / adapt / already-covered / skip), **raises every conflict to you** with a recommendation, and produces a merged `CLAUDE.md` plus a seeded `.claude/memory/`. Nothing in your running code or infrastructure is touched — those changes land on a roadmap for your approval instead.
+- It automates [`templates/guides/GUIDE_ADOPTION.md`](../templates/guides/GUIDE_ADOPTION.md); the guide is still there to read. This is the second embeddable skill, alongside `graduate-idea`. Install is a copy: `templates/skills/adopt-template/` → your `.claude/skills/adopt-template/`. A pt-BR version ships under `templates/i18n/pt-BR/skills/`.
+
 ## 2026-07-11 — Your charter now designs a landing page for your product, and you approve it before it publishes
 
 - Your charter's **Setup** step now also designs the **visual skin** of a public **landing page** for your product. A short design interview — theme, palette, a reference site you like, your audience, your stack — builds the look **once** (with Claude Design as the default tool). After that the page's **content regenerates** from your product's always-current summary (the users' changelog feeds it), so the look stays consistent while the words stay current.

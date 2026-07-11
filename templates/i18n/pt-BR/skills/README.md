@@ -19,3 +19,4 @@ Para adotar uma: copie `templates/skills/<name>/` para o `.claude/skills/<name>/
 ## Skills disponíveis
 
 - **`graduate-idea/`** — gradua uma ideia crua do `ideas/inbox.md` em uma spec de verdade: roda uma rodada de Q&A para resolver perguntas que mudam o resultado, registra as decisões, redige a spec, adiciona-a ao roadmap e remove a entrada do inbox. Faz par com a prática de *Inbox de ideias* do charter.
+- **`adopt-template/`** — traz estes templates para um projeto que já existe, sem perder suas instruções: inventaria o `CLAUDE.md` atual e os docs de convenção, classifica cada seção do charter e cada requisito (manter / adaptar / já-coberto / pular), leva todo conflito ao dono e produz um `CLAUDE.md` mesclado mais um `.claude/memory/` semeado. Automatiza o `guides/GUIDE_ADOPTION.md`.

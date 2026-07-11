@@ -2,6 +2,16 @@
 
 Technical changelog for whoever maintains this repository. Each entry ends with a plain-language addendum and, when needed, a jargon glossary. Newest first.
 
+## 2026-07-11 — Second embeddable skill: `adopt-template` (automates GUIDE_ADOPTION.md)
+
+- Shipped `templates/skills/adopt-template/SKILL.md` — the second embeddable skill template, kicking off Milestone 4's next candidate. It automates `templates/guides/GUIDE_ADOPTION.md`: inventory existing instructions → classify each charter section + requirement (keep / adapt / already-covered / skip) → raise conflicts to the owner via the charter's Q&A round → produce a merged `CLAUDE.md` + seeded `.claude/memory/` → prove-by-functioning. Follows the skill-template convention (frontmatter first, leading copy-me blockquote, body addressed to the adopter's agent). Unlike `graduate-idea` (which runs inside an already-adopted project), this one runs *at adoption time* and references the template set rather than "your charter" — so it names `GUIDE_ADOPTION.md` and the charters by name, not by relative path (paths break once copied into `.claude/skills/`).
+- Catalog `templates/skills/README.md` gained the `adopt-template` entry; both pt-BR mirrors regenerated (`i18n/pt-BR/skills/adopt-template/SKILL.md` + updated catalog).
+- Landing page (`README.md`) updated via the delta/marker flow: the *Embeddable skills* bullet now lists both skills, and the *Existing project* adopt step notes the skill can run the guide for you. Marker advanced `2574ce1` → `0e77455` (current HEAD); the intervening `9a39229`/`0e77455` are already reflected (idempotent). Both changelogs updated; roadmap Milestone 4 item checked off.
+
+**In plain language:** we built the second drop-in skill for projects that use these templates. The first one (`graduate-idea`) turns a rough note into a formal spec. This new one, `adopt-template`, is for a project that already exists and wants to start using our practices: it reads whatever instructions the project already has, decides section by section what to keep, adapt, or skip, asks the owner about anything that clashes, and writes a merged instruction file — without ever changing the project's actual code. It's the automation of the adoption guide we already had in writing. We also updated the catalog, the Portuguese versions, the front page, and both changelogs.
+
+**Glossary:** *embeddable skill* — a Claude Code skill packaged to be copied into another project's `.claude/skills/`, where it activates on request; *disposition* — the recorded decision for one template section (keep / adapt / already-covered / skip-with-reason); *prove-by-functioning* — treating "the project still builds and its tests still pass" as the proof that an instruction-layer change was safe.
+
 ## 2026-07-11 — Incorporated landing-publishing + rewired the living-doc skill (last 2 of 6 cluster specs)
 
 - Final incorporation from the Setup→changelog→landing cluster, taking the two remaining specs together — they complete the same landing/living-doc pipeline. **The six-spec cluster is now fully in template text.**

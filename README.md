@@ -15,14 +15,14 @@ The product here is prompt text: charters, requirements, and guides. There is no
   - **Portable appliance** — every application must be destroyable and rebuildable on a fresh machine from `repo + secrets + backup` in under 30 minutes.
   - **Project CLI** — one interactive, `claude`-styled tool that runs a project's whole lifecycle (`setup` · `adopt` · `update-docs` · `graduate-idea`) as a thin orchestrator over Claude and the skills, so the rituals run in order and nothing is silently skipped.
 - **Adoption guide** — [`templates/guides/GUIDE_ADOPTION.md`](templates/guides/GUIDE_ADOPTION.md): bring these practices into a project that already exists and works, without losing the instructions it already has.
-- **Embeddable skills** — [`templates/skills/`](templates/skills/): drop-in Claude Code skills an adopting project copies into its own `.claude/skills/`. First up: **`graduate-idea`**, which drives a rough idea from the inbox through its Q&A round into an agreed spec on the roadmap.
+- **Embeddable skills** — [`templates/skills/`](templates/skills/): drop-in Claude Code skills an adopting project copies into its own `.claude/skills/`. Two so far: **`graduate-idea`**, which drives a rough idea from the inbox through its Q&A round into an agreed spec on the roadmap; and **`adopt-template`**, which runs the adoption guide for you — inventorying an existing project's instructions, classifying each template section, and producing a merged `CLAUDE.md` with every conflict raised to you.
 
 The full index is the catalog at [`templates/README.md`](templates/README.md). Every template also ships a generated Brazilian Portuguese version under [`templates/i18n/pt-BR/`](templates/i18n/pt-BR/) — the English file is the source of truth.
 
 ## How to adopt
 
 - **New project** — pick the charter that fits, copy it into your repo, and reference it from your project's `CLAUDE.md`. The charter opens with a **Setup** step: the agent confirms every project parameter with you (languages, product scope, users, …) *and* settles your stack and language, then **scaffolds a runnable project** — skeleton, config, a `CLAUDE.md` wired to the charter, and seeded memory — so real work starts against a project that already runs, not a blank folder. Setup also runs a short design interview to fix your landing page's visual skin, once.
-- **Existing project** — follow the adoption guide: it inventories your current instructions, keeps or adapts each template section, raises every conflict to you instead of overwriting, and defers code/infra changes to a roadmap so the running system is never touched by surprise.
+- **Existing project** — follow the adoption guide, or drop in the **`adopt-template`** skill and let the agent run it: either way it inventories your current instructions, keeps or adapts each template section, raises every conflict to you instead of overwriting, and defers code/infra changes to a roadmap so the running system is never touched by surprise.
 
 ## What the charters give a project
 
