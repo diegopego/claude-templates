@@ -2,6 +2,42 @@
 
 Technical changelog for whoever maintains this repository. Each entry ends with a plain-language addendum and, when needed, a jargon glossary. Newest first.
 
+## 2026-07-10 — Defined the Q&A-round method once in the charter core (and dogfooded it)
+
+- The owner didn't understand the "question-and-answer flow." It was under-documented: **"Q&A round" was used ~8× across the charters but never defined**, and the mechanics were scattered (options+recommendation only in `CLAUDE.md`; scripted-then-adaptive only in the `adaptive-setup-questions` draft, Setup-only).
+- Added a **Working through questions** section to `CHARTER_CORE.md` (new section 3 in both composed charters) that defines a Q&A round once: batched · options + a recommendation · scripted-baseline-then-adaptive · answers become durable artifacts with traceability · a round closes at the phase's *Exit*. The Method phase list now points to it.
+- `CLAUDE.md`: the inbox-graduation rule now runs the **same** method — processing an entry is a Q&A round whose resolutions are recorded in `decisions.md` before the spec is drafted. Explicitly framed as dogfooding.
+- `ideas/adaptive-setup-questions.md` marked **incorporated** and broadened from Setup-only to the general method.
+- Regenerated both composed charters via `assemble-charters` (new section 3; later sections renumbered — greenfield now 1–14, legacy 1–15) and verified sequential numbering.
+
+**In plain language:** the charters kept saying the agent should work through "Q&A rounds" with you, but never explained what that means — so we wrote it down in one place: ask related questions together, each with options and a recommendation, start from a fixed list then follow up based on your answers, and write every answer down where it belongs. Our own repo now follows the same recipe when it turns one of your inbox notes into a spec.
+
+**Glossary:** *Q&A round* — a batch of questions the agent asks to turn an open decision into a written, agreed one; *dogfood* — using our own prescribed practice on this repo itself.
+
+## 2026-07-10 — Landing skin decided at Setup; scripted-then-adaptive Setup questions (drafts)
+
+- Resolved two new inbox entries with the owner and moved them out of the inbox:
+  - Extended `ideas/landing-publishing.md` into a **two-layer** model — the landing's **skin** (visual identity: theme, palette, layout) is designed **once at Setup** via a design interview (Claude Design the default tool); the **content** is the living-doc rendered into that skin, regenerated forever. Settled that "site" here means the landing (= living-doc rendered), not a separate site or the product frontend.
+  - New draft `ideas/adaptive-setup-questions.md` — a **general Setup mechanism**: a scripted baseline of questions (guaranteed coverage) followed by Claude-generated adaptive follow-ups (context depth). Used by parameter confirmation, scaffolding, and the landing design interview alike.
+- Recorded both decisions and the rejected alternatives (site-as-product-frontend; a dedicated site-template spec; adaptive-questions scoped only to the site) in `decisions.md`; added both to the Milestone 3 pipeline in `roadmap.md`.
+
+**In plain language:** we decided how a project's landing page gets its look. The look (colors, layout) is chosen once, early, by asking the owner a few design questions — with Claude Design doing the visual part; after that the page's words are always regenerated from the living front-page document, so the look stays put and the content stays fresh. Separately, we wrote down a way of asking Setup questions: a fixed list first so nothing basic is missed, then smart follow-up questions the agent invents based on the answers. Both are still drafts.
+
+**Glossary:** *skin* — the visual identity (palette, layout, components) as opposed to the content; *design interview* — the round of questions that fixes the skin; *scripted-then-adaptive* — a fixed question list followed by generated follow-ups.
+
+## 2026-07-10 — Graduated a Setup + changelog→landing pipeline cluster (drafts)
+
+- Graduated an inbox cluster into separate specs after a design conversation that converged the model:
+  - `ideas/setup-scaffolds-project.md` (new draft) — Setup asks stack/language and generates a complete project setup.
+  - `ideas/audience-aware-changelogs.md` (revised) — narrowed from multi-audience to **two curated changelogs**: technical (with git history as its raw record) + target-audience.
+  - `ideas/landing-publishing.md` (new draft) — Claude Design prototyping; publish to Artifact + GitHub Pages.
+  - `ideas/living-product-doc.md` (refined) — model is now a **pipeline**: target-audience changelog → living-doc → single landing page; `update-product-doc` will consume the changelog entry rather than the raw diff (rewiring pending).
+- Recorded the consolidated model and the rejected alternatives (multi-audience; git-history-only; per-audience landing) in `decisions.md`.
+
+**In plain language:** we talked through how project setup, changelogs, the front page, and the published landing page fit together, and wrote it down as a set of related draft ideas. The agreed shape: setup gathers the project's basics and scaffolds it; there are two changelogs (one for developers, one for the product's users); the users' changelog feeds the always-current front page, which becomes the landing page. Nothing is wired into the templates yet — these are drafts to refine next.
+
+**Glossary:** *scaffold* — generate the initial project skeleton and config; *pipeline* — a chain where each stage is produced from the previous one (changelog → front page → landing page).
+
 ## 2026-07-10 — Published a rendered landing page for this repo (dogfooding)
 
 - Applied the `living-product-doc` practice to claude-templates itself: published a rendered landing page as an Artifact (`https://claude.ai/code/artifact/213558f8-c877-4046-8476-714e542a855e`, private unless shared), derived from the root `README.md`.

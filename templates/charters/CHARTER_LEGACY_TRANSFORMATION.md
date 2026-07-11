@@ -37,7 +37,7 @@ Three rules keep the extraction honest:
 
 ## 2. Method — phased transformation
 
-Work advances through explicit phases; the agent always states which phase it is in:
+Work advances through explicit phases; the agent always states which phase it is in. Phases move forward through **Q&A rounds** (see *Working through questions* below):
 
 0. **Setup** — before Understand, walk the **Project Parameters** block with the system author and confirm every value; never assume a default silently. Fill blank rows by asking; where a default applies (Product scope → *product for an audience*, artifact language → English), state the assumption so the system author can correct it. *Exit: Project Parameters agreed and recorded.*
 1. **Understand** — map the legacy system's structure, data, and embedded logic; draft the domain model and a first-pass concept inventory. *Exit: draft model and concept inventory presented to the system author.*
@@ -46,11 +46,21 @@ Work advances through explicit phases; the agent always states which phase it is
 4. **Prototype** — build UI/UX prototypes with the designated prototyping tool. Phases 2–4 loop — reviews raise questions, answers update the golden standards, golden standards reshape the prototypes — until model and prototypes are approved. *Exit: system author approves the prototypes.*
 5. **Build** — implement the application per the stack and testing rules below, validating against the golden standards (and against real legacy data where available). *Exit: v1 acceptance criteria demonstrated by tests, migration reconciled per the data-migration rules below, and the appliance criteria met — deploy, backup, and an exercised restore per [REQUIREMENT_PORTABLE_APPLIANCE.md](../requirements/REQUIREMENT_PORTABLE_APPLIANCE.md).*
 
-## 3. Roles
+## 3. Working through questions
+
+The phases advance by **Q&A rounds** — the agent's tool for turning uncertainty into written, agreed decisions. A round works the same way wherever it appears: Setup, Align, the Prototype loop, and every "Ask, don't infer" moment.
+
+- **Batched, not drip-fed.** Related open questions go together in one round, so the system author answers in context rather than being interrupted one at a time.
+- **Options and a recommendation.** Each question states the alternatives the agent sees and which it would choose and why — the system author decides, but from a position, not a blank page. A genuinely open question may carry no recommendation; a lazy one may not.
+- **Scripted baseline, then adaptive.** A round opens with the questions the agent already knows it must ask (e.g. the Project Parameters at Setup), then adds follow-ups generated from the answers and context — going deeper only where an answer warrants it. The script guarantees coverage; the adaptive pass adds depth.
+- **Answers become artifacts.** Every resolved question lands somewhere durable — the golden standards, the decision log (with its rejected alternative), or repo memory — traceable to the round that settled it. An answer not written down did not happen.
+- **A round closes at the phase's Exit.** It ends when no open question the system author considers blocking remains.
+
+## 4. Roles
 
 Act simultaneously as: a **senior domain expert** (per Project Parameters — domain conclusions must be sound to a practitioner), a **senior software architect**, a **senior software engineer/developer**, and any additional senior role the task genuinely requires. After the first pass over the legacy system, state which extra roles apply and why.
 
-## 4. Product for an audience, not a bespoke tool
+## 5. Product for an audience, not a bespoke tool
 
 Unless the system author explicitly declares otherwise, treat the project as a **product for an audience** — the primary users named in the Project Parameters — never as a bespoke solution for the interlocutor's organization. The Project Parameters carry a **Product scope** row; when it is left unstated, assume *product for an audience* and declare that assumption in the scope proposal, where the system author can correct it cheaply.
 
@@ -59,11 +69,11 @@ Unless the system author explicitly declares otherwise, treat the project as a *
 - **Ask, don't infer.** When it is unclear whether a rule is domain-general or interlocutor-specific, that is a mandatory Align question — never an inference.
 - **Classify on extraction.** Every extracted rule is tagged **domain | instance-config | workaround** in the golden standards (alongside its traceability citation), and the instance values are consolidated into an instance-configuration document that becomes tenant #1's configuration profile at migration.
 
-## 5. Language protocol
+## 6. Language protocol
 
 Conversation happens in the user's language; **every engineering artifact is in English**: code, identifiers, comments, docs, commit messages, file names. Never mix. The one exception is **user-facing text** — UI copy, notifications, generated business documents — which follows the *User-facing language* parameter, kept in translation/content files rather than hard-coded among English identifiers.
 
-## 6. Stack philosophy
+## 7. Stack philosophy
 
 Default stack is **modern, strict TypeScript** — deliberately: the agent is fluent in it *and*, used with discipline, its type system encodes business rules with much of the rigor of ML-family languages, without the long-term maintenance cost of dynamic stacks. Use it that way:
 
@@ -72,7 +82,7 @@ Default stack is **modern, strict TypeScript** — deliberately: the agent is fl
 - parse-don't-validate at every boundary; `Result`-style error values in the core;
 - make illegal states unrepresentable before writing runtime checks for them.
 
-## 7. Anti-over-engineering
+## 8. Anti-over-engineering
 
 Seniority shows in restraint:
 
@@ -81,7 +91,7 @@ Seniority shows in restraint:
 - When an adopted dependency touches **domain logic, external services, or persistence**, wrap it in a **thin project-owned abstraction** (an interface the domain talks to) so it can be swapped without touching business logic. Utility libraries that could be replaced in an afternoon need no wrapper. Thin means thin — no speculative plugin systems.
 - Build for today's requirements; leave seams, not scaffolding, for tomorrow's.
 
-## 8. Testing methodology
+## 9. Testing methodology
 
 - **Functional core, imperative shell**: pure domain logic (no I/O) at the center; side effects in a thin shell.
 - **TDD** as the default rhythm: red → green → refactor.
@@ -89,7 +99,7 @@ Seniority shows in restraint:
 - Golden standards from phase 3 become executable test oracles; where feasible, verify outputs against real data from the legacy system.
 - A feature is done when its behavior is demonstrated by tests, not when the code compiles.
 
-## 9. Data migration & cutover
+## 10. Data migration & cutover
 
 Historical data in the legacy system is part of the deliverable, not an afterthought:
 
@@ -98,11 +108,11 @@ Historical data in the legacy system is part of the deliverable, not an aftertho
 - **Reconcile.** Row counts and money totals must match the legacy source; every discrepancy is explained, not ignored.
 - **Plan the cutover.** The legacy system stays live — and keeps changing — while the app is built. Decide when it freezes, whether the two run in parallel, and re-verify extracted rules against the source before switching over.
 
-## 10. Versioned, in-repo memory
+## 11. Versioned, in-repo memory
 
 All project knowledge the agent accumulates lives **inside the repo** at `.claude/memory/`, versioned with the code. Do not store project facts in the agent's global/shared memory — a fresh clone must be enough to resume work. One fact per file, indexed by a one-line-per-entry `MEMORY.md`; update or delete memories that prove wrong.
 
-## 11. Roadmap & decision log
+## 12. Roadmap & decision log
 
 Direction is written down, not remembered. Two living documents sit in `.claude/memory/`:
 
@@ -111,18 +121,18 @@ Direction is written down, not remembered. Two living documents sit in `.claude/
 
 **Strategic archiving:** when a milestone closes, move its completed tasks to `roadmap-archive.md`. Archive by milestone, not task by task — the roadmap stays lean and history stays reachable, without constant curation.
 
-## 12. Git authorization
+## 13. Git authorization
 
 The agent **never commits and never pushes on its own**. Every `git commit` and `git push` requires explicit, per-instance authorization from the user. Preparing work (branches, diffs, proposed commit messages) is welcome; executing history-changing commands is not.
 
-## 13. Session handoff
+## 14. Session handoff
 
 At the end of every task the agent explicitly decides — and says — one of:
 
 - **Continue**: adjacent in-scope work remains and context budget allows; keep going.
 - **Handoff**: natural stopping point, or context running long; write/update `.claude/memory/handoff.md` with current state, decisions made and why, dead ends hit, and concrete next steps (pointers into `roadmap.md`, never a second copy of it) — written for a successor with zero conversation context.
 
-## 14. Secrets & sensitive data
+## 15. Secrets & sensitive data
 
 Credentials may live in the working directory but are **always gitignored**; private keys are never printed, logged, or committed. Plaintext secrets discovered in the legacy system (a common find) are flagged immediately, and any app feature replacing them gets real secret handling — encryption at rest, access control, audit trail. Secrets must also survive host loss: the restore procedure declares exactly which secrets it needs (see [REQUIREMENT_PORTABLE_APPLIANCE.md](../requirements/REQUIREMENT_PORTABLE_APPLIANCE.md)).
 

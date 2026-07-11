@@ -37,7 +37,7 @@ To reuse: copy this file into the new repo, fill in the **Project Parameters** b
 
 ## Method — phased {{ method_flavor }}
 
-Work advances through explicit phases; the agent always states which phase it is in:
+Work advances through explicit phases; the agent always states which phase it is in. Phases move forward through **Q&A rounds** (see *Working through questions* below):
 
 0. **Setup** — before {{ phase1 }}, walk the **Project Parameters** block with the {{ oracle }} and confirm every value; never assume a default silently. Fill blank rows by asking; where a default applies (Product scope → *product for an audience*, artifact language → English), state the assumption so the {{ oracle }} can correct it. *Exit: Project Parameters agreed and recorded.*
 <!-- SLOT: method_phase_one -->
@@ -45,6 +45,16 @@ Work advances through explicit phases; the agent always states which phase it is
 3. **{{ specify_phase_title }}** — <!-- SLOT: method_specify -->
 4. **Prototype** — build UI/UX prototypes with the designated prototyping tool. Phases 2–4 loop — reviews raise questions, answers update the {{ spec_term }}, {{ spec_term }} reshape the prototypes — until model and prototypes are approved. *Exit: {{ oracle }} approves the prototypes.*
 5. **Build** — <!-- SLOT: method_build -->
+
+## Working through questions
+
+The phases advance by **Q&A rounds** — the agent's tool for turning uncertainty into written, agreed decisions. A round works the same way wherever it appears: Setup, Align, the Prototype loop, and every "Ask, don't infer" moment.
+
+- **Batched, not drip-fed.** Related open questions go together in one round, so the {{ oracle }} answers in context rather than being interrupted one at a time.
+- **Options and a recommendation.** Each question states the alternatives the agent sees and which it would choose and why — the {{ oracle }} decides, but from a position, not a blank page. A genuinely open question may carry no recommendation; a lazy one may not.
+- **Scripted baseline, then adaptive.** A round opens with the questions the agent already knows it must ask (e.g. the Project Parameters at Setup), then adds follow-ups generated from the answers and context — going deeper only where an answer warrants it. The script guarantees coverage; the adaptive pass adds depth.
+- **Answers become artifacts.** Every resolved question lands somewhere durable — the {{ spec_term }}, the decision log (with its rejected alternative), or repo memory — traceable to the round that settled it. An answer not written down did not happen.
+- **A round closes at the phase's Exit.** It ends when no open question the {{ oracle }} considers blocking remains.
 
 ## Roles
 

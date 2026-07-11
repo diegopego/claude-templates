@@ -24,6 +24,7 @@ The full index is the catalog at [`templates/README.md`](templates/README.md). E
 ## What the charters give a project
 
 - A phased method — **Setup → Discover/Understand → Align → Specify → Prototype → Build** — where the agent always states which phase it is in.
+- **Q&A rounds** as the engine that moves each phase forward — related questions asked together, each with options and a recommendation, a scripted baseline then adaptive follow-ups, and every answer written down as a spec or a decision. Defined once so the agent asks well instead of guessing.
 - **Product for an audience, not a bespoke tool** — what you build is a multi-tenant product from v1; the first organization is tenant #1, and its specifics become configuration, not hardcoded behavior.
 - **Modern strict TypeScript** by default, used to encode business rules in the type system.
 - **Anti-over-engineering** — boring solutions, few dependencies, seams not scaffolding.

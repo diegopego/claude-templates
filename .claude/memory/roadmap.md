@@ -26,9 +26,16 @@ Single source of direction. Every session starts by reading this file and ends b
 - [x] `ideas/adopt-into-existing-project.md` agreed (2026-07-10) and authored as `templates/guides/GUIDE_ADOPTION.md` (new `GUIDE_` type) — conflict rule = always ask; no-instructions case in scope; code/infra practices deferred to roadmap
 - [x] `ideas/language-setup.md` agreed + incorporated (2026-07-10) — broadened to a **Setup (step 0)** phase in `CHARTER_CORE.md` that walks the whole Project Parameters block, confirming every value (languages, Product scope, …) instead of silent defaults
 - [x] `ideas/living-product-doc.md` agreed + built (2026-07-10) — living landing page (root `README.md`) kept current by the `update-product-doc` skill; hook rule 4 enforces it on adopter-facing deliverable changes
-- [ ] Mature `ideas/audience-aware-changelogs.md` (draft → agreed); decide core section vs. new module — kept distinct from `living-product-doc` (changelog = history, landing page = current state)
 - [ ] Decide whether `translated-templates` graduates into a reusable module for template-consuming projects
 - [x] Publish a rendered landing page for this repo (dogfooding, 2026-07-10) — Artifact derived from `README.md`, republished by `update-product-doc`
+
+### Setup + changelog→landing pipeline (graduated 2026-07-10, drafts)
+
+- [ ] `ideas/setup-scaffolds-project.md` (draft → agreed → incorporate): Setup asks stack/language and generates a complete project setup
+- [ ] `ideas/audience-aware-changelogs.md` (revised draft → agreed): two curated changelogs — technical (git history underneath) + target-audience; audience captured at Setup; decide core section vs. module
+- [ ] `ideas/living-product-doc.md` refinement: rewire `update-product-doc` to consume the target-audience changelog entry (not the raw diff); landing stays single, for the target audience
+- [ ] `ideas/landing-publishing.md` (draft → agreed): now a **two-layer** model — the *skin* (visual identity) is designed once at Setup via a design interview (Claude Design default); the *content* is the living-doc rendered into that skin. Publish to Artifact + GitHub Pages, keep in sync
+- [x] `ideas/adaptive-setup-questions.md` **incorporated** (2026-07-10): broadened from a Setup mechanism into the general **Q&A-round** method — a new *Working through questions* section in `CHARTER_CORE.md` defines the round once (batched · options + recommendation · scripted-baseline-then-adaptive · answers become artifacts); phases point to it, and `CLAUDE.md` runs the same method when graduating an inbox entry (dogfooding). Composed charters regenerated + renumbered
 - [ ] `living-product-doc` open questions: pt-BR landing page? graduate the living-manual practice into a charter section / embeddable skill for adopters
 
 ## Milestone 4 — Skill templates (future)

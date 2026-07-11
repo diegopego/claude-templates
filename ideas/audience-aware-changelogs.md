@@ -5,18 +5,23 @@ Applies to: core (candidate new module: DOCUMENTATION_BY_AUDIENCE)
 
 ## Behavior
 
-At every commit, the agent consolidates the changes into (1) a technical changelog with a plain-language addendum explaining jargon and complex passages, and (2) one changelog per target audience declared in the Project Parameters, each written at that audience's level of knowledge and interest. The same audience mapping applies to the Align Q&A documents and to the design cycle (e.g. Claude Design reviews): each audience gets the questions and answers adapted to its level — design iterations are part of the alignment cycle and must be documented like it.
+At every commit, the agent maintains **two curated changelogs** (not one per every stakeholder — just these two):
+
+1. a **technical changelog** — with a plain-language addendum explaining jargon and complex passages; the raw underlying record is the **git history** itself, which the curated technical changelog groups and summarizes;
+2. a **target-audience changelog** — written at the product users' level of knowledge and interest.
+
+The **target audience** is captured at **Setup** (a Project Parameters row). The target-audience changelog is the *interpretation layer* that feeds the living-product-doc → landing page (see [living-product-doc.md](living-product-doc.md)). To frame each change well, the agent determines the best information sources — git log, tests, the code itself — and asks the owner what it still needs.
 
 ## Why
 
-A single technical document excludes non-technical stakeholders from the alignment cycle — exactly the people the charters treat as oracles.
+Two levels keep everyone informed without proliferation: developers/maintainers read the technical changelog (backed by git history), product users read the target-audience changelog — which also drives the current-state doc and the landing page.
 
 ## Example
 
-Harbour: core developer, application developer, end user. An appraisal system: appraiser, end user, system administrator.
+This repo dogfoods exactly this: [changelog/maintainer.md](../changelog/maintainer.md) (technical) + [changelog/adopter.md](../changelog/adopter.md) (target audience). A Harbour project: a technical changelog + an end-user changelog.
 
 ## Open questions
 
-- Do target audiences become a row in the Project Parameters block?
 - Changelog per commit or per milestone (per commit may be noisy)?
 - Is this a core section or a pluggable module referenced by both charters?
+- Exactly how the target audience and the preferred information sources are declared at Setup.

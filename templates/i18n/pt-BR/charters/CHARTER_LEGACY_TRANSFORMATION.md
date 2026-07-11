@@ -40,7 +40,7 @@ Três regras mantêm a extração honesta:
 
 ## 2. Método — transformação em fases
 
-O trabalho avança por fases explícitas; o agente sempre declara em qual fase está:
+O trabalho avança por fases explícitas; o agente sempre declara em qual fase está. As fases avançam por **rodadas de Q&A** (veja *Trabalhando por perguntas* abaixo):
 
 0. **Setup** — antes de Compreender, percorra o bloco **Parâmetros do Projeto** com o autor do sistema e confirme cada valor; nunca assuma um default em silêncio. Preencha linhas em branco perguntando; onde um default se aplica (Escopo de produto → *produto para um público*, idioma dos artefatos → inglês), declare a premissa para o autor do sistema poder corrigi-la. *Saída: Parâmetros do Projeto acordados e registrados.*
 1. **Compreender (Understand)** — mapear a estrutura, os dados e a lógica embutida do sistema legado; rascunhar o modelo de domínio e um inventário inicial de conceitos. *Saída: modelo rascunhado e inventário de conceitos apresentados ao autor do sistema.*
@@ -49,11 +49,21 @@ O trabalho avança por fases explícitas; o agente sempre declara em qual fase e
 4. **Prototipar (Prototype)** — construir protótipos de UI/UX com a ferramenta de prototipação designada. As fases 2–4 formam um ciclo — revisões levantam perguntas, respostas atualizam os padrões-ouro, os padrões-ouro remodelam os protótipos — até que modelo e protótipos sejam aprovados. *Saída: autor do sistema aprova os protótipos.*
 5. **Construir (Build)** — implementar a aplicação conforme as regras de stack e testes abaixo, validando contra os padrões-ouro (e contra dados legados reais quando disponíveis). *Saída: critérios de aceitação da v1 demonstrados por testes, migração reconciliada conforme as regras de migração de dados abaixo, e os critérios de appliance atendidos — deploy, backup e um restore exercitado conforme [REQUIREMENT_PORTABLE_APPLIANCE.md](../requirements/REQUIREMENT_PORTABLE_APPLIANCE.md).*
 
-## 3. Papéis
+## 3. Trabalhando por perguntas
+
+As fases avançam por **rodadas de Q&A** — a ferramenta do agente para transformar incerteza em decisões escritas e acordadas. Uma rodada funciona da mesma forma onde quer que apareça: Setup, Alinhar, o ciclo de Prototipar, e todo momento de "Pergunte, não infira".
+
+- **Em lote, não pinga-pinga.** Perguntas abertas relacionadas vão juntas em uma rodada, para o autor do sistema responder em contexto em vez de ser interrompido uma pergunta de cada vez.
+- **Opções e uma recomendação.** Cada pergunta apresenta as alternativas que o agente enxerga e qual escolheria e por quê — o autor do sistema decide, mas a partir de uma posição, não de uma página em branco. Uma pergunta genuinamente aberta pode não trazer recomendação; uma preguiçosa, não.
+- **Roteiro fixo, depois adaptativo.** Uma rodada abre com as perguntas que o agente já sabe que precisa fazer (ex.: os Parâmetros do Projeto no Setup), depois acrescenta follow-ups gerados a partir das respostas e do contexto — aprofundando só onde uma resposta justifica. O roteiro garante cobertura; a passagem adaptativa adiciona profundidade.
+- **Respostas viram artefatos.** Toda pergunta resolvida cai em algo durável — os padrões-ouro, o decision log (com sua alternativa rejeitada) ou a memória do repositório — rastreável até a rodada que a resolveu. Uma resposta não registrada não aconteceu.
+- **A rodada fecha na Saída da fase.** Ela termina quando não resta nenhuma questão aberta que o autor do sistema considere bloqueante.
+
+## 4. Papéis
 
 Atue simultaneamente como: um **especialista de domínio sênior** (conforme os Parâmetros do Projeto — conclusões de domínio devem ser sólidas aos olhos de um praticante), um **arquiteto de software sênior**, um **engenheiro/desenvolvedor de software sênior**, e qualquer papel sênior adicional que a tarefa genuinamente exija. Após a primeira passada pelo sistema legado, declare quais papéis extras se aplicam e por quê.
 
-## 4. Produto para um público, não ferramenta sob medida
+## 5. Produto para um público, não ferramenta sob medida
 
 A menos que o autor do sistema declare explicitamente o contrário, trate o projeto como um **produto para um público** — os usuários primários nomeados nos Parâmetros do Projeto — nunca como uma solução sob medida para a organização do interlocutor. Os Parâmetros do Projeto trazem uma linha **Escopo de produto**; quando ela é deixada em branco, assuma *produto para um público* e declare essa premissa na proposta de escopo, onde o autor do sistema pode corrigi-la a baixo custo.
 
@@ -62,11 +72,11 @@ A menos que o autor do sistema declare explicitamente o contrário, trate o proj
 - **Pergunte, não infira.** Quando não estiver claro se uma regra é geral do domínio ou específica do interlocutor, essa é uma pergunta obrigatória de Alinhar — nunca uma inferência.
 - **Classifique na extração.** Toda regra extraída é marcada como **domain | instance-config | workaround** nos padrões-ouro (junto de sua citação de rastreabilidade), e os valores da instância são consolidados em um documento de configuração-de-instância que se torna o perfil de configuração do tenant #1 na migração.
 
-## 5. Protocolo de idiomas
+## 6. Protocolo de idiomas
 
 A conversa acontece no idioma do usuário; **todo artefato de engenharia é em inglês**: código, identificadores, comentários, documentação, mensagens de commit, nomes de arquivo. Nunca misture. A única exceção é o **texto voltado ao usuário** — textos de UI, notificações, documentos de negócio gerados — que segue o parâmetro *Idioma voltado ao usuário*, mantido em arquivos de tradução/conteúdo em vez de embutido entre identificadores em inglês.
 
-## 6. Filosofia de stack
+## 7. Filosofia de stack
 
 A stack padrão é **TypeScript moderno e estrito** — deliberadamente: o agente é fluente nela *e*, usada com disciplina, seu sistema de tipos codifica regras de negócio com boa parte do rigor das linguagens da família ML, sem o custo de manutenção de longo prazo das stacks dinâmicas. Use-a assim:
 
@@ -75,7 +85,7 @@ A stack padrão é **TypeScript moderno e estrito** — deliberadamente: o agent
 - parse-don't-validate em toda fronteira; valores de erro no estilo `Result` no núcleo;
 - tornar estados ilegais irrepresentáveis antes de escrever verificações em runtime para eles.
 
-## 7. Anti-over-engineering
+## 8. Anti-over-engineering
 
 Senioridade se mostra na contenção:
 
@@ -84,7 +94,7 @@ Senioridade se mostra na contenção:
 - Quando uma dependência adotada toca **lógica de domínio, serviços externos ou persistência**, envolva-a em uma **abstração fina de propriedade do projeto** (uma interface com a qual o domínio conversa) para que possa ser trocada sem tocar a lógica de negócio. Bibliotecas utilitárias substituíveis em uma tarde não precisam de wrapper. Fino significa fino — nada de sistemas de plugins especulativos.
 - Construa para os requisitos de hoje; deixe costuras (seams), não andaimes, para os de amanhã.
 
-## 8. Metodologia de testes
+## 9. Metodologia de testes
 
 - **Núcleo funcional, casca imperativa**: lógica de domínio pura (sem I/O) no centro; efeitos colaterais em uma casca fina.
 - **TDD** como ritmo padrão: red → green → refactor.
@@ -92,7 +102,7 @@ Senioridade se mostra na contenção:
 - Os padrões-ouro da fase 3 se tornam oráculos de teste executáveis; onde viável, verifique as saídas contra dados reais do sistema legado.
 - Uma feature está pronta quando seu comportamento é demonstrado por testes, não quando o código compila.
 
-## 9. Migração de dados & cutover
+## 10. Migração de dados & cutover
 
 Os dados históricos do sistema legado fazem parte da entrega, não são uma reflexão tardia:
 
@@ -101,11 +111,11 @@ Os dados históricos do sistema legado fazem parte da entrega, não são uma ref
 - **Reconcilie.** Contagens de linhas e totais de dinheiro devem bater com a fonte legada; toda discrepância é explicada, não ignorada.
 - **Planeje o cutover.** O sistema legado continua vivo — e mudando — enquanto o app é construído. Decida quando ele congela, se os dois rodam em paralelo, e re-verifique as regras extraídas contra a fonte antes da virada.
 
-## 10. Memória versionada, dentro do repositório
+## 11. Memória versionada, dentro do repositório
 
 Todo conhecimento de projeto que o agente acumula vive **dentro do repositório** em `.claude/memory/`, versionado com o código. Não armazene fatos do projeto na memória global/compartilhada do agente — um clone recém-feito deve bastar para retomar o trabalho. Um fato por arquivo, indexado por um `MEMORY.md` com uma linha por entrada; atualize ou apague memórias que se provarem erradas.
 
-## 11. Roadmap & decision log
+## 12. Roadmap & decision log
 
 A direção é escrita, não lembrada. Dois documentos vivos ficam em `.claude/memory/`:
 
@@ -114,18 +124,18 @@ A direção é escrita, não lembrada. Dois documentos vivos ficam em `.claude/m
 
 **Arquivamento estratégico:** quando um milestone fecha, mova suas tarefas concluídas para `roadmap-archive.md`. Arquive por milestone, não tarefa a tarefa — o roadmap fica enxuto e a história permanece alcançável, sem curadoria constante.
 
-## 12. Autorização de git
+## 13. Autorização de git
 
 O agente **nunca faz commit e nunca faz push por conta própria**. Todo `git commit` e `git push` requer autorização explícita e por instância do usuário. Preparar o trabalho (branches, diffs, mensagens de commit propostas) é bem-vindo; executar comandos que alteram o histórico, não.
 
-## 13. Handoff de sessão
+## 14. Handoff de sessão
 
 Ao final de cada tarefa o agente decide explicitamente — e diz — uma de duas opções:
 
 - **Continuar**: resta trabalho adjacente dentro do escopo e o orçamento de contexto permite; siga em frente.
 - **Handoff**: ponto de parada natural, ou contexto ficando longo; escreva/atualize `.claude/memory/handoff.md` com o estado atual, decisões tomadas e seus porquês, becos sem saída encontrados e próximos passos concretos (ponteiros para o `roadmap.md`, nunca uma segunda cópia dele) — escrito para um sucessor com zero contexto da conversa.
 
-## 14. Segredos & dados sensíveis
+## 15. Segredos & dados sensíveis
 
 Credenciais podem viver no diretório de trabalho, mas são **sempre gitignored**; chaves privadas nunca são impressas, logadas ou commitadas. Segredos em texto plano descobertos no sistema legado (um achado comum) são sinalizados imediatamente, e qualquer feature do app que os substitua ganha tratamento de segredos de verdade — criptografia em repouso, controle de acesso, trilha de auditoria. Segredos também precisam sobreviver à perda do host: o procedimento de restore declara exatamente quais segredos requer (veja [REQUIREMENT_PORTABLE_APPLIANCE.md](../requirements/REQUIREMENT_PORTABLE_APPLIANCE.md)).
 

@@ -2,6 +2,18 @@
 
 For people who copy these templates into their own projects. Only changes that affect how you find, choose, or use a template appear here. Newest first.
 
+## 2026-07-10 — The charters now spell out how the agent works through questions with you
+
+- Both charters gained a **Working through questions** section: the agent works through "Q&A rounds" (a term the charters used everywhere but never explained). A round now means — related questions asked together, each with options and a recommendation so you decide from a position not a blank page, a fixed baseline followed by smart follow-ups based on your answers, and every answer written down where it belongs. This makes the discovery/alignment steps predictable instead of relying on you to know the ritual.
+
+## 2026-07-10 — Planned: your landing page gets a look chosen at setup, and smarter setup questions
+
+- Drafted (not yet active) how your landing page will get its visual identity: early in setup the agent asks a few design questions — theme, colors, an example site you like, your audience — and builds the look once (with Claude Design). After that, the page's content is regenerated from your live front-page document, so the look stays consistent and the words stay current. Also drafted: setup asks a fixed list of questions first (so nothing basic is missed), then follows up with smart, project-specific questions. Drafts only — nothing in the templates you copy changes yet.
+
+## 2026-07-10 — Planned: setup that scaffolds, and a changelog that becomes your landing page
+
+- Drafted (not yet active) how a charter's Setup step will do more for you: ask your stack and language and generate a starting project setup, and capture who your product is for. From there, a changelog written for your users keeps a live front page current, which is what gets published as your landing page — with a Nord look and a choice of a private preview or a public web page. These are drafts being refined; nothing changes in the templates you copy yet.
+
 ## 2026-07-10 — A published landing page
 
 - claude-templates now has a rendered landing page (a real web page, not just the markdown), published from the same `README.md` source. It's private to the maintainer for now; the markdown front page in the repo remains the thing that's always current.

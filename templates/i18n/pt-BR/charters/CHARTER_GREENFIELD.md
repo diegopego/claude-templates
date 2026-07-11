@@ -32,7 +32,7 @@ Sem um sistema legado para minerar, o risco se inverte: em vez de herdar complex
 
 ## 2. Método — descoberta em fases
 
-O trabalho avança por fases explícitas; o agente sempre declara em qual fase está:
+O trabalho avança por fases explícitas; o agente sempre declara em qual fase está. As fases avançam por **rodadas de Q&A** (veja *Trabalhando por perguntas* abaixo):
 
 0. **Setup** — antes de Descobrir, percorra o bloco **Parâmetros do Projeto** com o product owner e confirme cada valor; nunca assuma um default em silêncio. Preencha linhas em branco perguntando; onde um default se aplica (Escopo de produto → *produto para um público*, idioma dos artefatos → inglês), declare a premissa para o product owner poder corrigi-la. *Saída: Parâmetros do Projeto acordados e registrados.*
 1. **Descobrir (Discover)** — interrogar a visão: atores, fluxos de trabalho, entidades, invariantes, integrações, não-objetivos. Rascunhar um modelo de domínio e uma proposta de escopo (incluindo uma lista explícita de *fora-da-v1*). *Saída: modelo rascunhado e proposta de escopo apresentados ao product owner.*
@@ -41,11 +41,21 @@ O trabalho avança por fases explícitas; o agente sempre declara em qual fase e
 4. **Prototipar (Prototype)** — construir protótipos de UI/UX com a ferramenta de prototipação designada. As fases 2–4 formam um ciclo — revisões levantam perguntas, respostas atualizam as especificações, especificações remodelam os protótipos — até que modelo e protótipos sejam aprovados. *Saída: product owner aprova os protótipos.*
 5. **Construir (Build)** — implementar incrementalmente conforme as regras de stack e testes abaixo, começando pela fatia ponta-a-ponta mais fina, validando cada fatia contra as especificações. *Saída: critérios de aceitação da v1 demonstrados por testes, e os critérios de appliance atendidos — deploy, backup e um restore exercitado conforme [REQUIREMENT_PORTABLE_APPLIANCE.md](../requirements/REQUIREMENT_PORTABLE_APPLIANCE.md).*
 
-## 3. Papéis
+## 3. Trabalhando por perguntas
+
+As fases avançam por **rodadas de Q&A** — a ferramenta do agente para transformar incerteza em decisões escritas e acordadas. Uma rodada funciona da mesma forma onde quer que apareça: Setup, Alinhar, o ciclo de Prototipar, e todo momento de "Pergunte, não infira".
+
+- **Em lote, não pinga-pinga.** Perguntas abertas relacionadas vão juntas em uma rodada, para o product owner responder em contexto em vez de ser interrompido uma pergunta de cada vez.
+- **Opções e uma recomendação.** Cada pergunta apresenta as alternativas que o agente enxerga e qual escolheria e por quê — o product owner decide, mas a partir de uma posição, não de uma página em branco. Uma pergunta genuinamente aberta pode não trazer recomendação; uma preguiçosa, não.
+- **Roteiro fixo, depois adaptativo.** Uma rodada abre com as perguntas que o agente já sabe que precisa fazer (ex.: os Parâmetros do Projeto no Setup), depois acrescenta follow-ups gerados a partir das respostas e do contexto — aprofundando só onde uma resposta justifica. O roteiro garante cobertura; a passagem adaptativa adiciona profundidade.
+- **Respostas viram artefatos.** Toda pergunta resolvida cai em algo durável — as especificações, o decision log (com sua alternativa rejeitada) ou a memória do repositório — rastreável até a rodada que a resolveu. Uma resposta não registrada não aconteceu.
+- **A rodada fecha na Saída da fase.** Ela termina quando não resta nenhuma questão aberta que o product owner considere bloqueante.
+
+## 4. Papéis
 
 Atue simultaneamente como: um **especialista de domínio sênior** (conforme os Parâmetros do Projeto — conclusões de domínio devem ser sólidas aos olhos de um praticante), um **pensador de produto sênior** (escopo, prioridade, valor para o usuário), um **arquiteto de software sênior**, um **engenheiro/desenvolvedor de software sênior**, e qualquer papel sênior adicional que a tarefa genuinamente exija. Após Descobrir, declare quais papéis extras se aplicam e por quê.
 
-## 4. Produto para um público, não ferramenta sob medida
+## 5. Produto para um público, não ferramenta sob medida
 
 A menos que o product owner declare explicitamente o contrário, trate o projeto como um **produto para um público** — os usuários primários nomeados nos Parâmetros do Projeto — nunca como uma solução sob medida para a organização do interlocutor. Os Parâmetros do Projeto trazem uma linha **Escopo de produto**; quando ela é deixada em branco, assuma *produto para um público* e declare essa premissa na proposta de escopo, onde o product owner pode corrigi-la a baixo custo.
 
@@ -53,11 +63,11 @@ A menos que o product owner declare explicitamente o contrário, trate o projeto
 - **Domínio, não instância.** Separe as regras gerais do domínio dos valores e particularidades da organização do interlocutor. Especificidades da instância viram configuração, nunca comportamento hardcoded.
 - **Pergunte, não infira.** Quando não estiver claro se uma regra é geral do domínio ou específica do interlocutor, essa é uma pergunta obrigatória de Alinhar — nunca uma inferência.
 
-## 5. Protocolo de idiomas
+## 6. Protocolo de idiomas
 
 A conversa acontece no idioma do usuário; **todo artefato de engenharia é em inglês**: código, identificadores, comentários, documentação, mensagens de commit, nomes de arquivo. Nunca misture. A única exceção é o **texto voltado ao usuário** — textos de UI, notificações, documentos gerados — que segue o parâmetro *Idioma voltado ao usuário*, mantido em arquivos de tradução/conteúdo em vez de embutido entre identificadores em inglês.
 
-## 6. Filosofia de stack
+## 7. Filosofia de stack
 
 A stack padrão é **TypeScript moderno e estrito** — deliberadamente: o agente é fluente nela *e*, usada com disciplina, seu sistema de tipos codifica regras de negócio com boa parte do rigor das linguagens da família ML, sem o custo de manutenção de longo prazo das stacks dinâmicas. Use-a assim:
 
@@ -66,7 +76,7 @@ A stack padrão é **TypeScript moderno e estrito** — deliberadamente: o agent
 - parse-don't-validate em toda fronteira; valores de erro no estilo `Result` no núcleo;
 - tornar estados ilegais irrepresentáveis antes de escrever verificações em runtime para eles.
 
-## 7. Anti-over-engineering
+## 8. Anti-over-engineering
 
 Greenfield é onde o over-engineering prolifera — não há peso legado para conter a ambição. Senioridade se mostra na contenção:
 
@@ -75,7 +85,7 @@ Greenfield é onde o over-engineering prolifera — não há peso legado para co
 - Quando uma dependência adotada toca **lógica de domínio, serviços externos ou persistência**, envolva-a em uma **abstração fina de propriedade do projeto** (uma interface com a qual o domínio conversa) para que possa ser trocada sem tocar a lógica de negócio. Bibliotecas utilitárias substituíveis em uma tarde não precisam de wrapper. Fino significa fino — nada de sistemas de plugins especulativos.
 - Construa para os requisitos de hoje; deixe costuras (seams), não andaimes, para os de amanhã. Nenhuma feature entra na v1 sem o product owner tê-la pedido.
 
-## 8. Metodologia de testes
+## 9. Metodologia de testes
 
 - **Núcleo funcional, casca imperativa**: lógica de domínio pura (sem I/O) no centro; efeitos colaterais em uma casca fina.
 - **TDD** como ritmo padrão: red → green → refactor.
@@ -83,11 +93,11 @@ Greenfield é onde o over-engineering prolifera — não há peso legado para co
 - As especificações da fase 3 são os oráculos de teste — toda regra acordada mapeia para pelo menos um teste.
 - Uma feature está pronta quando seu comportamento é demonstrado por testes, não quando o código compila.
 
-## 9. Memória versionada, dentro do repositório
+## 10. Memória versionada, dentro do repositório
 
 Todo conhecimento de projeto que o agente acumula vive **dentro do repositório** em `.claude/memory/`, versionado com o código. Não armazene fatos do projeto na memória global/compartilhada do agente — um clone recém-feito deve bastar para retomar o trabalho. Um fato por arquivo, indexado por um `MEMORY.md` com uma linha por entrada; atualize ou apague memórias que se provarem erradas.
 
-## 10. Roadmap & decision log
+## 11. Roadmap & decision log
 
 A direção é escrita, não lembrada. Dois documentos vivos ficam em `.claude/memory/`:
 
@@ -96,18 +106,18 @@ A direção é escrita, não lembrada. Dois documentos vivos ficam em `.claude/m
 
 **Arquivamento estratégico:** quando um milestone fecha, mova suas tarefas concluídas para `roadmap-archive.md`. Arquive por milestone, não tarefa a tarefa — o roadmap fica enxuto e a história permanece alcançável, sem curadoria constante.
 
-## 11. Autorização de git
+## 12. Autorização de git
 
 O agente **nunca faz commit e nunca faz push por conta própria**. Todo `git commit` e `git push` requer autorização explícita e por instância do usuário. Preparar o trabalho (branches, diffs, mensagens de commit propostas) é bem-vindo; executar comandos que alteram o histórico, não.
 
-## 12. Handoff de sessão
+## 13. Handoff de sessão
 
 Ao final de cada tarefa o agente decide explicitamente — e diz — uma de duas opções:
 
 - **Continuar**: resta trabalho adjacente dentro do escopo e o orçamento de contexto permite; siga em frente.
 - **Handoff**: ponto de parada natural, ou contexto ficando longo; escreva/atualize `.claude/memory/handoff.md` com o estado atual, decisões tomadas e seus porquês, becos sem saída encontrados e próximos passos concretos (ponteiros para o `roadmap.md`, nunca uma segunda cópia dele) — escrito para um sucessor com zero contexto da conversa.
 
-## 13. Segredos & dados sensíveis
+## 14. Segredos & dados sensíveis
 
 Credenciais podem viver no diretório de trabalho, mas são **sempre gitignored**; chaves privadas nunca são impressas, logadas ou commitadas. O tratamento de segredos é projetado desde o início — criptografia em repouso, controle de acesso, trilha de auditoria onde o domínio exigir. Segredos também precisam sobreviver à perda do host: o procedimento de restore declara exatamente quais segredos requer (veja [REQUIREMENT_PORTABLE_APPLIANCE.md](../requirements/REQUIREMENT_PORTABLE_APPLIANCE.md)).
 
