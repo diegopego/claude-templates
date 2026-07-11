@@ -4,7 +4,7 @@ A reusable, self-contained procedure for adopting these templates' practices int
 
 This is not the legacy charter. [CHARTER_LEGACY_TRANSFORMATION.md](../charters/CHARTER_LEGACY_TRANSFORMATION.md) extracts a legacy *business system's* knowledge to build a new application, retiring the old one. Here the software project is the thing being kept — adoption is a **non-destructive merge** of the instruction layer, not a rewrite.
 
-To use: run this procedure inside the target repo with the template set available. The agent presents proposals; the owner decides. Nothing here overrides the standing rule that the agent **never commits without explicit authorization**.
+To use: run this procedure inside the target repo with the template set available (`make adopt DEST=<repo>` from a clone of the template repository delivers the set and the `adopt-template` skill in one step). The agent presents proposals; the owner decides. Nothing here overrides the standing rule that the agent **never commits without explicit authorization**.
 
 ---
 

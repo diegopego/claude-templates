@@ -10,7 +10,8 @@ This repository is a **meta-project**: its product is prompt text — reusable c
 - `docs/index.html` — the **rendered landing page**, a generated view of `README.md` served by GitHub Pages (`https://diegopego.github.io/claude-templates/`). Its Nord "charter" skin is settled — regenerate the content from README, never redesign ad hoc.
 - `ideas/` — the idea pipeline. `inbox.md` is the owner's scratchpad (any language, draft quality; never reorganize or delete entries without being asked). On the owner's request an entry **graduates** through a Q&A round — outcome-changing questions batched, each with options and a recommendation, resolutions recorded in `.claude/memory/decisions.md` — into its own kebab-case spec file (`Status: draft | agreed | incorporated | deferred`) and leaves the inbox in the same change. Specs then graduate into template text.
 - `templates/` — the **deliverables**, inert by location (see Anti-contamination): `charters/` (composed) plus `charters/sources/` (the core + modules + manifest they are assembled from), `requirements/`, `guides/`, and `skills/` (embeddable skill templates adopters copy into their own `.claude/skills/`).
-- `.claude/` — tooling and memory of the meta-project itself, never deliverables: the pre-commit freshness hook, the `assemble-charters` skill, and `memory/`.
+- `Makefile` + `tools/` — the **installer** (`make new` / `make adopt` with `DEST=…`) and the deterministic charter assembler (`tools/assemble.py`, the single implementation behind `make assemble`, module composition at install time, and the hook's freshness check).
+- `.claude/` — tooling and memory of the meta-project itself: the pre-commit freshness hook, the `assemble-charters` skill, `memory/`, and skill **working copies** installed by self-adoption (see Anti-contamination).
 
 ## Anti-contamination
 
@@ -18,7 +19,7 @@ The templates contain imperative, instruction-shaped text. None of it governs th
 
 - **Nothing under `templates/` is an instruction for working here** — it is product being edited.
 - **Never create a file named `CLAUDE.md` outside the root.** Claude Code auto-loads such files; a future CLAUDE.md template must be named `CLAUDE_MD.template.md`.
-- **Never place deliverables under `.claude/`** (skills there activate in this repo); embeddable skill templates go to `templates/skills/`.
+- **Skills are authored only in `templates/skills/`, never under `.claude/`.** The one sanctioned exception: `make adopt DEST=.` installs **working copies** of the embeddable skills into `.claude/skills/` — this repo is its own adopter #1 (the virtuous cycle: improve the templates here, use them here). Never edit a working copy; edit the source in `templates/skills/` and re-run `make adopt DEST=.` to refresh it.
 - Naming marks the boundary: deliverables are `SCREAMING_SNAKE.md` with a type prefix (`CHARTER_`, `MODULE_`, `REQUIREMENT_`, `GUIDE_`); meta-project files are lowercase `kebab-case.md`.
 
 ## Memory — everything versioned, nothing outside the repo

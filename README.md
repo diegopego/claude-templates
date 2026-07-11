@@ -26,8 +26,17 @@ Templates are authored in **English** (translations return when an adopter asks 
 
 ## How to adopt
 
-- **New project** — pick the charter that fits, copy it into your repo, and reference it from your project's `CLAUDE.md`. The charter opens with a **Setup** step: the agent confirms every project parameter with you (languages, users, stack — stated defaults, never silent assumptions) and **scaffolds a minimum runnable project** — skeleton, config, a `CLAUDE.md` wired to the charter, and seeded memory — so real work starts against a project that already runs, not a blank folder. Want the product-audience or living-docs discipline? Add the module to your charter before copying.
-- **Existing project** — follow the [adoption guide](templates/guides/GUIDE_ADOPTION.md), or drop in the **`adopt-template`** skill and let the agent run it: either way it inventories your current instructions, keeps or adapts each template section, raises every conflict to you instead of overwriting, and defers code/infra changes to a roadmap so the running system is never touched by surprise.
+The repo ships an **installer** — clone it and run `make` with your project's destination (files land in a namespaced `agent/` folder by default, override with `PREFIX=…`; nothing is ever overwritten):
+
+```sh
+make new   DEST=~/devel/myapp CHARTER=greenfield   # or legacy; add MODULES="product-audience living-docs"
+make adopt DEST=~/devel/existing-project
+```
+
+- **New project** (`make new`) — composes the charter (with any add-on modules) into `DEST/agent/charters/`, copies the appliance requirement, and seeds the kit: a `CLAUDE.md` wired to the charter, `.claude/memory/`, `ideas/inbox.md`, and the `graduate-idea` skill. Then open Claude Code in the project and say *"read CLAUDE.md and start Setup"* — the charter's **Setup** step confirms every parameter with you (stated defaults, never silent assumptions) and **scaffolds a minimum runnable project**, so real work starts against a project that already runs.
+- **Existing project** (`make adopt`) — copies the template set and the **`adopt-template`** skill into the project and touches nothing else. Then ask the agent to adopt: it inventories your current instructions, keeps or adapts each template section per the [adoption guide](templates/guides/GUIDE_ADOPTION.md), raises every conflict to you instead of overwriting, and defers code/infra changes to a roadmap so the running system is never touched by surprise.
+
+No `make`? Copying the files by hand works exactly the same — the installer is convenience, not machinery: composed charters travel with `requirements/` (relative links), skills go into `.claude/skills/`.
 
 ## What the charters give a project
 

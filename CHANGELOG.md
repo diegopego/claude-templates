@@ -2,6 +2,10 @@
 
 Curated for template adopters, one entry per significant change (newest first). The git history is the full technical record underneath. Entries before 2026-07-11 live in the old `changelog/` directory, reachable in git history.
 
+## 2026-07-11 — Installer: `make new` / `make adopt` with a destination
+
+Adoption is now one command from a clone of this repo. `make new DEST=~/devel/myapp CHARTER=greenfield|legacy [MODULES="product-audience living-docs data-migration"]` composes the charter (add-on modules included on demand) into a namespaced `agent/` folder (`PREFIX=` overrides), copies the appliance requirement, and seeds the working kit — `CLAUDE.md` wired to the charter, `.claude/memory/`, `ideas/inbox.md`, and the `graduate-idea` skill. `make adopt DEST=~/devel/existing` delivers the template set plus the `adopt-template` skill and touches nothing else. Nothing is ever overwritten. Under the hood, charter assembly is now a deterministic script (`tools/assemble.py`) — the same engine regenerates the shipped charters and backs the repo's freshness checks — and the template repo itself installs its own skills with `make adopt DEST=.` (it is its own first adopter). A new `templates/CLAUDE_MD.template.md` deliverable is the stub `make new` instantiates.
+
 ## 2026-07-11 — Public landing page on GitHub Pages
 
 The template catalog now has a public landing at **https://diegopego.github.io/claude-templates/** — a rendered view of the repo's `README.md`, regenerated with every adopter-facing commit (hook-enforced). It replaces the previous private Artifact page.

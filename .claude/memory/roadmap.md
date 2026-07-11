@@ -7,6 +7,8 @@ Single source of direction. Every session starts by reading this file and ends b
 The templates have never been adopted outside this repo; further meta-refinement has diminishing returns until they are. This milestone exists to generate real friction data.
 
 - [x] Publish the landing on GitHub Pages (`docs/index.html`, hook-enforced freshness against README.md) — activated by the owner 2026-07-11, replacing the Artifact
+- [x] Installer: `make new`/`make adopt DEST=…` + deterministic assembler (`tools/assemble.py`) + self-adoption (`make adopt DEST=.` installed the skill working copies here) (2026-07-11)
+- [ ] Run the self-adoption **merge**: classify each charter section against this repo's `CLAUDE.md` via the installed `adopt-template` skill, record dispositions in the decision log
 - [ ] Adopt a charter (or run `adopt-template`) in one real project of the owner's
 - [ ] Record every friction point during adoption and the first weeks of use (what the agent ignored, what felt like ceremony, what was missing) — as inbox notes in this repo
 - [ ] Iterate the template text from that friction; only then consider new deliverables

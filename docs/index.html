@@ -391,20 +391,26 @@
         <span class="label" aria-hidden="true">04</span>
         <h2>How to adopt</h2>
       </div>
+      <p class="lede" style="margin-top:-0.6rem;margin-bottom:1.6rem;font-size:var(--step-1)">
+        Clone the repo and run the installer with your project's destination — files land in a
+        namespaced <code class="path">agent/</code> folder, and nothing is ever overwritten.
+      </p>
       <div class="paths">
         <article class="card">
           <h3>new project</h3>
-          <p>Pick the charter that fits, copy it into your repo, reference it from your
-          <code>CLAUDE.md</code>. The Setup step confirms every parameter with you and scaffolds a
-          runnable project before work begins. Want the product-audience or living-docs discipline?
-          Compose the module in first.</p>
+          <p><code class="path">make new DEST=~/devel/myapp CHARTER=greenfield</code> (or
+          <code class="path">legacy</code>; add <code class="path">MODULES="product-audience living-docs"</code>)
+          — composes the charter, copies the requirement, and seeds <code>CLAUDE.md</code>, memory,
+          inbox, and the <code class="path">graduate-idea</code> skill. Then open Claude Code and say
+          "start Setup": every parameter confirmed with you, a runnable project scaffolded before work
+          begins.</p>
         </article>
         <article class="card">
           <h3>existing project</h3>
-          <p>Follow the adoption guide — or drop in the <code class="path">adopt-template</code> skill and
-          let the agent run it: either way it inventories your current instructions, keeps or adapts each
-          section, and defers code and infrastructure changes to a roadmap — the running system is
-          never touched by surprise.</p>
+          <p><code class="path">make adopt DEST=~/devel/existing</code> — delivers the template set and
+          the <code class="path">adopt-template</code> skill, touching nothing else. Then ask the agent to
+          adopt: it inventories your current instructions, keeps or adapts each section, and defers code
+          and infrastructure changes to a roadmap — the running system is never touched by surprise.</p>
         </article>
       </div>
     </section>

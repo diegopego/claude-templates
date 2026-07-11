@@ -28,19 +28,40 @@ staged=$(git diff --cached --name-only)
 [ -n "$staged" ] || exit 0
 
 # Rule 1: editing a charter source requires the composed charters to be rebuilt
-# and staged (assembly is deterministic — regenerate with assemble-charters).
+# and staged. Assembly is deterministic (tools/assemble.py), so when python3 is
+# available the check is structural: regenerate and byte-compare against the
+# staged composed files. Otherwise fall back to a staging-presence check.
 if printf '%s\n' "$staged" | grep -q '^templates/charters/sources/'; then
-  for composed in \
-    templates/charters/CHARTER_GREENFIELD.md \
-    templates/charters/CHARTER_LEGACY_TRANSFORMATION.md; do
-    if ! printf '%s\n' "$staged" | grep -qx "$composed"; then
-      {
-        echo "Commit blocked: charter sources changed but $composed is not staged."
-        echo "Run the assemble-charters skill, then stage templates/charters/."
-      } >&2
+  if command -v python3 >/dev/null 2>&1 && [ -f tools/assemble.py ]; then
+    tmp=$(mktemp -d)
+    trap 'rm -rf "$tmp"' EXIT
+    if ! python3 tools/assemble.py --all --outdir "$tmp" >/dev/null 2>&1; then
+      echo "Commit blocked: tools/assemble.py failed on the current sources — fix the sources or the script." >&2
       exit 2
     fi
-  done
+    for composed in CHARTER_GREENFIELD.md CHARTER_LEGACY_TRANSFORMATION.md; do
+      if ! git show ":templates/charters/$composed" > "$tmp/staged-$composed" 2>/dev/null \
+         || ! cmp -s "$tmp/$composed" "$tmp/staged-$composed"; then
+        {
+          echo "Commit blocked: charter sources changed but the staged templates/charters/$composed does not match their composition."
+          echo "Run 'make assemble', then stage templates/charters/."
+        } >&2
+        exit 2
+      fi
+    done
+  else
+    for composed in \
+      templates/charters/CHARTER_GREENFIELD.md \
+      templates/charters/CHARTER_LEGACY_TRANSFORMATION.md; do
+      if ! printf '%s\n' "$staged" | grep -qx "$composed"; then
+        {
+          echo "Commit blocked: charter sources changed but $composed is not staged."
+          echo "Run 'make assemble', then stage templates/charters/."
+        } >&2
+        exit 2
+      fi
+    done
+  fi
 fi
 
 # Rule 2: templates/ or ideas/ changed without a changelog entry.

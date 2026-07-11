@@ -7,27 +7,23 @@ description: Regenerate the self-contained charters under templates/charters/ fr
 
 The charters adopters copy (`templates/charters/CHARTER_*.md`) are **generated** from `templates/charters/sources/`. Edit the sources; never edit a composed charter by hand.
 
-## Inputs
+## How to run
 
-- `templates/charters/sources/CHARTER_CORE.md` — the shared spine with `{{ variables }}` and `<!-- SLOT: name -->` markers.
-- `templates/charters/sources/MODULE_*.md` — each defines an optional `===VARS===` block (`name = value` lines) and `===SLOT: name===` blocks (content runs to the next `===` marker). Phase-1 modules define the variables; add-on modules usually define only slots.
-- `templates/charters/sources/charters.manifest.md` — maps each composed charter to its core + ordered module list, and catalogs the opt-in add-on modules.
+Assembly is implemented by a deterministic script — run it, do not prose-merge by hand:
 
-## Assembly (per manifest row)
+```
+make assemble            # = python3 tools/assemble.py --all
+```
 
-1. Collect variables and slot contents from the row's modules, in order; a later module wins on a key it redefines — except `project_parameters_extra`, where every module's rows are **appended in list order** (they extend the Project Parameters table).
-2. In `CHARTER_CORE.md`: replace every `{{ var }}` with its value, and every `<!-- SLOT: name -->` with the slot's content (empty string if no module supplies it).
-3. Normalize whitespace: exactly one blank line between sections; drop any line that became empty because its slot was empty; no leading/trailing blank lines.
-4. **Number the sections**: walk the `##` headings top to bottom, skip `## Project Parameters`, and prefix each remaining one with its sequential number (`## 1. …`, `## 2. …`), so a charter that omits a slotted section (e.g. one composed without an add-on module) still numbers cleanly.
-5. Strip the source-only HTML comment header. Write the result to `templates/charters/<ComposedName>.md`.
+`tools/assemble.py` is the single implementation of the templating (`{{ vars }}`, `<!-- SLOT: name -->`, `===VARS===`/`===SLOT===` blocks, `project_parameters_extra` row appending, section numbering that skips *Project Parameters*). The same script powers `make new` (composing a charter with add-on modules at install time) and the pre-commit hook's freshness check (regenerate + byte-compare). If the script cannot express a new source construct, extend the script — never fall back to hand-editing the composed output.
 
 ## Rules
 
 - Relative links in the sources already target `../requirements/…`, which resolves from `templates/charters/` — keep them verbatim.
-- The composed file is self-contained: a reader must never need the sources. No `{{ }}` or `SLOT` markers may survive into the output.
-- Determinism: same sources → same composed output. This lets the freshness hook regenerate and diff.
-- The shipped charters stay **minimal** (see the manifest); an adopting project that wants `MODULE_PRODUCT_AUDIENCE`, `MODULE_LIVING_DOCS`, or `MODULE_DATA_MIGRATION` adds the module to its row and re-runs this assembly in its own copy — do not add them to the shipped rows here.
+- The composed file is self-contained: a reader must never need the sources. No `{{ }}` or `SLOT` markers may survive into the output (the script aborts if one would).
+- Determinism: same sources → same composed output, byte for byte — that is what the hook diffs against.
+- The shipped charters stay **minimal** (see the manifest); an adopting project that wants `MODULE_PRODUCT_AUDIENCE`, `MODULE_LIVING_DOCS`, or `MODULE_DATA_MIGRATION` composes them into its own copy (`make new … MODULES=…`) — do not add them to the shipped rows here.
 
 ## After assembling
 
-Stage `templates/charters/` together with the updated `CHANGELOG.md` and root `README.md` (if the change is adopter-facing) so the pre-commit hook passes.
+Stage `templates/charters/` together with the updated `CHANGELOG.md` and root `README.md` + `docs/index.html` (if the change is adopter-facing) so the pre-commit hook passes.
