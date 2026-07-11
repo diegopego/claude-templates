@@ -2,6 +2,10 @@
 
 Curated for template adopters, one entry per significant change (newest first). The git history is the full technical record underneath. Entries before 2026-07-11 live in the old `changelog/` directory, reachable in git history.
 
+## 2026-07-11 — Adopted projects keep the `graduate-idea` skill
+
+Adoption now leaves a project with the skills its charter actually prescribes. `make adopt` installs **`graduate-idea`** (the idea-inbox/graduation practice every charter carries) and seeds an empty `ideas/inbox.md` if the project has none — additively, never overwriting. Before, adoption shipped only the one-shot `adopt-template`, which the merge removes at teardown, so an adopted project ended up with **no skills at all** — including the one its own `CLAUDE.md` told it to use. `graduate-idea` (and `update-living-docs` if you adopt the living-docs module) is permanent; only `adopt-template` and the delivery kit are torn down.
+
 ## 2026-07-11 — New skill: `update-living-docs` builds and maintains your living docs
 
 `MODULE_LIVING_DOCS` now ships an executable arm. The new **`update-living-docs`** embeddable skill runs the whole living-documentation pipeline — the dual changelogs (technical + audience), the living product doc, and the landing page — so the practice is automated, not just described. Two modes: **rebuild** regenerates the whole set from your project's current state (the path for a large project adopting the pipeline mid-life, or a forced re-creation — it reconciles an existing changelog into the technical/audience split and seeds the audience changelog from what the product does today), and **update** folds a single change in incrementally. The landing still publishes only behind the approval loop. The skill is delivered with the module: `make new … MODULES="living-docs"` installs it, and it travels in the adoption kit so a project that adopts the module gets it too.

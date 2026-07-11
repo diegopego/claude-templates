@@ -173,9 +173,18 @@ adopt)
     install_file "$REPO/templates/$f" "$DEST/$PREFIX/$f"
   done
   install_skill adopt-template
+  # graduate-idea is a permanent, charter-prescribed skill (the idea-inbox
+  # practice) — install it to stay, unlike the one-shot adopt-template the merge
+  # removes at teardown. Seed an empty inbox only if the project has none.
+  install_skill graduate-idea
+  seed_file "$DEST/ideas/inbox.md" <<'EOF'
+# Idea inbox
+
+Owner's scratchpad — any language, draft quality, one line per idea. The agent never reorganizes, rewrites, or deletes entries; an idea graduates into a spec only when the owner asks.
+EOF
 
   echo ""
-  echo "Done. Nothing of the existing project was touched. Next step: open Claude Code in $DEST and say:"
+  echo "Done. Nothing existing was overwritten — the installer only adds files. Next step: open Claude Code in $DEST and say:"
   echo "  \"Adopt the templates in $PREFIX/ into this project.\"  (runs the adopt-template skill's non-destructive merge)"
   echo "(If a Claude Code session is already open there, run /reload-skills first — or restart the session, which always works.)"
   ;;
