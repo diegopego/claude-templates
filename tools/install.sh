@@ -29,10 +29,17 @@ case "$DEST" in
   "~/"*) DEST=$HOME/${DEST#"~/"} ;;
 esac
 
-# Copy a single file unless the destination already exists.
-install_file() { # src dst
+# Copy a single file. Skips when the destination exists, unless the caller
+# passes "force" as the third argument — self-adoption uses that to refresh its
+# own generated skill working copies from source.
+install_file() { # src dst [force]
   if [ -e "$2" ]; then
-    note "skip (exists)   $2"
+    if [ "${3:-}" = force ]; then
+      cp "$1" "$2"
+      note "refreshed       $2"
+    else
+      note "skip (exists)   $2"
+    fi
   else
     mkdir -p "$(dirname "$2")"
     cp "$1" "$2"
@@ -52,8 +59,8 @@ seed_file() { # dst
   fi
 }
 
-install_skill() { # name
-  install_file "$REPO/templates/skills/$1/SKILL.md" "$DEST/.claude/skills/$1/SKILL.md"
+install_skill() { # name [force]
+  install_file "$REPO/templates/skills/$1/SKILL.md" "$DEST/.claude/skills/$1/SKILL.md" "${2:-}"
 }
 
 case "$MODE" in
@@ -138,10 +145,12 @@ adopt)
     # Self-adoption: this repo is its own adopter #1 (the virtuous cycle —
     # improve the templates here, then use them here). The template set
     # already lives at templates/, so only the skills' working copies are
-    # installed; authoring still happens only in templates/skills/.
-    echo "Self-adoption: installing skill working copies into .claude/skills/ (template set already at templates/)"
-    install_skill graduate-idea
-    install_skill adopt-template
+    # installed — force-refreshed from source each run, so editing a skill in
+    # templates/skills/ and re-running this is how the working copy updates.
+    # Authoring still happens only in templates/skills/.
+    echo "Self-adoption: refreshing skill working copies in .claude/skills/ from templates/skills/"
+    install_skill graduate-idea force
+    install_skill adopt-template force
 
     echo ""
     echo "Done. Next step: run /reload-skills in the open session (or restart it — skills load at startup), then ask Claude in this repo:"
