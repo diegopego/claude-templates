@@ -2,6 +2,15 @@
 
 For people who copy these templates into their own projects. Only changes that affect how you find, choose, or use a template appear here. Newest first.
 
+## 2026-07-10 — Settled (coming next): spec-per-task, one project CLI, and how your changelogs & landing will work
+
+- The earlier "Planned:" setup/changelog/landing sketches are now **agreed** — the shape is settled and will be written into the templates next. What's coming:
+  - **A short spec before each real task.** For any non-trivial piece of work, the agent will write a brief spec first and ask you the questions that matter up front, instead of guessing and coding.
+  - **One project command-line tool.** A single CLI — styled after Claude's own — will run your project's whole lifecycle: set it up, adopt these practices into an existing repo, update your changelogs and landing page, and graduate inbox ideas.
+  - **Two changelogs on different rhythms.** A technical one (updated every commit) and one written for your product's users (curated, grouped so it isn't noisy). Your users' changelog is what keeps your landing page current.
+  - **You approve the landing before it publishes.** Each update shows you what's about to change in words, then as a preview, and waits for your OK before going live (private preview + a public web page).
+- Still nothing to copy yet — these are agreed plans; the templates you copy are unchanged until they're incorporated.
+
 ## 2026-07-10 — New: an idea inbox your project can keep, and a drop-in skill to work through it
 
 - Both charters gained an **Idea inbox** practice: keep an `ideas/inbox.md` scratchpad for half-formed ideas, and when you're ready, ask the agent to **graduate** one — it runs a round of questions (each with options and a recommendation), writes down the decisions, turns the note into a proper spec, and adds it to your roadmap. The inbox is where scope is proposed; the roadmap is where it's accepted.

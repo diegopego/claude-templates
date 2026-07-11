@@ -2,6 +2,23 @@
 
 Technical changelog for whoever maintains this repository. Each entry ends with a plain-language addendum and, when needed, a jargon glossary. Newest first.
 
+## 2026-07-10 — Graduated the Setup→changelog→landing cluster to `agreed` (2 Q&A rounds) + 2 new specs
+
+- The **five newest inbox entries** turned out to be refinements of the pending draft cluster; graduated together in a **two-round Q&A** (all resolutions in `decisions.md` → *Graduated the Setup→changelog→landing inbox cluster*). Inbox emptied; graduated list extended.
+- Existing specs moved **draft → `agreed`**:
+  - `ideas/setup-scaffolds-project.md` — tech stack is the **developer's choice at Setup**; the charter's picks become recommended, overridable defaults (never silent assumptions); scaffold is a minimum runnable skeleton only.
+  - `ideas/audience-aware-changelogs.md` — two changelogs are a **`CHARTER_CORE` section** (not a module); **split cadence** (technical per commit, target-audience curated per significant change); target audience is a Setup Project Parameters row.
+  - `ideas/landing-publishing.md` — **approval loop on every publish** (intent-in-text → preview → approval → publish); GitHub Pages public primary + Artifact preview; skin captured as reusable design tokens.
+  - `ideas/living-product-doc.md` — the update skill works by **delta from a versioned last-processed-commit marker**, not the pre-commit staged diff.
+- **Two new specs, straight to `agreed`**:
+  - `ideas/spec-driven-work.md` (was inbox #3) — every non-trivial task becomes a **mini-spec before implementation**; gaps trigger an immediate Q&A round; reuses `spec_term` + *Working through questions*. Incorporates as a new `CHARTER_CORE` section beside *Idea inbox*.
+  - `ideas/lifecycle-cli.md` (was inbox #4, escalated by the owner to **full lifecycle**) — a single-door project CLI (`setup`/`adopt`/`update-docs`/`graduate-idea`) styled after `claude`. We ship the spec; it graduates into `REQUIREMENT_PROJECT_CLI.md`.
+- **No template text changed** — this is a pipeline-only change (`ideas/` + `.claude/memory/`). Incorporation into `CHARTER_CORE`/requirements (each with the full assemble → landing → translate → changelog ritual) is the roadmap's next step.
+
+**In plain language:** the owner dropped five new notes in the idea inbox; each turned out to sharpen a plan we already had in progress. In two rounds of questions-with-recommendations we settled all of them and wrote the decisions down. Six ideas are now "agreed" (ready to be written into the actual templates next): setup picks the tech with you and scaffolds the project; there are two changelogs on different rhythms; the landing page waits for your approval before publishing and updates itself from what changed since last time; every real task gets a short spec before coding; and there'll be one project command-line tool that runs the whole lifecycle. Nothing in the copied templates changed yet — that's the next step.
+
+**Glossary:** *graduate* — turn an inbox note into a formal spec via a Q&A round; *agreed* — the spec's decisions are settled, ready to be written into template text; *marker (last-processed-commit)* — a saved pointer to the last commit a tool handled, so it can process only what changed since; *scaffold* — generate the initial project skeleton and config; *full lifecycle* — setup, adoption, doc/landing updates, and idea graduation, all under one tool.
+
 ## 2026-07-10 — Idea-inbox practice added to the charters, plus the first embeddable skill (`graduate-idea`)
 
 - Graduated the inbox entry *"make the idea-ingestion system part of the template"* after a Q&A round (five outcome-changing questions settled in `decisions.md`): home = `CHARTER_CORE`; scope = inbox + graduation ritual reusing the existing `spec_term`; ship a skill now (owner override); skill covers graduation only; this skill defines the skill-template convention. Spec at `ideas/idea-inbox.md` (`Status: agreed`), removed from `ideas/inbox.md` in the same change.

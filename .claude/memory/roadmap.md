@@ -30,12 +30,16 @@ Single source of direction. Every session starts by reading this file and ends b
 - [x] Publish a rendered landing page for this repo (dogfooding, 2026-07-10) — Artifact derived from `README.md`, republished by `update-product-doc`
 - [x] `ideas/idea-inbox.md` graduated (agreed) + incorporated (2026-07-10) — new **Idea inbox** section in `CHARTER_CORE.md` (inbox scratchpad + graduation ritual reusing the existing `spec_term`; the pre-roadmap staging area). Shipped alongside the first embeddable skill, `templates/skills/graduate-idea/` (see Milestone 4)
 
-### Setup + changelog→landing pipeline (graduated 2026-07-10, drafts)
+### Setup + changelog→landing pipeline — cluster **agreed** (2026-07-10), incorporation pending
 
-- [ ] `ideas/setup-scaffolds-project.md` (draft → agreed → incorporate): Setup asks stack/language and generates a complete project setup
-- [ ] `ideas/audience-aware-changelogs.md` (revised draft → agreed): two curated changelogs — technical (git history underneath) + target-audience; audience captured at Setup; decide core section vs. module
-- [ ] `ideas/living-product-doc.md` refinement: rewire `update-product-doc` to consume the target-audience changelog entry (not the raw diff); landing stays single, for the target audience
-- [ ] `ideas/landing-publishing.md` (draft → agreed): now a **two-layer** model — the *skin* (visual identity) is designed once at Setup via a design interview (Claude Design default); the *content* is the living-doc rendered into that skin. Publish to Artifact + GitHub Pages, keep in sync
+The five newest inbox entries turned out to refine this cluster; graduated together in a two-round Q&A (see `decisions.md` → *Graduated the Setup→changelog→landing inbox cluster*). All specs are now `agreed`. **Next step is incorporation into template text** — each carries the full commit ritual (assemble → landing → translate → changelog):
+
+- [x] `ideas/setup-scaffolds-project.md` **agreed** — Setup asks stack/language and scaffolds; tech picks are the developer's choice at Setup (charter picks = recommended, overridable defaults); minimum runnable skeleton only. → incorporate as a `CHARTER_CORE` Setup addition
+- [x] `ideas/audience-aware-changelogs.md` **agreed** — two curated changelogs as a **core** section; cadence split (technical **per commit**, target-audience **curated per significant change**); target audience is a Setup Project Parameters row. → incorporate as a new `CHARTER_CORE` Changelogs section
+- [x] `ideas/living-product-doc.md` refinement **agreed** — the update skill works by **delta from a versioned last-processed-commit marker** (was inbox #1), driven by the target-audience changelog. → rewire `update-product-doc` (consume changelog entry + marker instead of the staged diff)
+- [x] `ideas/landing-publishing.md` **agreed** — two-layer (skin designed once at Setup / content re-rendered); **every publish passes an approval loop** (intent-in-text → preview → approval → publish, was inbox #2); GitHub Pages public primary + Artifact preview, skin captured as reusable tokens
+- [x] `ideas/spec-driven-work.md` **agreed** (new, was inbox #3) — every non-trivial task becomes a mini-spec before implementation; gaps trigger an immediate Q&A round; reuses `spec_term` + *Working through questions*. → incorporate as a new `CHARTER_CORE` section beside *Idea inbox*
+- [x] `ideas/lifecycle-cli.md` **agreed** (new, was inbox #4, escalated to full lifecycle) — a single-door project CLI (`setup`/`adopt`/`update-docs`/`graduate-idea`) styled after `claude`; we ship the spec. → graduate into a new `REQUIREMENT_PROJECT_CLI.md`
 - [x] `ideas/adaptive-setup-questions.md` **incorporated** (2026-07-10): broadened from a Setup mechanism into the general **Q&A-round** method — a new *Working through questions* section in `CHARTER_CORE.md` defines the round once (batched · options + recommendation · scripted-baseline-then-adaptive · answers become artifacts); phases point to it, and `CLAUDE.md` runs the same method when graduating an inbox entry (dogfooding). Composed charters regenerated + renumbered
 - [ ] `living-product-doc` open questions: pt-BR landing page? graduate the living-manual practice into a charter section / embeddable skill for adopters
 
