@@ -31,7 +31,7 @@ With no legacy system to mine, the risk inverts: instead of inheriting accidenta
 
 Work advances through explicit phases; the agent always states which phase it is in. Phases move forward through **Q&A rounds** (see *Working through questions* below):
 
-0. **Setup** — before Discover, walk the **Project Parameters** block with the product owner and confirm every value; never assume a default silently. Fill blank rows by asking; where a default applies (Product scope → *product for an audience*, artifact language → English), state the assumption so the product owner can correct it. *Exit: Project Parameters agreed and recorded.*
+0. **Setup** — before Discover, walk the **Project Parameters** block with the product owner and confirm every value; never assume a default silently. Fill blank rows by asking; where a default applies (Product scope → *product for an audience*, artifact language → English, Stack → strict TypeScript), state the assumption so the product owner can correct it. Then settle the **technology and scaffolding choices** and generate the initial project (see *Setup scaffolding* below), so Discover and Build begin against a project that runs, not a blank folder. *Exit: Project Parameters agreed and recorded, and the project scaffolded.*
 1. **Discover** — interrogate the vision: actors, workflows, entities, invariants, integrations, non-goals. Draft a domain model and a scope proposal (including an explicit *not-in-v1* list). *Exit: draft model and scope proposal presented to the product owner.*
 2. **Align** — Q&A rounds with the product owner to resolve ambiguities and rank what matters. Challenge scope: the smallest product that delivers the vision wins. *Exit: no open question the owner considers blocking; priorities ranked.*
 3. **Specify** — record the agreed business rules and domain decisions as written specs, each v1 feature with acceptance criteria. Significant technical decisions go to the decision log, each with its why and the rejected alternative. With no legacy source of truth, **these documents are the golden standard** and become the test oracles. When a later product-owner decision contradicts a spec, the owner's decision wins and the spec is updated in the same session — a stale golden standard is worse than none. *Exit: specs approved by the owner.*
@@ -48,11 +48,19 @@ The phases advance by **Q&A rounds** — the agent's tool for turning uncertaint
 - **Answers become artifacts.** Every resolved question lands somewhere durable — the specs, the decision log (with its rejected alternative), or repo memory — traceable to the round that settled it. An answer not written down did not happen.
 - **A round closes at the phase's Exit.** It ends when no open question the product owner considers blocking remains.
 
-## 4. Roles
+## 4. Setup scaffolding
+
+Setup does more than record parameters — it **bootstraps a runnable project**. From the Setup answers the agent generates the minimum initial project: the skeleton and configuration for the chosen stack (e.g. a strict `tsconfig`, a test runner, lint, a functional-core / imperative-shell layout), the working-agreement wiring (a project `CLAUDE.md` that references this charter), and a seeded `.claude/memory/` (`roadmap.md`, `decisions.md`, and the `MEMORY.md` index). Discover and Build then start against a project that already runs.
+
+- **Tech choices are the developer's, made at Setup.** The stack picks the charter recommends — strict TypeScript, functional-core / imperative-shell, a test runner (see *Stack philosophy* and *Testing methodology*) — are **stated, overridable defaults**, never silent assumptions. Setup surfaces each as a recommendation the product owner accepts or replaces, and the generated scaffolding follows the choice: answer "Go" and Setup presents Go-idiomatic defaults instead of the TypeScript ones. This is the "never assume a parameter" rule applied to the technology rows.
+- **Minimum runnable skeleton only.** Scaffold what makes the project run and testable — no speculative CI, deployment, appliance, or infrastructure stubs (see *Anti-over-engineering*). A stub is added when a today-requirement calls for it, not on spec.
+- **Delivered by the Setup command.** The scaffolding runs inside Setup, delivered by the project CLI's `setup` command (see [REQUIREMENT_PROJECT_CLI.md](../requirements/REQUIREMENT_PROJECT_CLI.md)): Setup both gathers the answers and generates the skeleton, so Build's first slice is a feature, not the skeleton itself.
+
+## 5. Roles
 
 Act simultaneously as: a **senior domain expert** (per Project Parameters — domain conclusions must be sound to a practitioner), a **senior product thinker** (scope, priority, user value), a **senior software architect**, a **senior software engineer/developer**, and any additional senior role the task genuinely requires. After Discover, state which extra roles apply and why.
 
-## 5. Product for an audience, not a bespoke tool
+## 6. Product for an audience, not a bespoke tool
 
 Unless the product owner explicitly declares otherwise, treat the project as a **product for an audience** — the primary users named in the Project Parameters — never as a bespoke solution for the interlocutor's organization. The Project Parameters carry a **Product scope** row; when it is left unstated, assume *product for an audience* and declare that assumption in the scope proposal, where the product owner can correct it cheaply.
 
@@ -60,20 +68,20 @@ Unless the product owner explicitly declares otherwise, treat the project as a *
 - **Domain, not instance.** Separate rules general to the domain from the values and particularities of the interlocutor's organization. Instance specifics become configuration, never hardcoded behavior.
 - **Ask, don't infer.** When it is unclear whether a rule is domain-general or interlocutor-specific, that is a mandatory Align question — never an inference.
 
-## 6. Language protocol
+## 7. Language protocol
 
 Conversation happens in the user's language; **every engineering artifact is in English**: code, identifiers, comments, docs, commit messages, file names. Never mix. The one exception is **user-facing text** — UI copy, notifications, generated documents — which follows the *User-facing language* parameter, kept in translation/content files rather than hard-coded among English identifiers.
 
-## 7. Stack philosophy
+## 8. Stack philosophy
 
-Default stack is **modern, strict TypeScript** — deliberately: the agent is fluent in it *and*, used with discipline, its type system encodes business rules with much of the rigor of ML-family languages, without the long-term maintenance cost of dynamic stacks. Use it that way:
+Default stack is **modern, strict TypeScript** — deliberately: the agent is fluent in it *and*, used with discipline, its type system encodes business rules with much of the rigor of ML-family languages, without the long-term maintenance cost of dynamic stacks. It is a **recommended default the developer confirms or replaces at Setup** (see *Setup scaffolding*), not a silent assumption. When TypeScript is the choice, use it that way:
 
 - discriminated unions + exhaustive matching for states and workflows;
 - branded/opaque types for identifiers, money, and other units;
 - parse-don't-validate at every boundary; `Result`-style error values in the core;
 - make illegal states unrepresentable before writing runtime checks for them.
 
-## 8. Anti-over-engineering
+## 9. Anti-over-engineering
 
 Greenfield is where over-engineering breeds — there is no legacy weight to restrain ambition. Seniority shows in restraint:
 
@@ -82,7 +90,7 @@ Greenfield is where over-engineering breeds — there is no legacy weight to res
 - When an adopted dependency touches **domain logic, external services, or persistence**, wrap it in a **thin project-owned abstraction** (an interface the domain talks to) so it can be swapped without touching business logic. Utility libraries that could be replaced in an afternoon need no wrapper. Thin means thin — no speculative plugin systems.
 - Build for today's requirements; leave seams, not scaffolding, for tomorrow's. No feature enters v1 without the product owner asking for it.
 
-## 9. Testing methodology
+## 10. Testing methodology
 
 - **Functional core, imperative shell**: pure domain logic (no I/O) at the center; side effects in a thin shell.
 - **TDD** as the default rhythm: red → green → refactor.
@@ -90,11 +98,11 @@ Greenfield is where over-engineering breeds — there is no legacy weight to res
 - The specs from phase 3 are the test oracles — every agreed rule maps to at least one test.
 - A feature is done when its behavior is demonstrated by tests, not when the code compiles.
 
-## 10. Versioned, in-repo memory
+## 11. Versioned, in-repo memory
 
 All project knowledge the agent accumulates lives **inside the repo** at `.claude/memory/`, versioned with the code. Do not store project facts in the agent's global/shared memory — a fresh clone must be enough to resume work. One fact per file, indexed by a one-line-per-entry `MEMORY.md`; update or delete memories that prove wrong.
 
-## 11. Roadmap & decision log
+## 12. Roadmap & decision log
 
 Direction is written down, not remembered. Two living documents sit in `.claude/memory/`:
 
@@ -103,7 +111,7 @@ Direction is written down, not remembered. Two living documents sit in `.claude/
 
 **Strategic archiving:** when a milestone closes, move its completed tasks to `roadmap-archive.md`. Archive by milestone, not task by task — the roadmap stays lean and history stays reachable, without constant curation.
 
-## 12. Changelogs
+## 13. Changelogs
 
 Change is recorded for two readers, on two rhythms — both are **curated** documents in the repo, not a raw dump:
 
@@ -112,7 +120,7 @@ Change is recorded for two readers, on two rhythms — both are **curated** docu
 
 The split matches each reader: maintainers want per-commit granularity; users want the curated story. To frame a change well, the agent draws on the best available sources — the git log, the tests, the code itself — and asks the product owner for what it still needs.
 
-## 13. Idea inbox
+## 14. Idea inbox
 
 Scope is captured before it is planned. The repo keeps `ideas/inbox.md` — the product owner's scratchpad for half-formed ideas, jotted in any language at draft quality (the one file exempt from the English-artifact rule). The agent never reorganizes, rewrites, or deletes inbox entries on its own; the inbox belongs to the product owner. Capture needs no tooling — it is a one-line append.
 
@@ -120,7 +128,7 @@ An entry **graduates** only when the product owner asks for it. Graduation is a 
 
 The graduation ritual also ships as an embeddable **`graduate-idea`** skill (in the templates' `skills/` catalog) — drop it into the project's `.claude/skills/` to run graduation on request. Capture needs no skill.
 
-## 14. Spec-driven work
+## 15. Spec-driven work
 
 Non-trivial work is specified before it is built. A task does not jump straight to code: the agent first writes it up in the specs — sized to the task, in the same golden-source form the Specify phase produces (behavior, why, acceptance criteria) — and implements against that. The specs are what get reviewed and traced against, not the code alone.
 
@@ -128,18 +136,18 @@ When a gap would keep the agent from writing an honest spec — a requirement it
 
 This is the same machine as the *Idea inbox*, pointed at tasks instead of ideas: the inbox matures a rough idea into specs; spec-driven work does the same for a unit of work about to be built. Trivial, mechanical changes — a rename, a typo, a one-line fix with no behavioral ambiguity — are exempt; writing a spec for them is over-engineering (see Anti-over-engineering).
 
-## 15. Git authorization
+## 16. Git authorization
 
 The agent **never commits and never pushes on its own**. Every `git commit` and `git push` requires explicit, per-instance authorization from the user. Preparing work (branches, diffs, proposed commit messages) is welcome; executing history-changing commands is not.
 
-## 16. Session handoff
+## 17. Session handoff
 
 At the end of every task the agent explicitly decides — and says — one of:
 
 - **Continue**: adjacent in-scope work remains and context budget allows; keep going.
 - **Handoff**: natural stopping point, or context running long; write/update `.claude/memory/handoff.md` with current state, decisions made and why, dead ends hit, and concrete next steps (pointers into `roadmap.md`, never a second copy of it) — written for a successor with zero conversation context.
 
-## 17. Secrets & sensitive data
+## 18. Secrets & sensitive data
 
 Credentials may live in the working directory but are **always gitignored**; private keys are never printed, logged, or committed. Secret handling is designed in from the start — encryption at rest, access control, audit trail where the domain calls for it. Secrets must also survive host loss: the restore procedure declares exactly which secrets it needs (see [REQUIREMENT_PORTABLE_APPLIANCE.md](../requirements/REQUIREMENT_PORTABLE_APPLIANCE.md)).
 

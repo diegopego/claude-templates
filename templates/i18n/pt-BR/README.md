@@ -17,6 +17,7 @@ Acordos de trabalho para um agente de codificação por IA. Escolha exatamente u
 Documentos de requisitos transversais, referenciados pelos charters e reutilizáveis por conta própria.
 
 - **`REQUIREMENT_PORTABLE_APPLIANCE.md`** — toda aplicação é um appliance portátil: o servidor é descartável, o backup é o sistema, e `repositório + segredos + backup` deve reconstruir tudo em uma máquina nova em menos de 30 minutos.
+- **`REQUIREMENT_PROJECT_CLI.md`** — a CLI de porta única do projeto: uma única ferramenta interativa, no estilo do `claude`, que roda todo o ciclo de vida (`setup` · `adopt` · `update-docs` · `graduate-idea`) como um orquestrador fino sobre o Claude e as skills embutíveis, para que os rituais rodem na ordem e nada seja pulado em silêncio.
 
 ## Guias (`guides/`)
 

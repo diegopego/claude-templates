@@ -14,6 +14,7 @@ Working agreements for an AI coding agent. Pick exactly one per project, copy it
 Cross-cutting requirement documents, referenced by the charters and reusable on their own.
 
 - **`REQUIREMENT_PORTABLE_APPLIANCE.md`** — every application is a portable appliance: the server is disposable, the backup is the system, and `repo + secrets + backup` must rebuild everything on a fresh machine in under 30 minutes.
+- **`REQUIREMENT_PROJECT_CLI.md`** — the single-door project CLI: one interactive, `claude`-styled tool that runs the whole lifecycle (`setup` · `adopt` · `update-docs` · `graduate-idea`) as a thin orchestrator over Claude and the embeddable skills, so the rituals run in order and nothing is silently skipped.
 
 ## Guides (`guides/`)
 

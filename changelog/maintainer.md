@@ -2,6 +2,20 @@
 
 Technical changelog for whoever maintains this repository. Each entry ends with a plain-language addendum and, when needed, a jargon glossary. Newest first.
 
+## 2026-07-11 — Incorporated Setup-scaffolding + specified the project CLI (both charters + new requirement)
+
+- Second incorporation from the Setup→changelog→landing cluster, taking two **interlocking** specs together (`setup-scaffolds-project` + `lifecycle-cli`) into template text:
+  - **Setup scaffolding** (from `ideas/setup-scaffolds-project.md`) — a new `CHARTER_CORE` section beside *Working through questions*, plus an expanded Method §0 *Setup* bullet: Setup now settles the stack/tech choices and **generates a minimum runnable project** (stack skeleton + config, a `CLAUDE.md` referencing the charter, a seeded `.claude/memory/`). The charter's tech picks are **stated, overridable defaults** confirmed at Setup — *Stack philosophy*'s opener now says so. New Setup Exit: "and the project scaffolded."
+  - **Project CLI** (from `ideas/lifecycle-cli.md`) — a **new deliverable**, `REQUIREMENT_PROJECT_CLI.md`: a `claude`-styled, interactive single-door CLI over `setup`/`adopt`/`update-docs`/`graduate-idea`, specified as a thin orchestrator (Principle · command table · invariants · non-goals · definition of done). We ship the spec; a real project builds it.
+- **Two open questions settled in a Q&A round with the owner** (in `decisions.md`): the CLI **orchestrates the rituals while the pre-commit hook stays the backstop**; the CLI **invokes** the embeddable skills (they stay usable stand-alone), rather than absorbing them as subcommands.
+- **Reassembled** both composed charters (greenfield now **1–18**, legacy **1–19**, sequential — new *Setup scaffolding* is §4, later sections +1). **Retranslated** both pt-BR charters and added the pt-BR requirement; the catalog (`templates/README.md`) and its pt-BR mirror gained the new requirement.
+- **Landing page** (`README.md`): "What you get" now groups the two requirements (appliance + CLI); "How to adopt → New project" says Setup scaffolds; a new *Setup that scaffolds* practice bullet. The rendered **Artifact** republish is **held for approval** per the landing approval loop.
+- Marked `ideas/setup-scaffolds-project.md` and `ideas/lifecycle-cli.md` **incorporated** (4 of 6 cluster specs now in template text; 2 remain: landing-publishing and the living-product-doc rewiring); roadmap updated; decision recorded.
+
+**In plain language:** we wrote two more of the six agreed ideas into the actual charters — the two that fit together. A project's Setup step no longer just records settings; it picks the tech with you (the charter's choices are suggestions you can swap, not silent defaults) and generates a starter project that already runs. We also wrote the spec for a single command-line tool that runs a project's whole lifecycle — set up, adopt, update docs, graduate ideas — and settled two questions about it with you: the tool runs the routines in order while the existing commit-guard stays as a safety net, and it calls the drop-in skills you already have rather than replacing them. We rebuilt both copy-ready charters and their Portuguese versions, added the new requirement (also in Portuguese), and refreshed the front page. The web landing is not re-published yet — it waits for your approval.
+
+**Glossary:** *scaffold* — generate the initial project skeleton and config; *orchestrator* — a tool that runs other tools/steps in the right order without doing their work; *backstop* — a safety net that catches a mistake the happy path was meant to prevent; *invoke (a skill)* — call it rather than reimplement it; *composed charter* — the single self-contained file adopters copy, generated from the core + modules.
+
 ## 2026-07-11 — Incorporated Spec-driven work + Changelogs into `CHARTER_CORE` (both charters)
 
 - Took two of the just-`agreed` specs into template text — the first incorporation from the Setup→changelog→landing cluster:

@@ -39,7 +39,7 @@ To reuse: copy this file into the new repo, fill in the **Project Parameters** b
 
 Work advances through explicit phases; the agent always states which phase it is in. Phases move forward through **Q&A rounds** (see *Working through questions* below):
 
-0. **Setup** — before {{ phase1 }}, walk the **Project Parameters** block with the {{ oracle }} and confirm every value; never assume a default silently. Fill blank rows by asking; where a default applies (Product scope → *product for an audience*, artifact language → English), state the assumption so the {{ oracle }} can correct it. *Exit: Project Parameters agreed and recorded.*
+0. **Setup** — before {{ phase1 }}, walk the **Project Parameters** block with the {{ oracle }} and confirm every value; never assume a default silently. Fill blank rows by asking; where a default applies (Product scope → *product for an audience*, artifact language → English, Stack → strict TypeScript), state the assumption so the {{ oracle }} can correct it. Then settle the **technology and scaffolding choices** and generate the initial project (see *Setup scaffolding* below), so {{ phase1 }} and Build begin against a project that runs, not a blank folder. *Exit: Project Parameters agreed and recorded, and the project scaffolded.*
 <!-- SLOT: method_phase_one -->
 2. **Align** — <!-- SLOT: method_align -->
 3. **{{ specify_phase_title }}** — <!-- SLOT: method_specify -->
@@ -55,6 +55,14 @@ The phases advance by **Q&A rounds** — the agent's tool for turning uncertaint
 - **Scripted baseline, then adaptive.** A round opens with the questions the agent already knows it must ask (e.g. the Project Parameters at Setup), then adds follow-ups generated from the answers and context — going deeper only where an answer warrants it. The script guarantees coverage; the adaptive pass adds depth.
 - **Answers become artifacts.** Every resolved question lands somewhere durable — the {{ spec_term }}, the decision log (with its rejected alternative), or repo memory — traceable to the round that settled it. An answer not written down did not happen.
 - **A round closes at the phase's Exit.** It ends when no open question the {{ oracle }} considers blocking remains.
+
+## Setup scaffolding
+
+Setup does more than record parameters — it **bootstraps a runnable project**. From the Setup answers the agent generates the minimum initial project: the skeleton and configuration for the chosen stack (e.g. a strict `tsconfig`, a test runner, lint, a functional-core / imperative-shell layout), the working-agreement wiring (a project `CLAUDE.md` that references this charter), and a seeded `.claude/memory/` (`roadmap.md`, `decisions.md`, and the `MEMORY.md` index). {{ phase1 }} and Build then start against a project that already runs.
+
+- **Tech choices are the developer's, made at Setup.** The stack picks the charter recommends — strict TypeScript, functional-core / imperative-shell, a test runner (see *Stack philosophy* and *Testing methodology*) — are **stated, overridable defaults**, never silent assumptions. Setup surfaces each as a recommendation the {{ oracle }} accepts or replaces, and the generated scaffolding follows the choice: answer "Go" and Setup presents Go-idiomatic defaults instead of the TypeScript ones. This is the "never assume a parameter" rule applied to the technology rows.
+- **Minimum runnable skeleton only.** Scaffold what makes the project run and testable — no speculative CI, deployment, appliance, or infrastructure stubs (see *Anti-over-engineering*). A stub is added when a today-requirement calls for it, not on spec.
+- **Delivered by the Setup command.** The scaffolding runs inside Setup, delivered by the project CLI's `setup` command (see [REQUIREMENT_PROJECT_CLI.md](../requirements/REQUIREMENT_PROJECT_CLI.md)): Setup both gathers the answers and generates the skeleton, so Build's first slice is a feature, not the skeleton itself.
 
 ## Roles
 
@@ -75,7 +83,7 @@ Conversation happens in the user's language; **every engineering artifact is in 
 
 ## Stack philosophy
 
-Default stack is **modern, strict TypeScript** — deliberately: the agent is fluent in it *and*, used with discipline, its type system encodes business rules with much of the rigor of ML-family languages, without the long-term maintenance cost of dynamic stacks. Use it that way:
+Default stack is **modern, strict TypeScript** — deliberately: the agent is fluent in it *and*, used with discipline, its type system encodes business rules with much of the rigor of ML-family languages, without the long-term maintenance cost of dynamic stacks. It is a **recommended default the developer confirms or replaces at Setup** (see *Setup scaffolding*), not a silent assumption. When TypeScript is the choice, use it that way:
 
 - discriminated unions + exhaustive matching for states and workflows;
 - branded/opaque types for identifiers, money, and other units;

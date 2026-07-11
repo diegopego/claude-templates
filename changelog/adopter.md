@@ -2,6 +2,12 @@
 
 For people who copy these templates into their own projects. Only changes that affect how you find, choose, or use a template appear here. Newest first.
 
+## 2026-07-11 — Setup now scaffolds your project, and there's a spec for one project CLI
+
+- **Setup does more.** Your charter's **Setup** step now settles your stack and language *with* you — the charter's picks (strict TypeScript, functional-core / imperative-shell, a test runner) are **recommendations you can accept or swap**, never silent defaults — and then **scaffolds a runnable project**: a skeleton, config, a `CLAUDE.md` wired to the charter, and seeded memory. Real work starts against a project that already runs, not a blank folder.
+- **New requirement: the project CLI.** A new template, `REQUIREMENT_PROJECT_CLI.md`, specifies one interactive tool (styled after `claude`) that runs your project's whole lifecycle — `setup`, `adopt`, `update-docs`, `graduate-idea` — in the right order, so nothing (translations, changelogs, landing refresh) gets skipped. It calls the drop-in skills you already have rather than replacing them, and your commit-guard hook stays as a safety net. We ship the specification; a real project builds the tool.
+- Copy the same single charter file as before; the pt-BR versions and the catalog are updated. Of the four "coming next" items, two more are now live (Setup-scaffolding and the CLI spec); still planned are the **approve-before-publish landing page** and the **self-updating docs pipeline**.
+
 ## 2026-07-11 — Your charter now covers two changelogs and a spec before each task
 
 - Both charters gained two sections — you get them by copying the same single charter file:

@@ -11,7 +11,9 @@ The product here is prompt text: charters, requirements, and guides. There is no
 - **Charters** — one working agreement per project, [`templates/charters/`](templates/charters/):
   - **Greenfield** — building a new application from scratch: interrogate the vision, turn it into written specs, prototype, then build tested slices.
   - **Legacy transformation** — extracting the knowledge inside an existing system (spreadsheet, old app, paper process) and rebuilding it as a modern application, with data migration and cutover.
-- **Portable-appliance requirement** — [`templates/requirements/`](templates/requirements/): every application must be destroyable and rebuildable on a fresh machine from `repo + secrets + backup` in under 30 minutes.
+- **Requirements** — [`templates/requirements/`](templates/requirements/):
+  - **Portable appliance** — every application must be destroyable and rebuildable on a fresh machine from `repo + secrets + backup` in under 30 minutes.
+  - **Project CLI** — one interactive, `claude`-styled tool that runs a project's whole lifecycle (`setup` · `adopt` · `update-docs` · `graduate-idea`) as a thin orchestrator over Claude and the skills, so the rituals run in order and nothing is silently skipped.
 - **Adoption guide** — [`templates/guides/GUIDE_ADOPTION.md`](templates/guides/GUIDE_ADOPTION.md): bring these practices into a project that already exists and works, without losing the instructions it already has.
 - **Embeddable skills** — [`templates/skills/`](templates/skills/): drop-in Claude Code skills an adopting project copies into its own `.claude/skills/`. First up: **`graduate-idea`**, which drives a rough idea from the inbox through its Q&A round into an agreed spec on the roadmap.
 
@@ -19,7 +21,7 @@ The full index is the catalog at [`templates/README.md`](templates/README.md). E
 
 ## How to adopt
 
-- **New project** — pick the charter that fits, copy it into your repo, and reference it from your project's `CLAUDE.md`. The charter opens with a **Setup** step: the agent confirms every project parameter with you (languages, product scope, users, …) before any work begins.
+- **New project** — pick the charter that fits, copy it into your repo, and reference it from your project's `CLAUDE.md`. The charter opens with a **Setup** step: the agent confirms every project parameter with you (languages, product scope, users, …) *and* settles your stack and language, then **scaffolds a runnable project** — skeleton, config, a `CLAUDE.md` wired to the charter, and seeded memory — so real work starts against a project that already runs, not a blank folder.
 - **Existing project** — follow the adoption guide: it inventories your current instructions, keeps or adapts each template section, raises every conflict to you instead of overwriting, and defers code/infra changes to a roadmap so the running system is never touched by surprise.
 
 ## What the charters give a project
@@ -27,7 +29,8 @@ The full index is the catalog at [`templates/README.md`](templates/README.md). E
 - A phased method — **Setup → Discover/Understand → Align → Specify → Prototype → Build** — where the agent always states which phase it is in.
 - **Q&A rounds** as the engine that moves each phase forward — related questions asked together, each with options and a recommendation, a scripted baseline then adaptive follow-ups, and every answer written down as a spec or a decision. Defined once so the agent asks well instead of guessing.
 - **Product for an audience, not a bespoke tool** — what you build is a multi-tenant product from v1; the first organization is tenant #1, and its specifics become configuration, not hardcoded behavior.
-- **Modern strict TypeScript** by default, used to encode business rules in the type system.
+- **Setup that scaffolds** — Setup doesn't just record parameters; it generates a minimum runnable project from your answers, and the charter's tech picks are **recommended, overridable defaults you confirm at Setup**, never silent assumptions.
+- **Modern strict TypeScript** as the recommended default, used to encode business rules in the type system.
 - **Anti-over-engineering** — boring solutions, few dependencies, seams not scaffolding.
 - **Functional core, imperative shell** with TDD; agreed specs are the test oracles.
 - **Versioned in-repo memory** — roadmap and decision log live in the repo, so a fresh clone can resume the work.

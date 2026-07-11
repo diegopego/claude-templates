@@ -1,6 +1,6 @@
 # setup-scaffolds-project
 
-Status: agreed
+Status: incorporated
 Applies to: core (Setup phase, both charters). Delivered by the Setup CLI (see [lifecycle-cli.md](lifecycle-cli.md)).
 
 ## Behavior

@@ -1,6 +1,6 @@
 # lifecycle-cli
 
-Status: agreed
+Status: incorporated
 Applies to: a new `REQUIREMENT_` deliverable (the CLI is specified here; adopter projects / a toolchain implement it). Touches core (Setup phase) and the update/adopt skills.
 
 ## Behavior
