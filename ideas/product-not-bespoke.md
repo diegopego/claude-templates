@@ -1,6 +1,6 @@
 # product-not-bespoke
 
-Status: agreed
+Status: incorporated
 Applies to: core (both charters; extraction rules apply to legacy)
 
 ## Behavior
@@ -27,5 +27,7 @@ Anti-over-engineering says "build for today's requirements"; this spec makes mul
 
 ## Open questions
 
-- Interaction with `REQUIREMENT_PORTABLE_APPLIANCE.md`: are backup/restore whole-system only, or also per-tenant (export/import a single tenant)?
-- Is tenant provisioning/onboarding itself a mandatory v1 feature, or can tenant #1 be seeded by migration alone?
+None — both resolved in the 2026-07-11 Q&A round (see `decisions.md`) and incorporated into the *Multi-tenant from v1* bullet of `CHARTER_CORE`:
+
+- **Backup/restore is whole-system only.** `REQUIREMENT_PORTABLE_APPLIANCE.md` is unchanged; per-tenant export/import is a product feature a project decides at Align, not an appliance invariant.
+- **v1 includes a minimal, operator-level tenant-creation path** (command or admin action); self-service onboarding stays on the roadmap until demand calls for it. Tenant #1 may still be seeded by migration — but a second tenant must be creatable.

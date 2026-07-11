@@ -12,4 +12,4 @@ document, so a marker that lags by the doc-update commit itself is harmless.
 Seeded at the tip of `master` at incorporation time; `README.md` reflects the
 product through this commit.
 
-0e7745533cc6474aa30e333ded30aa71e794985f
+d1a9ae4a570b97866c96ee2e382a614d2374e54b

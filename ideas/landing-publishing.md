@@ -34,4 +34,4 @@ This repo: landing page published as an Artifact (`https://claude.ai/code/artifa
 
 ## Open questions
 
-- pt-BR landing page (carried over from `living-product-doc`) — deferred: the root landing is an English meta-project artifact; revisit if a Portuguese landing is wanted (outside `translate-templates` scope).
+- ~~pt-BR landing page (carried over from `living-product-doc`)~~ **Resolved (2026-07-11 Q&A round, see `decisions.md`):** the landing's language is a **Setup choice** — user-facing text following the *User-facing language* parameter of the charter's language protocol; no template change needed. This repo's recorded choice is English.

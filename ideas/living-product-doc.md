@@ -37,6 +37,6 @@ Done (2026-07-10, dogfooding): a rendered landing page derived from `README.md` 
 
 ## Open questions
 
-- pt-BR landing page? The root README is a meta-project artifact (English per repo rule); revisit if a Portuguese landing page is wanted (it is outside the `translate-templates` scope, which covers only `templates/`).
-- When to graduate the template-practice facet into an actual charter section / embeddable skill.
+- ~~pt-BR landing page?~~ **Resolved (2026-07-11 Q&A round, see `decisions.md`):** the landing's language is a **Setup choice**, not a separate feature — the landing is user-facing text for the *Primary users*, so it follows the *User-facing language* parameter the charter's language protocol already defines. No template change needed. For this repo the recorded Setup choice is English artifacts → the root landing stays English.
+- When to graduate the template-practice facet into an actual charter section / embeddable skill (deferred — reaffirmed 2026-07-11).
 - Publishing targets (Artifact + GitHub Pages) and Claude Design prototyping are speced separately in [landing-publishing.md](landing-publishing.md).

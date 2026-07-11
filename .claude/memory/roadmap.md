@@ -22,11 +22,11 @@ Single source of direction. Every session starts by reading this file and ends b
 ## Milestone 3 — Ideas backlog
 
 - [x] Incorporate `ideas/product-not-bespoke.md` (agreed 2026-07-10) into both charters — landed in `CHARTER_CORE.md` (Product scope parameter, multi-tenant-from-v1, domain/instance separation) with the extraction-classification bullet in `MODULE_EXTRACTION_LEGACY`
-- [ ] Resolve `product-not-bespoke` open questions: per-tenant backup/restore vs. whole-system in `REQUIREMENT_PORTABLE_APPLIANCE.md`; tenant provisioning as v1 feature vs. migration-seeded tenant #1
+- [x] Resolved `product-not-bespoke` open questions (2026-07-11 Q&A round): backup/restore stays **whole-system** (per-tenant export = product feature decided at Align); **v1 includes a minimal operator-level tenant-creation path** (self-service onboarding = roadmap). Incorporated into the `CHARTER_CORE` *Multi-tenant from v1* bullet; spec marked incorporated
 - [x] `ideas/adopt-into-existing-project.md` agreed (2026-07-10) and authored as `templates/guides/GUIDE_ADOPTION.md` (new `GUIDE_` type) — conflict rule = always ask; no-instructions case in scope; code/infra practices deferred to roadmap
 - [x] `ideas/language-setup.md` agreed + incorporated (2026-07-10) — broadened to a **Setup (step 0)** phase in `CHARTER_CORE.md` that walks the whole Project Parameters block, confirming every value (languages, Product scope, …) instead of silent defaults
 - [x] `ideas/living-product-doc.md` agreed + built (2026-07-10) — living landing page (root `README.md`) kept current by the `update-product-doc` skill; hook rule 4 enforces it on adopter-facing deliverable changes
-- [ ] Decide whether `translated-templates` graduates into a reusable module for template-consuming projects
+- [x] Decided (2026-07-11 Q&A round): `translated-templates` stays **meta-project tooling** — no reusable module/skill until an adopting project asks; spec marked incorporated
 - [x] Publish a rendered landing page for this repo (dogfooding, 2026-07-10) — Artifact derived from `README.md`, republished by `update-product-doc`
 - [x] `ideas/idea-inbox.md` graduated (agreed) + incorporated (2026-07-10) — new **Idea inbox** section in `CHARTER_CORE.md` (inbox scratchpad + graduation ritual reusing the existing `spec_term`; the pre-roadmap staging area). Shipped alongside the first embeddable skill, `templates/skills/graduate-idea/` (see Milestone 4)
 
@@ -41,7 +41,8 @@ The five newest inbox entries turned out to refine this cluster; graduated toget
 - [x] `ideas/spec-driven-work.md` **incorporated (2026-07-11)** — new `CHARTER_CORE` *Spec-driven work* section beside *Idea inbox* (greenfield §14 / legacy §15)
 - [x] `ideas/lifecycle-cli.md` **incorporated (2026-07-11)** — new deliverable `REQUIREMENT_PROJECT_CLI.md` (single-door `setup`/`adopt`/`update-docs`/`graduate-idea` CLI styled after `claude`, specified as a thin orchestrator). Q&A settled: CLI orchestrates + hook is backstop; CLI invokes the skills. Catalog + landing + pt-BR updated. We ship the spec only.
 - [x] `ideas/adaptive-setup-questions.md` **incorporated** (2026-07-10): broadened from a Setup mechanism into the general **Q&A-round** method — a new *Working through questions* section in `CHARTER_CORE.md` defines the round once (batched · options + recommendation · scripted-baseline-then-adaptive · answers become artifacts); phases point to it, and `CLAUDE.md` runs the same method when graduating an inbox entry (dogfooding). Composed charters regenerated + renumbered
-- [ ] `living-product-doc` open questions: pt-BR landing page? graduate the living-manual practice into a charter section / embeddable skill for adopters
+- [x] `living-product-doc` pt-BR-landing question resolved (2026-07-11 Q&A round, owner's principle): **the landing's language is a Setup choice** — it follows the *User-facing language* parameter already in the language protocol; no template change. This repo's choice: English
+- [ ] Graduate the living-manual practice into a charter section / embeddable skill for adopters (deferred — reaffirmed 2026-07-11)
 - [ ] Deferred (2026-07-11 owner Q&A): a **marker-freshness rule** in `check-freshness.sh` (block a commit that leaves the last-processed-commit marker behind); GitHub Pages as the landing's public primary (Artifact-only today). Build-for-today: add when warranted
 
 ## Milestone 4 — Skill templates (in progress)

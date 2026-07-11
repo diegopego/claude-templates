@@ -2,6 +2,20 @@
 
 Technical changelog for whoever maintains this repository. Each entry ends with a plain-language addendum and, when needed, a jargon glossary. Newest first.
 
+## 2026-07-11 — Q&A round closes the Milestone 3 tail (4 open questions → 1 charter clause + 3 status closures)
+
+- One batched Q&A round with the owner resolved the four long-open questions (full rationale + rejected alternatives in `decisions.md`):
+  - **Backup/restore stays whole-system**; per-tenant export/import is a product feature decided at Align. `REQUIREMENT_PORTABLE_APPLIANCE.md` unchanged.
+  - **v1 includes a minimal, operator-level tenant-creation path**; self-service onboarding deferred to roadmap-on-demand.
+  - **`translated-templates` stays meta-project tooling** — no reusable module/skill until an adopting project asks. Spec → incorporated.
+  - **The landing's language is a Setup choice** (owner's own principle, superseding the "pt-BR landing?" framing): the landing is user-facing text for the *Primary users*, so it follows the *User-facing language* parameter the language protocol already defines — no template change needed; this repo's recorded choice is English. The living-manual charter-section graduation stays deferred.
+- **Template text:** the first two resolutions landed as one addition to the `CHARTER_CORE` *Multi-tenant from v1* bullet ("Two boundaries keep the exception honest: …"), linking `../requirements/REQUIREMENT_PORTABLE_APPLIANCE.md`. Applied surgically to both composed charters + both pt-BR mirrors (in-bullet sentence — no heading/renumbering changes, verified). `ideas/product-not-bespoke.md` → **incorporated** (open questions resolved in place); `ideas/translated-templates.md` → **incorporated**; the pt-BR-landing question struck through as resolved in `living-product-doc.md` + `landing-publishing.md`.
+- Landing `README.md`: the *Product for an audience* practice bullet gained the two boundaries. Marker advanced `0e77455` → `d1a9ae4`. Roadmap: two Milestone 3 items checked, the living-manual graduation split out as its own deferred item.
+
+**In plain language:** four questions that had been sitting open since the multi-tenant decision were settled in one round. A product built from these templates must be able to create a second customer organization from day one — but a simple administrator command is enough; a fancy sign-up flow can wait. Backups keep covering the whole system, not one customer at a time — pulling a single customer's data out is a feature to decide later, per project. Our Portuguese-translation machinery stays internal until someone adopting the templates actually asks for it. And "should the landing page exist in Portuguese?" dissolved: the language of a landing page is simply one of the language choices made at Setup — for this repo, English.
+
+**Glossary:** *operator-level provisioning* — creating a tenant via an admin command rather than a self-service sign-up flow; *whole-system backup* — one artifact covering the entire installation, as opposed to per-tenant export; *Align* — the charter phase where scope and priorities are negotiated with the owner.
+
 ## 2026-07-11 — Second embeddable skill: `adopt-template` (automates GUIDE_ADOPTION.md)
 
 - Shipped `templates/skills/adopt-template/SKILL.md` — the second embeddable skill template, kicking off Milestone 4's next candidate. It automates `templates/guides/GUIDE_ADOPTION.md`: inventory existing instructions → classify each charter section + requirement (keep / adapt / already-covered / skip) → raise conflicts to the owner via the charter's Q&A round → produce a merged `CLAUDE.md` + seeded `.claude/memory/` → prove-by-functioning. Follows the skill-template convention (frontmatter first, leading copy-me blockquote, body addressed to the adopter's agent). Unlike `graduate-idea` (which runs inside an already-adopted project), this one runs *at adoption time* and references the template set rather than "your charter" — so it names `GUIDE_ADOPTION.md` and the charters by name, not by relative path (paths break once copied into `.claude/skills/`).

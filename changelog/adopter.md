@@ -2,6 +2,13 @@
 
 For people who copy these templates into their own projects. Only changes that affect how you find, choose, or use a template appear here. Newest first.
 
+## 2026-07-11 — Multi-tenant got two honest boundaries: create-a-tenant in v1, whole-system backups
+
+- Both charters' **multi-tenant from v1** rule now states its limits explicitly, so it can't quietly grow into over-engineering:
+  - **Your v1 must be able to create a second tenant** — but an operator-level path (a command or admin action) is enough. Tenancy no second tenant can exercise is scaffolding, not a feature; self-service onboarding stays on the roadmap until real demand calls for it.
+  - **Backup and restore stay whole-system**, exactly as the portable-appliance requirement says. Exporting or importing a single tenant is a product feature you decide at Align when a real need appears — never an infrastructure obligation on every project.
+- You copy the same single charter file; the new sentences travel inside it, in English and pt-BR. The portable-appliance requirement itself is unchanged.
+
 ## 2026-07-11 — New skill: `adopt-template` runs the adoption guide for you
 
 - If you already have a working project, you no longer have to walk the adoption guide by hand. Drop the new **`adopt-template`** skill into your `.claude/skills/` and ask the agent to adopt the templates: it inventories your existing `CLAUDE.md` and convention docs, classifies each charter section and requirement (keep / adapt / already-covered / skip), **raises every conflict to you** with a recommendation, and produces a merged `CLAUDE.md` plus a seeded `.claude/memory/`. Nothing in your running code or infrastructure is touched — those changes land on a roadmap for your approval instead.

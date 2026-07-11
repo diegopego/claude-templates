@@ -1,7 +1,7 @@
 # translated-templates
 
-Status: agreed
-Applies to: this repo (meta-project tooling), possibly a future module for template-consuming projects
+Status: incorporated
+Applies to: this repo (meta-project tooling)
 
 ## Behavior
 
@@ -20,4 +20,4 @@ The owner reviews and shares templates in Portuguese, but English must remain th
 
 ## Open questions
 
-- Should this graduate into a reusable module/skill that template-consuming projects can adopt for their own documents?
+None — resolved in the 2026-07-11 Q&A round (see `decisions.md`): this stays **meta-project tooling**, not a reusable module/skill, until an adopting project actually asks for translated documents of its own. The charters' language protocol already covers adopters' language needs; reopening is cheap if demand appears.
