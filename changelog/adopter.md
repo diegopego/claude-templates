@@ -2,6 +2,12 @@
 
 For people who copy these templates into their own projects. Only changes that affect how you find, choose, or use a template appear here. Newest first.
 
+## 2026-07-11 — Your charter now designs a landing page for your product, and you approve it before it publishes
+
+- Your charter's **Setup** step now also designs the **visual skin** of a public **landing page** for your product. A short design interview — theme, palette, a reference site you like, your audience, your stack — builds the look **once** (with Claude Design as the default tool). After that the page's **content regenerates** from your product's always-current summary (the users' changelog feeds it), so the look stays consistent while the words stay current.
+- **You approve before it publishes.** Every landing update first states, in words, what's about to change, then shows you a preview, and waits for your OK — nothing goes public silently. (The publishing pipeline itself is the `update-docs` command in the project-CLI requirement.)
+- You still copy the same single charter file — the new Setup paragraph travels inside it, in both English and pt-BR. This was the **last of the six** planned setup/changelog/landing items: all are now live in the templates you copy.
+
 ## 2026-07-11 — Setup now scaffolds your project, and there's a spec for one project CLI
 
 - **Setup does more.** Your charter's **Setup** step now settles your stack and language *with* you — the charter's picks (strict TypeScript, functional-core / imperative-shell, a test runner) are **recommendations you can accept or swap**, never silent defaults — and then **scaffolds a runnable project**: a skeleton, config, a `CLAUDE.md` wired to the charter, and seeded memory. Real work starts against a project that already runs, not a blank folder.

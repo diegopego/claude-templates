@@ -1,7 +1,9 @@
 # landing-publishing
 
-Status: agreed
+Status: incorporated (2026-07-11)
 Applies to: the living landing page (this repo now; template practice for adopter projects). The Setup design-interview step touches core (Setup phase).
+
+> Incorporated 2026-07-11 as a **focused Setup addition** (owner Q&A — see `decisions.md`): a new *Setup scaffolding* bullet in `CHARTER_CORE` (**Landing skin, designed once**) plus a mention in the Method §0 *Setup* bullet — introducing the landing page, its design interview, skin-fixed-once vs. content-regenerated, and the approval loop, with the content pipeline pointing to `REQUIREMENT_PROJECT_CLI.md`. A full living-doc/landing charter section was **not** added (stays deferred — roadmap).
 
 ## Behavior
 

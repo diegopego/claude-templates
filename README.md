@@ -21,7 +21,7 @@ The full index is the catalog at [`templates/README.md`](templates/README.md). E
 
 ## How to adopt
 
-- **New project** — pick the charter that fits, copy it into your repo, and reference it from your project's `CLAUDE.md`. The charter opens with a **Setup** step: the agent confirms every project parameter with you (languages, product scope, users, …) *and* settles your stack and language, then **scaffolds a runnable project** — skeleton, config, a `CLAUDE.md` wired to the charter, and seeded memory — so real work starts against a project that already runs, not a blank folder.
+- **New project** — pick the charter that fits, copy it into your repo, and reference it from your project's `CLAUDE.md`. The charter opens with a **Setup** step: the agent confirms every project parameter with you (languages, product scope, users, …) *and* settles your stack and language, then **scaffolds a runnable project** — skeleton, config, a `CLAUDE.md` wired to the charter, and seeded memory — so real work starts against a project that already runs, not a blank folder. Setup also runs a short design interview to fix your landing page's visual skin, once.
 - **Existing project** — follow the adoption guide: it inventories your current instructions, keeps or adapts each template section, raises every conflict to you instead of overwriting, and defers code/infra changes to a roadmap so the running system is never touched by surprise.
 
 ## What the charters give a project
@@ -35,6 +35,7 @@ The full index is the catalog at [`templates/README.md`](templates/README.md). E
 - **Functional core, imperative shell** with TDD; agreed specs are the test oracles.
 - **Versioned in-repo memory** — roadmap and decision log live in the repo, so a fresh clone can resume the work.
 - **Two changelogs, two rhythms** — a technical changelog (updated every commit, git history as its raw record) and one written for your product's users (curated per significant change); the users' changelog is the natural source for an always-current product summary.
+- **A living landing page** — that always-current summary is rendered into a public landing page whose **visual skin is designed once at Setup** (a short design interview — theme, palette, a reference site you like — with Claude Design) and whose content then regenerates from the summary as the product changes. Every publish passes an **approval loop**: you see the intent in words, then a preview, and nothing goes public without your OK.
 - **Idea inbox** — a scratchpad for half-formed ideas that graduates, on request, into a proper spec through a Q&A round; the inbox is where scope is proposed, the roadmap where it is accepted. The `graduate-idea` skill automates the ritual.
 - **Spec-driven work** — every non-trivial task becomes a short spec before it is built; when a requirement can't be pinned down, the agent asks up front in a Q&A round instead of guessing and encoding the guess.
 - **Portable-appliance** delivery and **explicit git authorization** (the agent never commits on its own).

@@ -1,7 +1,9 @@
 # living-product-doc
 
-Status: agreed
+Status: incorporated (2026-07-11)
 Applies to: this repo (meta-project tooling) now; candidate template practice for projects built from a charter
+
+> Incorporated 2026-07-11: the `update-product-doc` skill was rewired to work by **delta from a versioned last-processed-commit marker** (`.claude/memory/last-processed-commit.md`) driven by the target-audience changelog, and to advance the marker on each run. This is meta-project tooling; the template-practice facet below stays deferred (see roadmap). The pre-commit hook was left unchanged (owner Q&A — see `decisions.md`). The adopter-facing pipeline is specified in [../templates/requirements/REQUIREMENT_PROJECT_CLI.md](../templates/requirements/REQUIREMENT_PROJECT_CLI.md) (`update-docs`).
 
 ## Behavior
 
@@ -11,7 +13,7 @@ A skill, `update-product-doc`, keeps the living-doc current. The pre-commit hook
 
 **Delta model (refined 2026-07-10, was inbox #1):** the skill works by **delta from a versioned last-processed-commit marker**, not the pre-commit staged diff. A marker (a field under `.claude/memory/`) records the last commit the skill processed; on each run the skill scans the repo delta since that marker, updates the manuals and landing page, and advances the marker to `HEAD`. This decouples the update from the commit moment — the skill can run on demand over an interval — while still fitting the pre-commit hook (a commit that leaves the marker behind is one the hook can flag). Rejected: the staged-diff model (tied to the commit, no interval) and deriving the delta from git history alone (fragile under history rewrites).
 
-**Pipeline (refined 2026-07-10):** the update is driven by the **target-audience changelog**, not the raw diff — the flow is *target-audience changelog → living-product-doc → landing page*. The changelog is the interpretation layer (what changed, in the user's terms), the living-doc integrates those deltas into a curated current-state picture, and the landing page renders it (through the approval loop — see [landing-publishing.md](landing-publishing.md)). The landing page is **single, for the target audience** (not per-audience). This reconciles the earlier "landing derives from the living-doc" decision with the idea that the changelog drives the landing — it does so transitively, via the living-doc. *Rewiring `update-product-doc` to consume the target-audience changelog entry and the last-processed-commit marker (instead of re-reading the staged diff) is pending incorporation.*
+**Pipeline (refined 2026-07-10):** the update is driven by the **target-audience changelog**, not the raw diff — the flow is *target-audience changelog → living-product-doc → landing page*. The changelog is the interpretation layer (what changed, in the user's terms), the living-doc integrates those deltas into a curated current-state picture, and the landing page renders it (through the approval loop — see [landing-publishing.md](landing-publishing.md)). The landing page is **single, for the target audience** (not per-audience). This reconciles the earlier "landing derives from the living-doc" decision with the idea that the changelog drives the landing — it does so transitively, via the living-doc. *Rewiring `update-product-doc` to consume the target-audience changelog entry and the last-processed-commit marker (instead of re-reading the staged diff) was **incorporated 2026-07-11**.*
 
 ## Why
 
