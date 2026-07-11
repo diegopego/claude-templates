@@ -6,6 +6,7 @@ Single source of direction. Every session starts by reading this file and ends b
 
 The templates have never been adopted outside this repo; further meta-refinement has diminishing returns until they are. This milestone exists to generate real friction data.
 
+- [x] Publish the landing on GitHub Pages (`docs/index.html`, hook-enforced freshness against README.md) — activated by the owner 2026-07-11, replacing the Artifact
 - [ ] Adopt a charter (or run `adopt-template`) in one real project of the owner's
 - [ ] Record every friction point during adoption and the first weeks of use (what the agent ignored, what felt like ceremony, what was missing) — as inbox notes in this repo
 - [ ] Iterate the template text from that friction; only then consider new deliverables
@@ -14,5 +15,4 @@ The templates have never been adopted outside this repo; further meta-refinement
 
 - `ideas/lifecycle-cli.md` — the project CLI spec; graduates back to a `REQUIREMENT_` when a real adopter wants to build it
 - pt-BR (or other) translations — return when an adopting project asks
-- GitHub Pages as the landing's public target (Artifact-only today)
 - Living-manual practice as a charter section beyond `MODULE_LIVING_DOCS`

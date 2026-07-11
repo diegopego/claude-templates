@@ -2,6 +2,10 @@
 
 Curated for template adopters, one entry per significant change (newest first). The git history is the full technical record underneath. Entries before 2026-07-11 live in the old `changelog/` directory, reachable in git history.
 
+## 2026-07-11 — Public landing page on GitHub Pages
+
+The template catalog now has a public landing at **https://diegopego.github.io/claude-templates/** — a rendered view of the repo's `README.md`, regenerated with every adopter-facing commit (hook-enforced). It replaces the previous private Artifact page.
+
 ## 2026-07-11 — Rewrite: minimal charters, opt-in modules, leaner meta-project
 
 The whole template set was re-authored from scratch in its ideal form. If you copied a charter before this date, the practices are the same in spirit — but slimmer, deduplicated, and with the heavyweight opinions made optional.

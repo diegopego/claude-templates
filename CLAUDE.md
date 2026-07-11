@@ -7,6 +7,7 @@ This repository is a **meta-project**: its product is prompt text — reusable c
 - `CLAUDE.md` — this file, the meta-project's working agreement. The **only** live `CLAUDE.md` in the tree.
 - `README.md` — the adopter-facing **landing page and catalog**: the current-state source of truth for what the templates offer and how to adopt them. Updated in the same commit as any adopter-facing deliverable change (hook-enforced).
 - `CHANGELOG.md` — one curated changelog, written for adopters, updated per significant change; the git history is the technical record underneath.
+- `docs/index.html` — the **rendered landing page**, a generated view of `README.md` served by GitHub Pages (`https://diegopego.github.io/claude-templates/`). Its Nord "charter" skin is settled — regenerate the content from README, never redesign ad hoc.
 - `ideas/` — the idea pipeline. `inbox.md` is the owner's scratchpad (any language, draft quality; never reorganize or delete entries without being asked). On the owner's request an entry **graduates** through a Q&A round — outcome-changing questions batched, each with options and a recommendation, resolutions recorded in `.claude/memory/decisions.md` — into its own kebab-case spec file (`Status: draft | agreed | incorporated | deferred`) and leaves the inbox in the same change. Specs then graduate into template text.
 - `templates/` — the **deliverables**, inert by location (see Anti-contamination): `charters/` (composed) plus `charters/sources/` (the core + modules + manifest they are assembled from), `requirements/`, `guides/`, and `skills/` (embeddable skill templates adopters copy into their own `.claude/skills/`).
 - `.claude/` — tooling and memory of the meta-project itself, never deliverables: the pre-commit freshness hook, the `assemble-charters` skill, and `memory/`.
@@ -30,7 +31,7 @@ Conversation with the owner happens in **Brazilian Portuguese**; every artifact 
 
 ## Commit ritual
 
-Before any commit: if a charter source changed, regenerate the composed charters (`assemble-charters` skill); if `templates/` or `ideas/` changed, update `CHANGELOG.md`; if an adopter-facing deliverable changed (composed charters, requirements, guides, skills), refresh `README.md` — all staged in the same commit. The pre-commit hook blocks commits that skip a step. After a commit that touched `README.md`, offer to republish the rendered landing (Artifact, same URL) — publishing always requires the owner's approval. And as always: **never `git commit` or `git push` without explicit, per-instance authorization from the owner.**
+Before any commit: if a charter source changed, regenerate the composed charters (`assemble-charters` skill); if `templates/` or `ideas/` changed, update `CHANGELOG.md`; if an adopter-facing deliverable changed (composed charters, requirements, guides, skills), refresh `README.md`; if `README.md` changed, regenerate `docs/index.html` from it — all staged in the same commit. The pre-commit hook blocks commits that skip a step. Publishing happens on `git push` (GitHub Pages serves `docs/` from `master`), so the push authorization **is** the publish approval. And as always: **never `git commit` or `git push` without explicit, per-instance authorization from the owner.**
 
 ## Editing the templates
 

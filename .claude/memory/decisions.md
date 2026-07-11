@@ -2,6 +2,10 @@
 
 One short entry per architectural or directional decision: what, why, strongest rejected alternative. Reversals are new entries pointing at the old one.
 
+## 2026-07-11 — Landing moves to GitHub Pages; the rendered HTML is now versioned
+
+Owner activated the parked GitHub Pages item right after the rewrite commit: the public landing is now `docs/index.html` on `master`, served by GitHub Pages at `https://diegopego.github.io/claude-templates/` (repo is public; `.nojekyll` alongside). This **reverses two earlier choices**: *Published landing page … derived from README.md* (2026-07-10) — the Artifact URL is retired as the primary (it may lag or be deleted; Pages is canonical) — and that entry's "HTML deliberately not versioned": Pages requires the HTML in the repo, so drift is prevented by a new hook rule instead (README.md staged ⇒ docs/index.html staged), which is *stronger* than the old post-commit republish ritual — the rendered page can no longer trail the source. The publish approval loop collapses into git authorization: GitHub publishes on push, and the owner's per-instance push authorization is the approval. The Nord "charter" skin transfers unchanged and stays fixed. Rejected: a `gh-pages` branch (a second branch to keep in sync, for no benefit on a single-owner repo); rendering README via Jekyll (loses the designed skin).
+
 ## 2026-07-11 — Rewrite from scratch in ideal form (owner accepted the risk)
 
 After an honest assessment concluded the template content was strong but the meta-machinery outweighed the product (zero adopters after 4 milestones), the owner ordered a full rewrite — "reescreva do zero da forma ideal. eu assumo o risco." — and settled the outcome-changing questions in one Q&A round. Everything was re-authored; git history preserved. The decisions, each reversing or reshaping an earlier entry:

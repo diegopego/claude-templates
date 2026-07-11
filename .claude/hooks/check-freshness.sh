@@ -4,8 +4,10 @@
 #   1. A charter source (templates/charters/sources/) is staged without the
 #      composed charters — run the assemble-charters skill.
 #   2. templates/ or ideas/ change without CHANGELOG.md staged.
-#   3. An adopter-facing deliverable changes without the landing page
+#   3. An adopter-facing deliverable changes without the landing source
 #      (root README.md) staged.
+#   4. README.md changes without the rendered landing (docs/index.html)
+#      staged — regenerate it from README.md.
 # Exit 2 blocks the tool call and feeds stderr back to the agent.
 
 set -eu
@@ -54,13 +56,24 @@ if printf '%s\n' "$staged" | grep -E '^(templates|ideas)/' | grep -qv '^ideas/in
 fi
 
 # Rule 3: an adopter-facing deliverable (charters incl. sources, requirements,
-# guides, skills) changed — the landing page (root README.md) must be
+# guides, skills) changed — the landing source (root README.md) must be
 # revisited and staged in the same commit.
 if printf '%s\n' "$staged" | grep -q '^templates/' \
    && ! printf '%s\n' "$staged" | grep -qx 'README.md'; then
   {
-    echo "Commit blocked: adopter-facing deliverables changed but the landing page (README.md) is not staged."
+    echo "Commit blocked: adopter-facing deliverables changed but the landing source (README.md) is not staged."
     echo "Refresh README.md to reflect the change, then stage it."
+  } >&2
+  exit 2
+fi
+
+# Rule 4: README.md changed — the rendered landing served by GitHub Pages
+# (docs/index.html) must be regenerated from it and staged alongside.
+if printf '%s\n' "$staged" | grep -qx 'README.md' \
+   && ! printf '%s\n' "$staged" | grep -qx 'docs/index.html'; then
+  {
+    echo "Commit blocked: README.md changed but the rendered landing (docs/index.html) is not staged."
+    echo "Regenerate docs/index.html from README.md (skin stays fixed), then stage it."
   } >&2
   exit 2
 fi

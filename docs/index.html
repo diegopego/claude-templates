@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Reusable working agreements that bootstrap Claude-driven software projects: minimal charters, opt-in modules, a portable-appliance requirement, an adoption guide, and embeddable skills.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📜</text></svg>">
+<title>claude-templates — working agreements for AI coding agents</title>
+<style>
+  :root {
+    /* Nord — Snow Storm ground, Polar Night ink, Frost accent */
+    --paper: #ECEFF4;   /* nord6  */
+    --raise: #E5E9F0;   /* nord5  */
+    --ink: #2E3440;     /* nord0  */
+    --soft: #434C5E;    /* nord2  */
+    --faint: #4C566A;   /* nord3  */
+    --seal: #5E81AC;    /* nord10 frost */
+    --seal-deep: #4C6A93;
+    --rule: #D8DEE9;    /* nord4  */
+    --rule-soft: #E5E9F0;
+
+    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+    --sans: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --mono: ui-monospace, "SF Mono", "Cascadia Code", "JetBrains Mono", Menlo, Consolas, monospace;
+
+    --col: 68ch;
+    --step-0: 0.78rem;
+    --step-1: 1rem;
+    --step-2: 1.16rem;
+    --step-3: 1.5rem;
+    --step-4: 2.1rem;
+    --step-5: clamp(2.6rem, 6.2vw, 4.1rem);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      /* Nord — Polar Night ground, Snow Storm ink, Frost accent */
+      --paper: #2E3440;   /* nord0  */
+      --raise: #3B4252;   /* nord1  */
+      --ink: #ECEFF4;     /* nord6  */
+      --soft: #D8DEE9;    /* nord4  */
+      --faint: #7E899E;
+      --seal: #88C0D0;    /* nord8 frost */
+      --seal-deep: #8FBCBB; /* nord7 */
+      --rule: #434C5E;    /* nord2  */
+      --rule-soft: #3B4252;
+    }
+  }
+  :root[data-theme="light"] {
+    --paper: #ECEFF4; --raise: #E5E9F0; --ink: #2E3440; --soft: #434C5E; --faint: #4C566A;
+    --seal: #5E81AC; --seal-deep: #4C6A93; --rule: #D8DEE9; --rule-soft: #E5E9F0;
+  }
+  :root[data-theme="dark"] {
+    --paper: #2E3440; --raise: #3B4252; --ink: #ECEFF4; --soft: #D8DEE9; --faint: #7E899E;
+    --seal: #88C0D0; --seal-deep: #8FBCBB; --rule: #434C5E; --rule-soft: #3B4252;
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; }
+  .page {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: var(--step-1);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    min-height: 100vh;
+    padding: clamp(1.4rem, 4vw, 3rem) clamp(1.2rem, 5vw, 2rem) 4rem;
+    overflow-x: hidden;
+  }
+  .wrap { max-width: 74ch; margin: 0 auto; }
+
+  a { color: var(--seal); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+  a:hover { color: var(--seal-deep); }
+  a:focus-visible, .card:focus-visible { outline: 2px solid var(--seal); outline-offset: 3px; border-radius: 2px; }
+
+  .label {
+    font-family: var(--mono);
+    font-size: var(--step-0);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--faint);
+  }
+
+  /* Masthead */
+  .masthead {
+    display: flex; align-items: center; gap: 1rem;
+    padding-bottom: 1.1rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  .seal {
+    flex: none;
+    width: 3rem; height: 3rem; border-radius: 50%;
+    display: grid; place-items: center;
+    border: 1.5px solid var(--seal);
+    color: var(--seal);
+    font-family: var(--serif);
+    font-size: 1.5rem; line-height: 1;
+    box-shadow: inset 0 0 0 3px color-mix(in oklab, var(--seal) 12%, transparent);
+  }
+  .wordmark { display: flex; flex-direction: column; gap: 0.15rem; }
+  .wordmark b {
+    font-family: var(--mono);
+    font-weight: 600;
+    font-size: 1.05rem;
+    letter-spacing: -0.01em;
+  }
+  .wordmark b i { color: var(--seal); font-style: normal; }
+
+  /* Hero */
+  .hero { padding: clamp(2.2rem, 7vw, 3.6rem) 0 clamp(1.6rem, 4vw, 2.4rem); }
+  .hero h1 {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: var(--step-5);
+    line-height: 1.05;
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+    margin: 0.7rem 0 0;
+  }
+  .hero h1 em { font-style: italic; color: var(--seal); }
+  .lede {
+    max-width: var(--col);
+    font-size: var(--step-2);
+    color: var(--soft);
+    margin: 1.4rem 0 0;
+  }
+  .actions { display: flex; flex-wrap: wrap; gap: 0.7rem; margin-top: 2rem; }
+  .btn {
+    font-family: var(--mono);
+    font-size: var(--step-0);
+    letter-spacing: 0.02em;
+    text-decoration: none;
+    padding: 0.7rem 1.1rem;
+    border: 1px solid var(--seal);
+    border-radius: 2px;
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    transition: background-color .16s ease, color .16s ease, transform .16s ease;
+  }
+  .btn.primary { background: var(--seal); color: var(--paper); }
+  .btn.primary:hover { background: var(--seal-deep); border-color: var(--seal-deep); color: var(--paper); }
+  .btn.ghost { color: var(--seal); }
+  .btn.ghost:hover { background: color-mix(in oklab, var(--seal) 10%, transparent); }
+  @media (prefers-reduced-motion: no-preference) {
+    .btn:active { transform: translateY(1px); }
+  }
+
+  /* Sections */
+  section { padding: clamp(2.2rem, 5vw, 3rem) 0; border-top: 1px solid var(--rule); }
+  .sec-head { display: flex; align-items: baseline; gap: 0.8rem; margin-bottom: 1.6rem; }
+  .sec-head h2 {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: var(--step-4);
+    letter-spacing: -0.01em;
+    margin: 0;
+    text-wrap: balance;
+  }
+
+  /* Definition cards */
+  .stack { display: flex; flex-direction: column; gap: 1rem; }
+  .card {
+    background: var(--raise);
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--seal);
+    border-radius: 3px;
+    padding: 1.15rem 1.3rem;
+  }
+  .card h3 {
+    font-family: var(--sans); font-weight: 650;
+    font-size: var(--step-2); margin: 0 0 0.3rem;
+    display: flex; align-items: baseline; gap: 0.6rem;
+  }
+  .card h3 .tag {
+    font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--seal);
+    border: 1px solid var(--rule); border-radius: 20px; padding: 0.12rem 0.55rem;
+  }
+  .card p { margin: 0; color: var(--soft); font-size: var(--step-1); }
+  .card p + p { margin-top: 0.5rem; }
+  .path { font-family: var(--mono); font-size: 0.82rem; color: var(--faint); }
+
+  /* Method — an honest numbered sequence */
+  .method { display: flex; flex-direction: column; }
+  .phase {
+    display: grid;
+    grid-template-columns: 3.2rem 1fr;
+    gap: 0.2rem 1.1rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--rule-soft);
+  }
+  .phase:last-child { border-bottom: 0; }
+  .phase .n {
+    font-family: var(--mono);
+    font-variant-numeric: tabular-nums;
+    font-size: 1.5rem;
+    color: var(--seal);
+    line-height: 1.1;
+  }
+  .phase h3 { margin: 0; font-family: var(--sans); font-weight: 650; font-size: var(--step-2); align-self: center; }
+  .phase p { grid-column: 2; margin: 0.25rem 0 0; color: var(--soft); }
+
+  /* Practices list */
+  .practices { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.9rem; }
+  .practices li { display: grid; grid-template-columns: auto 1fr; gap: 0.8rem; align-items: start; }
+  .practices .mk { color: var(--seal); font-family: var(--mono); line-height: 1.5; }
+  .practices b { font-weight: 650; }
+  .practices span { color: var(--soft); }
+
+  .aside {
+    margin: 1.6rem 0 0;
+    padding: 0.9rem 1.1rem;
+    border: 1px dashed var(--rule);
+    border-radius: 3px;
+    color: var(--soft);
+    font-size: var(--step-1);
+  }
+
+  /* Adopt — two paths */
+  .paths { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  @media (max-width: 620px) { .paths { grid-template-columns: 1fr; } }
+  .paths .card h3 { font-family: var(--mono); font-size: 0.95rem; letter-spacing: 0.02em; }
+
+  /* Colophon */
+  .colophon {
+    margin-top: 3rem; padding-top: 1.4rem;
+    border-top: 1px solid var(--rule);
+    color: var(--faint); font-size: var(--step-0);
+    display: flex; flex-direction: column; gap: 0.5rem;
+  }
+  .colophon code { font-family: var(--mono); color: var(--soft); }
+  .colophon .row { display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+
+  code:not(.path) { font-family: var(--mono); font-size: 0.9em; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="wrap">
+
+    <header class="masthead">
+      <div class="seal" aria-hidden="true">§</div>
+      <div class="wordmark">
+        <b>claude<i>·</i>templates</b>
+        <span class="label">working agreements for AI coding agents</span>
+      </div>
+    </header>
+
+    <div class="hero">
+      <span class="label">A charter, not a blank page</span>
+      <h1>Give a coding agent a <em>method</em> to follow — before it writes a line.</h1>
+      <p class="lede">
+        Reusable working agreements that bootstrap Claude-driven software projects. Copy one
+        document into your repo, fill in a short parameters block, and your agent has a
+        disciplined method — phased discovery, written specs, prototypes, tested delivery —
+        instead of improvising. The product here is prompt text: two minimal charters, opt-in
+        add-on modules, a requirement, a guide, and embeddable skills. There is nothing to install.
+      </p>
+      <div class="actions">
+        <a class="btn primary" href="#charters">What you get</a>
+        <a class="btn ghost" href="#adopt">How to adopt</a>
+        <a class="btn ghost" href="https://github.com/diegopego/claude-templates">View on GitHub</a>
+      </div>
+    </div>
+
+    <section id="charters">
+      <div class="sec-head">
+        <span class="label" aria-hidden="true">01</span>
+        <h2>What you get</h2>
+      </div>
+      <div class="stack">
+        <article class="card">
+          <h3>Greenfield charter <span class="tag">charter</span></h3>
+          <p>Building a new application from scratch: interrogate the vision, turn it into written
+          specs, prototype, then build tested slices. The risk it fights is building the wrong thing
+          confidently.</p>
+        </article>
+        <article class="card">
+          <h3>Legacy transformation charter <span class="tag">charter</span></h3>
+          <p>Extract the knowledge inside an existing system — a spreadsheet, an old app, a paper
+          process — and rebuild it as a modern application, with traceable extraction, every rule
+          classified as domain, instance-config, or workaround, and data migration with a planned
+          cutover.</p>
+        </article>
+        <article class="card">
+          <h3>Add-on modules <span class="tag">modules</span></h3>
+          <p>The shipped charters are deliberately minimal; heavier opinions are modules you compose
+          in only when your project is that kind of project.</p>
+          <p><code class="path">MODULE_PRODUCT_AUDIENCE</code> — a product for an audience: multi-tenant
+          from v1, your organization as tenant #1, domain rules separated from instance configuration.
+          <br><code class="path">MODULE_LIVING_DOCS</code> — curated changelogs, a living product doc,
+          and a landing page whose skin is designed once at Setup, with an approval loop on every publish.
+          <br><code class="path">MODULE_DATA_MIGRATION</code> — built into the legacy charter; addable
+          to a greenfield project that imports inherited data.</p>
+        </article>
+        <article class="card">
+          <h3>Portable-appliance requirement <span class="tag">requirement</span></h3>
+          <p>Every application must be destroyable and rebuildable on a fresh machine from
+          <code class="path">repo + secrets + backup</code> in under 30 minutes. The server is
+          disposable; the backup is the system.</p>
+        </article>
+        <article class="card">
+          <h3>Adoption guide <span class="tag">guide</span></h3>
+          <p>Bring these practices into a project that already exists and works — without losing the
+          instructions it already has. A non-destructive merge that raises every conflict to you.</p>
+        </article>
+        <article class="card">
+          <h3>Embeddable skills <span class="tag">skill</span></h3>
+          <p>Drop-in Claude Code skills a project copies into its own
+          <code class="path">.claude/skills/</code>. Two so far: <code class="path">graduate-idea</code>,
+          which drives a rough idea from the inbox through its Q&amp;A round into an agreed spec; and
+          <code class="path">adopt-template</code>, which runs the adoption guide for you — inventorying an
+          existing project's instructions, classifying each section, and producing a merged
+          <code>CLAUDE.md</code> with every conflict raised to you.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="method">
+      <div class="sec-head">
+        <span class="label" aria-hidden="true">02</span>
+        <h2>The method a charter runs</h2>
+      </div>
+      <p class="lede" style="margin-top:-0.6rem;margin-bottom:1.8rem;font-size:var(--step-1)">
+        Work advances through explicit phases; the agent always states which one it is in.
+      </p>
+      <div class="method">
+        <div class="phase">
+          <span class="n">0</span>
+          <h3>Setup</h3>
+          <p>Confirm every project parameter with you — languages, users, stack, all stated defaults,
+          never silent — then scaffold a minimum runnable project: skeleton, config, a
+          <code>CLAUDE.md</code> wired to the charter, seeded memory. No blank folder.</p>
+        </div>
+        <div class="phase">
+          <span class="n">1</span>
+          <h3>Discover / Understand</h3>
+          <p>Interrogate the vision, or map the legacy system's structure and embedded rules. Draft a
+          domain model.</p>
+        </div>
+        <div class="phase">
+          <span class="n">2</span>
+          <h3>Align</h3>
+          <p>Q&amp;A rounds to resolve ambiguities and rank what matters. The smallest product that
+          delivers the vision wins.</p>
+        </div>
+        <div class="phase">
+          <span class="n">3</span>
+          <h3>Specify / Golden standards</h3>
+          <p>Record the agreed rules as written specs with acceptance criteria. These become the test
+          oracles.</p>
+        </div>
+        <div class="phase">
+          <span class="n">4</span>
+          <h3>Prototype</h3>
+          <p>Build UI/UX prototypes; the align–specify–prototype loop runs until the model and
+          prototypes are approved.</p>
+        </div>
+        <div class="phase">
+          <span class="n">5</span>
+          <h3>Build</h3>
+          <p>Implement the thinnest end-to-end slice first, validated against the specs, until v1 is
+          demonstrated by tests.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="practices">
+      <div class="sec-head">
+        <span class="label" aria-hidden="true">03</span>
+        <h2>What the charters give a project</h2>
+      </div>
+      <ul class="practices">
+        <li><span class="mk">▸</span><span><b>Q&amp;A rounds as the engine between phases.</b> Related questions asked together, each with options and a recommendation, a scripted baseline then adaptive follow-ups — every answer written down as a spec or a decision. Defined once, in the Method, so the agent asks well instead of guessing.</span></li>
+        <li><span class="mk">▸</span><span><b>Setup that scaffolds.</b> Setup settles your stack and language and generates a minimum runnable project; the charter's tech picks are recommended, overridable defaults you confirm — never silent assumptions.</span></li>
+        <li><span class="mk">▸</span><span><b>Modern strict TypeScript</b> as the recommended default — the type system used to encode business rules.</span></li>
+        <li><span class="mk">▸</span><span><b>Anti-over-engineering.</b> Boring solutions, few dependencies, seams not scaffolding.</span></li>
+        <li><span class="mk">▸</span><span><b>Functional core, imperative shell</b> with TDD; the agreed specs are the test oracles.</span></li>
+        <li><span class="mk">▸</span><span><b>Versioned in-repo memory.</b> Roadmap and decision log live in the repo, so a fresh clone can resume the work.</span></li>
+        <li><span class="mk">▸</span><span><b>Ideas &amp; specs.</b> A scratchpad inbox graduates half-formed ideas into proper specs through a Q&amp;A round — the inbox proposes scope, the roadmap accepts it — and every non-trivial task becomes a short spec before it is built. The <code>graduate-idea</code> skill automates the ritual.</span></li>
+        <li><span class="mk">▸</span><span><b>Explicit git authorization.</b> The agent prepares work but never commits or pushes on its own.</span></li>
+      </ul>
+      <p class="aside">The heavier opinions — multi-tenancy from v1, dual changelogs, a designed
+      landing page — are <b>opt-in modules</b>, not defaults: you add them when your project is that
+      kind of project.</p>
+    </section>
+
+    <section id="adopt">
+      <div class="sec-head">
+        <span class="label" aria-hidden="true">04</span>
+        <h2>How to adopt</h2>
+      </div>
+      <div class="paths">
+        <article class="card">
+          <h3>new project</h3>
+          <p>Pick the charter that fits, copy it into your repo, reference it from your
+          <code>CLAUDE.md</code>. The Setup step confirms every parameter with you and scaffolds a
+          runnable project before work begins. Want the product-audience or living-docs discipline?
+          Compose the module in first.</p>
+        </article>
+        <article class="card">
+          <h3>existing project</h3>
+          <p>Follow the adoption guide — or drop in the <code class="path">adopt-template</code> skill and
+          let the agent run it: either way it inventories your current instructions, keeps or adapts each
+          section, and defers code and infrastructure changes to a roadmap — the running system is
+          never touched by surprise.</p>
+        </article>
+      </div>
+    </section>
+
+    <footer class="colophon">
+      <div class="row">
+        <span>Authored in English · translations return when an adopting project asks for them.</span>
+      </div>
+      <div class="row">
+        <span>This page is rendered from <a href="https://github.com/diegopego/claude-templates/blob/master/README.md"><code>README.md</code></a> — the living source of truth, regenerated with every adopter-facing commit.</span>
+      </div>
+    </footer>
+
+  </div>
+</div>
+</body>
+</html>
