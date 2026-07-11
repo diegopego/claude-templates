@@ -1,10 +1,32 @@
 # claude-templates
 
-Reusable working agreements that bootstrap **Claude-driven software projects**. Copy one document into your repo, fill in a short parameters block, and your AI coding agent has a disciplined method to follow — phased discovery, written specs, prototypes, tested delivery — instead of improvising.
+Reusable working agreements that bootstrap **Claude-driven software projects** — one document gives your AI coding agent a disciplined method (phased discovery, written specs, prototypes, tested delivery) instead of improvising. The product is prompt text: charters, add-on modules, requirements, a guide, and embeddable skills — there is no application to install.
 
-The product here is prompt text: charters, add-on modules, requirements, a guide, and embeddable skills. There is no application to install.
+## Install
 
-> This is the living landing page — the current state of what the templates offer. For the history of changes, see [`CHANGELOG.md`](CHANGELOG.md).
+Clone this repo and point the installer at your project's folder — that is the whole install:
+
+```sh
+git clone https://github.com/diegopego/claude-templates
+cd claude-templates
+
+make adopt DEST=~/path/to/your-project                    # existing project
+make new   DEST=~/path/to/new-project CHARTER=greenfield  # or CHARTER=legacy
+```
+
+Then open Claude Code **in your project** and paste the prompt the installer just printed:
+
+- **Existing project** → `Adopt the templates in agent/ into this project.`
+- **New project** → `Read CLAUDE.md and start Setup.`
+
+Done — the installer only adds files, **nothing is ever overwritten**. Already have a Claude Code session open in the project? Run **`/reload-skills`** there first (skills load at startup). No `make`? Copying the files by hand works exactly the same — the installer is convenience, not machinery.
+
+## What happens when you adopt
+
+- **Existing project** (`make adopt`) — a **non-destructive merge**. The agent inventories your current instructions, keeps or adapts each template section per [`GUIDE_ADOPTION.md`](templates/guides/GUIDE_ADOPTION.md), and raises every conflict to you instead of overwriting. Code and infrastructure changes are deferred to a roadmap, so the running system is never touched by surprise. When the merge is done it tidies up after itself: each section you keep lands in a single versioned home (under `.claude/` by default) and the one-shot delivery kit and skill are removed.
+- **New project** (`make new`) — composes your charter (plus any add-on modules) and seeds the kit: a `CLAUDE.md` wired to the charter, a `.claude/memory/`, an `ideas/inbox.md`, and the `graduate-idea` skill. The charter's **Setup** step then confirms every parameter with you (stated defaults, never silent assumptions) and **scaffolds a minimum runnable project**, so real work starts against something that already runs.
+
+Files land in a namespaced `agent/` folder by default (override with `PREFIX=…`).
 
 ## What you get
 
@@ -17,28 +39,12 @@ The product here is prompt text: charters, add-on modules, requirements, a guide
   - `MODULE_DATA_MIGRATION` — migration and cutover rules; built into the legacy charter, addable to a greenfield project that imports inherited data.
 - **Requirements** — [`templates/requirements/`](templates/requirements/):
   - [`REQUIREMENT_PORTABLE_APPLIANCE.md`](templates/requirements/REQUIREMENT_PORTABLE_APPLIANCE.md) — every application must be destroyable and rebuildable on a fresh machine from `repo + secrets + backup` in under 30 minutes.
-- **Adoption guide** — [`templates/guides/GUIDE_ADOPTION.md`](templates/guides/GUIDE_ADOPTION.md): bring these practices into a project that already exists and works, without losing the instructions it already has.
+- **Adoption guide** — [`templates/guides/GUIDE_ADOPTION.md`](templates/guides/GUIDE_ADOPTION.md): the non-destructive merge above, written out in full.
 - **Embeddable skills** — [`templates/skills/`](templates/skills/): drop-in Claude Code skills an adopting project copies into its own `.claude/skills/`:
   - **`graduate-idea`** — drives a rough idea from the inbox through a Q&A round into an agreed spec on the roadmap.
   - **`adopt-template`** — runs the adoption guide for you: inventories an existing project's instructions, classifies each template section, and produces a merged `CLAUDE.md` with every conflict raised to you.
 
 Templates are authored in **English** (translations return when an adopter asks for them).
-
-## How to adopt
-
-The repo ships an **installer** — clone it and run `make` with your project's destination (files land in a namespaced `agent/` folder by default, override with `PREFIX=…`; nothing is ever overwritten):
-
-```sh
-make new   DEST=~/devel/myapp CHARTER=greenfield   # or legacy; add MODULES="product-audience living-docs"
-make adopt DEST=~/devel/existing-project
-```
-
-- **New project** (`make new`) — composes the charter (with any add-on modules) into `DEST/agent/charters/`, copies the appliance requirement, and seeds the kit: a `CLAUDE.md` wired to the charter, `.claude/memory/`, `ideas/inbox.md`, and the `graduate-idea` skill. Then open Claude Code in the project and say *"read CLAUDE.md and start Setup"* — the charter's **Setup** step confirms every parameter with you (stated defaults, never silent assumptions) and **scaffolds a minimum runnable project**, so real work starts against a project that already runs.
-- **Existing project** (`make adopt`) — copies the template set and the **`adopt-template`** skill into the project and touches nothing else. Then ask the agent to adopt: it inventories your current instructions, keeps or adapts each template section per the [adoption guide](templates/guides/GUIDE_ADOPTION.md), raises every conflict to you instead of overwriting, and defers code/infra changes to a roadmap so the running system is never touched by surprise. When the merge is done it tidies up after itself — each section you keep lands in a single versioned home (under `.claude/` by default) and the one-shot delivery kit and skill are removed, so no duplicate copies linger.
-
-> Skills load when a Claude Code session starts. If a session is already open in the target project when you install, run **`/reload-skills`** there before asking the agent to adopt (or to graduate an idea).
-
-No `make`? Copying the files by hand works exactly the same — the installer is convenience, not machinery: composed charters travel with `requirements/` (relative links), skills go into `.claude/skills/`.
 
 ## What the charters give a project
 
@@ -52,3 +58,5 @@ No `make`? Copying the files by hand works exactly the same — the installer is
 - **Portable-appliance** delivery and **explicit git authorization** (the agent never commits on its own).
 
 The opinionated practices — multi-tenancy from v1, dual changelogs, a designed landing page — are **opt-in modules**, not defaults: you add them when your project is that kind of project.
+
+> This is the living landing page — the current state of what the templates offer. For the history of changes, see [`CHANGELOG.md`](CHANGELOG.md).

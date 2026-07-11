@@ -232,6 +232,21 @@
   .colophon code { font-family: var(--mono); color: var(--soft); }
   .colophon .row { display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
 
+  pre {
+    background: var(--raise);
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--seal);
+    border-radius: 3px;
+    padding: 1rem 1.15rem;
+    margin: 1.2rem 0 0;
+    overflow-x: auto;
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    line-height: 1.7;
+    color: var(--ink);
+  }
+  pre .cm { color: var(--faint); }
+
   code:not(.path) { font-family: var(--mono); font-size: 0.9em; }
 </style>
 </head>
@@ -255,18 +270,60 @@
         document into your repo, fill in a short parameters block, and your agent has a
         disciplined method — phased discovery, written specs, prototypes, tested delivery —
         instead of improvising. The product here is prompt text: two minimal charters, opt-in
-        add-on modules, a requirement, a guide, and embeddable skills. There is nothing to install.
+        add-on modules, a requirement, a guide, and embeddable skills — no application and no
+        runtime; installing means pointing a script at your project's folder.
       </p>
       <div class="actions">
-        <a class="btn primary" href="#charters">What you get</a>
-        <a class="btn ghost" href="#adopt">How to adopt</a>
+        <a class="btn primary" href="#install">Install</a>
+        <a class="btn ghost" href="#charters">What you get</a>
         <a class="btn ghost" href="https://github.com/diegopego/claude-templates">View on GitHub</a>
       </div>
     </div>
 
-    <section id="charters">
+    <section id="install">
       <div class="sec-head">
         <span class="label" aria-hidden="true">01</span>
+        <h2>Install</h2>
+      </div>
+      <p class="lede" style="margin-top:-0.6rem;margin-bottom:1.4rem;font-size:var(--step-1)">
+        Clone this repo and point the installer at your project's folder — that is the whole install.
+        Files land in a namespaced <code class="path">agent/</code> folder, and nothing is ever overwritten.
+      </p>
+      <pre>git clone https://github.com/diegopego/claude-templates
+cd claude-templates
+
+make adopt DEST=~/path/to/your-project                    <span class="cm"># existing project</span>
+make new   DEST=~/path/to/new-project CHARTER=greenfield  <span class="cm"># or CHARTER=legacy</span></pre>
+      <p style="margin:1.5rem 0 0;color:var(--soft)">
+        Then open Claude Code <b>in your project</b> and paste the prompt the installer just printed:
+      </p>
+      <div class="paths" style="margin-top:1rem">
+        <article class="card">
+          <h3>existing project</h3>
+          <p>Paste <code class="path">Adopt the templates in agent/ into this project.</code> — a
+          <b>non-destructive merge</b>: the agent inventories your current instructions, keeps or adapts
+          each section per the adoption guide, and raises every conflict to you instead of overwriting.
+          Code and infrastructure changes are deferred to a roadmap, so the running system is never
+          touched by surprise. When the merge is done it tidies up: each section you keep lands in a
+          single versioned home (under <code class="path">.claude/</code> by default) and the one-shot
+          delivery kit and skill are removed.</p>
+        </article>
+        <article class="card">
+          <h3>new project</h3>
+          <p>Paste <code class="path">Read CLAUDE.md and start Setup.</code> — the charter's Setup step
+          confirms every parameter with you (stated defaults, never silent) and scaffolds a minimum
+          runnable project, so real work starts against something that already runs.</p>
+        </article>
+      </div>
+      <p class="aside">Already have a Claude Code session open in the project? Run
+      <code class="path">/reload-skills</code> there first — skills load at startup. No
+      <code class="path">make</code>? Copying the files by hand works exactly the same; the installer is
+      convenience, not machinery.</p>
+    </section>
+
+    <section id="charters">
+      <div class="sec-head">
+        <span class="label" aria-hidden="true">02</span>
         <h2>What you get</h2>
       </div>
       <div class="stack">
@@ -319,7 +376,7 @@
 
     <section id="method">
       <div class="sec-head">
-        <span class="label" aria-hidden="true">02</span>
+        <span class="label" aria-hidden="true">03</span>
         <h2>The method a charter runs</h2>
       </div>
       <p class="lede" style="margin-top:-0.6rem;margin-bottom:1.8rem;font-size:var(--step-1)">
@@ -368,7 +425,7 @@
 
     <section id="practices">
       <div class="sec-head">
-        <span class="label" aria-hidden="true">03</span>
+        <span class="label" aria-hidden="true">04</span>
         <h2>What the charters give a project</h2>
       </div>
       <ul class="practices">
@@ -384,40 +441,6 @@
       <p class="aside">The heavier opinions — multi-tenancy from v1, dual changelogs, a designed
       landing page — are <b>opt-in modules</b>, not defaults: you add them when your project is that
       kind of project.</p>
-    </section>
-
-    <section id="adopt">
-      <div class="sec-head">
-        <span class="label" aria-hidden="true">04</span>
-        <h2>How to adopt</h2>
-      </div>
-      <p class="lede" style="margin-top:-0.6rem;margin-bottom:1.6rem;font-size:var(--step-1)">
-        Clone the repo and run the installer with your project's destination — files land in a
-        namespaced <code class="path">agent/</code> folder, and nothing is ever overwritten.
-      </p>
-      <div class="paths">
-        <article class="card">
-          <h3>new project</h3>
-          <p><code class="path">make new DEST=~/devel/myapp CHARTER=greenfield</code> (or
-          <code class="path">legacy</code>; add <code class="path">MODULES="product-audience living-docs"</code>)
-          — composes the charter, copies the requirement, and seeds <code>CLAUDE.md</code>, memory,
-          inbox, and the <code class="path">graduate-idea</code> skill. Then open Claude Code and say
-          "start Setup": every parameter confirmed with you, a runnable project scaffolded before work
-          begins.</p>
-        </article>
-        <article class="card">
-          <h3>existing project</h3>
-          <p><code class="path">make adopt DEST=~/devel/existing</code> — delivers the template set and
-          the <code class="path">adopt-template</code> skill, touching nothing else. Then ask the agent to
-          adopt: it inventories your current instructions, keeps or adapts each section, and defers code
-          and infrastructure changes to a roadmap — the running system is never touched by surprise.
-          When the merge is done it tidies up after itself: each section you keep lands in a single
-          versioned home (under <code class="path">.claude/</code> by default) and the one-shot delivery
-          kit and skill are removed, so no duplicate copies linger.
-          If a Claude Code session is already open there, run <code class="path">/reload-skills</code>
-          first.</p>
-        </article>
-      </div>
     </section>
 
     <footer class="colophon">
