@@ -31,7 +31,9 @@ The full index is the catalog at [`templates/README.md`](templates/README.md). E
 - **Anti-over-engineering** — boring solutions, few dependencies, seams not scaffolding.
 - **Functional core, imperative shell** with TDD; agreed specs are the test oracles.
 - **Versioned in-repo memory** — roadmap and decision log live in the repo, so a fresh clone can resume the work.
+- **Two changelogs, two rhythms** — a technical changelog (updated every commit, git history as its raw record) and one written for your product's users (curated per significant change); the users' changelog is the natural source for an always-current product summary.
 - **Idea inbox** — a scratchpad for half-formed ideas that graduates, on request, into a proper spec through a Q&A round; the inbox is where scope is proposed, the roadmap where it is accepted. The `graduate-idea` skill automates the ritual.
+- **Spec-driven work** — every non-trivial task becomes a short spec before it is built; when a requirement can't be pinned down, the agent asks up front in a Q&A round instead of guessing and encoding the guess.
 - **Portable-appliance** delivery and **explicit git authorization** (the agent never commits on its own).
 
 ## Languages

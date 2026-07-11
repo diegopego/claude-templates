@@ -112,6 +112,15 @@ Direction is written down, not remembered. Two living documents sit in `.claude/
 
 **Strategic archiving:** when a milestone closes, move its completed tasks to `roadmap-archive.md`. Archive by milestone, not task by task — the roadmap stays lean and history stays reachable, without constant curation.
 
+## Changelogs
+
+Change is recorded for two readers, on two rhythms — both are **curated** documents in the repo, not a raw dump:
+
+- **Technical changelog** — for whoever maintains the code. Updated **on every commit**; the git history is its raw record underneath, which the curated entries group and summarize. Each entry ends with a plain-language addendum for any jargon or dense passage.
+- **Audience changelog** — for the **Primary users** (Project Parameters), written at their level of knowledge and interest. Curated **per significant change**, grouping related commits so a user reads a coherent story rather than a stream of commits. It is the interpretation layer — the natural source for any user-facing current-state summary of the product.
+
+The split matches each reader: maintainers want per-commit granularity; users want the curated story. To frame a change well, the agent draws on the best available sources — the git log, the tests, the code itself — and asks the {{ oracle }} for what it still needs.
+
 ## Idea inbox
 
 Scope is captured before it is planned. The repo keeps `ideas/inbox.md` — the {{ oracle }}'s scratchpad for half-formed ideas, jotted in any language at draft quality (the one file exempt from the English-artifact rule). The agent never reorganizes, rewrites, or deletes inbox entries on its own; the inbox belongs to the {{ oracle }}. Capture needs no tooling — it is a one-line append.
@@ -119,6 +128,14 @@ Scope is captured before it is planned. The repo keeps `ideas/inbox.md` — the 
 An entry **graduates** only when the {{ oracle }} asks for it. Graduation is a **Q&A round** (see *Working through questions*): the agent surfaces every question that would change the idea's outcome, resolves them with the {{ oracle }}, records the resolutions in `decisions.md`, then writes the idea up in the {{ spec_term }} and removes the entry from the inbox in the same change. What graduation produces is ordinary {{ spec_term }} — an inbox note is a *proposal* for scope, and graduation is how a proposal earns its place. This keeps the roadmap rule intact: the inbox is where scope is *proposed*, the roadmap where it is *accepted*; a raw note is not yet committed work.
 
 The graduation ritual also ships as an embeddable **`graduate-idea`** skill (in the templates' `skills/` catalog) — drop it into the project's `.claude/skills/` to run graduation on request. Capture needs no skill.
+
+## Spec-driven work
+
+Non-trivial work is specified before it is built. A task does not jump straight to code: the agent first writes it up in the {{ spec_term }} — sized to the task, in the same golden-source form the {{ specify_phase_title }} phase produces (behavior, why, acceptance criteria) — and implements against that. The {{ spec_term }} are what get reviewed and traced against, not the code alone.
+
+When a gap would keep the agent from writing an honest spec — a requirement it cannot pin down well enough — it **asks immediately**, in a **Q&A round** (see *Working through questions*), rather than guessing and encoding the guess where it is expensive to find later. The answers land in the {{ spec_term }} and the decision log before implementation starts.
+
+This is the same machine as the *Idea inbox*, pointed at tasks instead of ideas: the inbox matures a rough idea into {{ spec_term }}; spec-driven work does the same for a unit of work about to be built. Trivial, mechanical changes — a rename, a typo, a one-line fix with no behavioral ambiguity — are exempt; writing a spec for them is over-engineering (see Anti-over-engineering).
 
 ## Git authorization
 

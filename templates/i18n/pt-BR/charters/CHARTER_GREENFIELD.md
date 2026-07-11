@@ -106,7 +106,16 @@ A direção é escrita, não lembrada. Dois documentos vivos ficam em `.claude/m
 
 **Arquivamento estratégico:** quando um milestone fecha, mova suas tarefas concluídas para `roadmap-archive.md`. Arquive por milestone, não tarefa a tarefa — o roadmap fica enxuto e a história permanece alcançável, sem curadoria constante.
 
-## 12. Inbox de ideias
+## 12. Changelogs
+
+A mudança é registrada para dois leitores, em dois ritmos — ambos são documentos **curados** no repositório, não um despejo bruto:
+
+- **Changelog técnico** — para quem mantém o código. Atualizado **a cada commit**; o histórico do git é seu registro bruto por baixo, que as entradas curadas agrupam e resumem. Cada entrada termina com um adendo em linguagem simples para qualquer jargão ou trecho denso.
+- **Changelog do público** — para os **usuários primários** (Parâmetros do Projeto), escrito no nível de conhecimento e interesse deles. Curado **por mudança significativa**, agrupando commits relacionados para que o usuário leia uma história coerente em vez de um fluxo de commits. É a camada de interpretação — a fonte natural para qualquer resumo do estado atual do produto voltado ao usuário.
+
+A divisão combina com cada leitor: mantenedores querem granularidade por commit; usuários querem a história curada. Para enquadrar bem uma mudança, o agente recorre às melhores fontes disponíveis — o log do git, os testes, o próprio código — e pergunta ao product owner o que ainda falta.
+
+## 13. Inbox de ideias
 
 O escopo é capturado antes de ser planejado. O repositório mantém `ideas/inbox.md` — o rascunho do product owner para ideias meio-formadas, anotadas em qualquer idioma, com qualidade de rascunho (o único arquivo isento da regra de artefatos em inglês). O agente nunca reorganiza, reescreve ou apaga entradas do inbox por conta própria; o inbox pertence ao product owner. Capturar não exige ferramenta — é um append de uma linha.
 
@@ -114,18 +123,26 @@ Uma entrada **se gradua** apenas quando o product owner pede. A graduação é u
 
 A rotina de graduação também vem como uma skill embutível **`graduate-idea`** (no catálogo `skills/` dos templates) — coloque-a no `.claude/skills/` do projeto para rodar a graduação sob demanda. Capturar não precisa de skill.
 
-## 13. Autorização de git
+## 14. Trabalho orientado a especificações
+
+Trabalho não-trivial é especificado antes de ser construído. Uma tarefa não pula direto para o código: o agente primeiro a escreve nas especificações — dimensionada à tarefa, na mesma forma de fonte-ouro que a fase Especificar produz (comportamento, porquê, critérios de aceitação) — e implementa contra isso. As especificações são o que se revisa e rastreia, não só o código.
+
+Quando uma lacuna impediria o agente de escrever uma especificação honesta — um requisito que ele não consegue fixar bem o bastante — ele **pergunta imediatamente**, numa **rodada de Q&A** (veja *Trabalhando por perguntas*), em vez de adivinhar e codificar o palpite onde é caro descobri-lo depois. As respostas vão para as especificações e o decision log antes de a implementação começar.
+
+Isso é a mesma máquina do *Inbox de ideias*, apontada para tarefas em vez de ideias: o inbox amadurece uma ideia crua em especificações; o trabalho orientado a especificações faz o mesmo por uma unidade de trabalho prestes a ser construída. Mudanças triviais e mecânicas — um rename, um typo, uma correção de uma linha sem ambiguidade de comportamento — estão isentas; escrever uma especificação para elas é over-engineering (veja Anti-over-engineering).
+
+## 15. Autorização de git
 
 O agente **nunca faz commit e nunca faz push por conta própria**. Todo `git commit` e `git push` requer autorização explícita e por instância do usuário. Preparar o trabalho (branches, diffs, mensagens de commit propostas) é bem-vindo; executar comandos que alteram o histórico, não.
 
-## 14. Handoff de sessão
+## 16. Handoff de sessão
 
 Ao final de cada tarefa o agente decide explicitamente — e diz — uma de duas opções:
 
 - **Continuar**: resta trabalho adjacente dentro do escopo e o orçamento de contexto permite; siga em frente.
 - **Handoff**: ponto de parada natural, ou contexto ficando longo; escreva/atualize `.claude/memory/handoff.md` com o estado atual, decisões tomadas e seus porquês, becos sem saída encontrados e próximos passos concretos (ponteiros para o `roadmap.md`, nunca uma segunda cópia dele) — escrito para um sucessor com zero contexto da conversa.
 
-## 15. Segredos & dados sensíveis
+## 17. Segredos & dados sensíveis
 
 Credenciais podem viver no diretório de trabalho, mas são **sempre gitignored**; chaves privadas nunca são impressas, logadas ou commitadas. O tratamento de segredos é projetado desde o início — criptografia em repouso, controle de acesso, trilha de auditoria onde o domínio exigir. Segredos também precisam sobreviver à perda do host: o procedimento de restore declara exatamente quais segredos requer (veja [REQUIREMENT_PORTABLE_APPLIANCE.md](../requirements/REQUIREMENT_PORTABLE_APPLIANCE.md)).
 

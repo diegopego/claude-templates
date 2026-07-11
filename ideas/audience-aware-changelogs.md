@@ -1,7 +1,9 @@
 # audience-aware-changelogs
 
-Status: agreed
+Status: incorporated
 Applies to: core (new `CHARTER_CORE` section — Changelogs)
+
+> **Incorporated 2026-07-11** into `CHARTER_CORE.md` as the *Changelogs* section (record-keeping cluster, after *Roadmap & decision log*); composed charters reassembled (greenfield §12, legacy §13) and pt-BR retranslated. The target audience reuses the existing **Primary users** Project Parameters row — no new row was added.
 
 ## Behavior
 

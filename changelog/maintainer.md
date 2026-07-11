@@ -2,6 +2,19 @@
 
 Technical changelog for whoever maintains this repository. Each entry ends with a plain-language addendum and, when needed, a jargon glossary. Newest first.
 
+## 2026-07-11 — Incorporated Spec-driven work + Changelogs into `CHARTER_CORE` (both charters)
+
+- Took two of the just-`agreed` specs into template text — the first incorporation from the Setup→changelog→landing cluster:
+  - **Changelogs** (from `ideas/audience-aware-changelogs.md`) — a new `CHARTER_CORE` section: two curated changelogs on a **split cadence** (technical **per commit** with git history underneath; audience **curated per significant change**). The audience is the **existing `Primary users` parameter** — no new Project Parameters row, to avoid duplicating a value the block already carries. Placed in the record-keeping cluster, after *Roadmap & decision log*.
+  - **Spec-driven work** (from `ideas/spec-driven-work.md`) — a new `CHARTER_CORE` section beside *Idea inbox*: every non-trivial task becomes a mini-spec before implementation (in the charter's `spec_term`), gaps trigger an immediate Q&A round, trivial mechanical changes are exempt. It reuses *Working through questions* and frames itself as the *Idea inbox* machine pointed at tasks.
+- **Reassembled** both composed charters (surgical, verified): greenfield now **1–17**, legacy **1–18**, sequential. **Retranslated** both pt-BR charters — new *Changelogs* and *Trabalho orientado a especificações* sections, renumbered to match.
+- **Landing page** (`README.md`): added *Two changelogs, two rhythms* and *Spec-driven work* to "What the charters give a project." The rendered **Artifact** republish is **held for approval** — the newly-agreed landing approval loop (`ideas/landing-publishing.md`) says every publish is previewed and approved first.
+- Marked `ideas/spec-driven-work.md` and `ideas/audience-aware-changelogs.md` **incorporated**; roadmap updated; decision recorded.
+
+**In plain language:** we wrote two of the six agreed ideas into the actual charters. Now every project built from a charter is told to keep two changelogs (a detailed one for developers, updated each commit, and a curated one for the product's users) and to write a short spec for each real task before coding — asking you up front whenever something's unclear. We rebuilt the two copy-ready charters and their Portuguese versions, renumbered the sections, and refreshed the front page. We did **not** re-publish the web landing yet — from now on that waits for your preview and approval.
+
+**Glossary:** *incorporate* — write an agreed idea into the actual template text (as opposed to it living only as a spec in `ideas/`); *split cadence* — the two changelogs update on different schedules; *`spec_term`* — the charter's word for its golden-source specs (greenfield "specs", legacy "golden standards"); *reassemble* — regenerate the composed charters from the core + modules.
+
 ## 2026-07-10 — Graduated the Setup→changelog→landing cluster to `agreed` (2 Q&A rounds) + 2 new specs
 
 - The **five newest inbox entries** turned out to be refinements of the pending draft cluster; graduated together in a **two-round Q&A** (all resolutions in `decisions.md` → *Graduated the Setup→changelog→landing inbox cluster*). Inbox emptied; graduated list extended.

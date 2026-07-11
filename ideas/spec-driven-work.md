@@ -1,7 +1,9 @@
 # spec-driven-work
 
-Status: agreed
+Status: incorporated
 Applies to: core (new `CHARTER_CORE` section — Spec-driven work)
+
+> **Incorporated 2026-07-11** into `CHARTER_CORE.md` as the *Spec-driven work* section, placed beside *Idea inbox*; composed charters reassembled (greenfield §14, legacy §15) and pt-BR retranslated.
 
 ## Behavior
 

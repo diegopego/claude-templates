@@ -121,7 +121,16 @@ Direction is written down, not remembered. Two living documents sit in `.claude/
 
 **Strategic archiving:** when a milestone closes, move its completed tasks to `roadmap-archive.md`. Archive by milestone, not task by task — the roadmap stays lean and history stays reachable, without constant curation.
 
-## 13. Idea inbox
+## 13. Changelogs
+
+Change is recorded for two readers, on two rhythms — both are **curated** documents in the repo, not a raw dump:
+
+- **Technical changelog** — for whoever maintains the code. Updated **on every commit**; the git history is its raw record underneath, which the curated entries group and summarize. Each entry ends with a plain-language addendum for any jargon or dense passage.
+- **Audience changelog** — for the **Primary users** (Project Parameters), written at their level of knowledge and interest. Curated **per significant change**, grouping related commits so a user reads a coherent story rather than a stream of commits. It is the interpretation layer — the natural source for any user-facing current-state summary of the product.
+
+The split matches each reader: maintainers want per-commit granularity; users want the curated story. To frame a change well, the agent draws on the best available sources — the git log, the tests, the code itself — and asks the system author for what it still needs.
+
+## 14. Idea inbox
 
 Scope is captured before it is planned. The repo keeps `ideas/inbox.md` — the system author's scratchpad for half-formed ideas, jotted in any language at draft quality (the one file exempt from the English-artifact rule). The agent never reorganizes, rewrites, or deletes inbox entries on its own; the inbox belongs to the system author. Capture needs no tooling — it is a one-line append.
 
@@ -129,18 +138,26 @@ An entry **graduates** only when the system author asks for it. Graduation is a 
 
 The graduation ritual also ships as an embeddable **`graduate-idea`** skill (in the templates' `skills/` catalog) — drop it into the project's `.claude/skills/` to run graduation on request. Capture needs no skill.
 
-## 14. Git authorization
+## 15. Spec-driven work
+
+Non-trivial work is specified before it is built. A task does not jump straight to code: the agent first writes it up in the golden standards — sized to the task, in the same golden-source form the Golden standards phase produces (behavior, why, acceptance criteria) — and implements against that. The golden standards are what get reviewed and traced against, not the code alone.
+
+When a gap would keep the agent from writing an honest spec — a requirement it cannot pin down well enough — it **asks immediately**, in a **Q&A round** (see *Working through questions*), rather than guessing and encoding the guess where it is expensive to find later. The answers land in the golden standards and the decision log before implementation starts.
+
+This is the same machine as the *Idea inbox*, pointed at tasks instead of ideas: the inbox matures a rough idea into golden standards; spec-driven work does the same for a unit of work about to be built. Trivial, mechanical changes — a rename, a typo, a one-line fix with no behavioral ambiguity — are exempt; writing a spec for them is over-engineering (see Anti-over-engineering).
+
+## 16. Git authorization
 
 The agent **never commits and never pushes on its own**. Every `git commit` and `git push` requires explicit, per-instance authorization from the user. Preparing work (branches, diffs, proposed commit messages) is welcome; executing history-changing commands is not.
 
-## 15. Session handoff
+## 17. Session handoff
 
 At the end of every task the agent explicitly decides — and says — one of:
 
 - **Continue**: adjacent in-scope work remains and context budget allows; keep going.
 - **Handoff**: natural stopping point, or context running long; write/update `.claude/memory/handoff.md` with current state, decisions made and why, dead ends hit, and concrete next steps (pointers into `roadmap.md`, never a second copy of it) — written for a successor with zero conversation context.
 
-## 16. Secrets & sensitive data
+## 18. Secrets & sensitive data
 
 Credentials may live in the working directory but are **always gitignored**; private keys are never printed, logged, or committed. Plaintext secrets discovered in the legacy system (a common find) are flagged immediately, and any app feature replacing them gets real secret handling — encryption at rest, access control, audit trail. Secrets must also survive host loss: the restore procedure declares exactly which secrets it needs (see [REQUIREMENT_PORTABLE_APPLIANCE.md](../requirements/REQUIREMENT_PORTABLE_APPLIANCE.md)).
 

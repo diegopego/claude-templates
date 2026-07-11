@@ -2,6 +2,14 @@
 
 For people who copy these templates into their own projects. Only changes that affect how you find, choose, or use a template appear here. Newest first.
 
+## 2026-07-11 — Your charter now covers two changelogs and a spec before each task
+
+- Both charters gained two sections — you get them by copying the same single charter file:
+  - **Changelogs.** Your project keeps a **technical changelog** (updated every commit, with the git history underneath) and a **changelog for your product's users** (curated, grouping related changes so it isn't noisy). The users' changelog is the source for an always-current summary of your product.
+  - **Spec-driven work.** For any non-trivial task, the agent writes a **short spec before it builds**, and asks you the questions that matter up front instead of guessing. Trivial fixes (a rename, a typo) skip the ceremony.
+- Nothing else changes in how you adopt: copy the charter, fill the parameters, go. The pt-BR versions are updated to match.
+- Two of the four items from the previous "coming next" note are now live (these two); the **project CLI** and the **approve-before-publish landing page** are still planned.
+
 ## 2026-07-10 — Settled (coming next): spec-per-task, one project CLI, and how your changelogs & landing will work
 
 - The earlier "Planned:" setup/changelog/landing sketches are now **agreed** — the shape is settled and will be written into the templates next. What's coming:
