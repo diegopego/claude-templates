@@ -1,0 +1,57 @@
+# Host-side adoption — one door, no kit
+
+Status: agreed
+Applies to: `templates/skills/adopt-template/` (moves to `.claude/skills/`), `templates/guides/GUIDE_ADOPTION.md`, `Makefile`, `tools/install.sh`, `README.md`, `docs/index.html`, `CLAUDE.md`
+
+Graduated 2026-07-12 from two inbox entries — *"every installation should be run from here"* and *"identify our artifacts inside a shared file so a future upgrade can find them"*. They are one idea: the second is the record the first's upgrade branch reads.
+
+The premise is the owner's, from three real adoptions (self-adoption, orderboard, nogueira-adjustments): **the templates repo already drove all of them.** The product's documented flow said otherwise — push a kit into the target, open Claude there, merge, then tear the kit down — and two of the four recorded frictions are artifacts of that flow, not of adoption itself.
+
+## Behavior
+
+**1. One door: a skill in this repo.**
+
+Adoption, first install, and upgrade are one skill (`adopt-template`), run from a Claude Code session **in the templates clone**, with the target project as an additional working directory. It:
+
+- **inventories the target** — `CLAUDE.md`, `AGENTS.md`, `.cursorrules`, convention docs, and `.claude/memory/template-version.md` — and branches on what it finds: no instructions → first install; the project's own instructions → merge; a stamp (or an unmistakable filled-in charter) → upgrade;
+- **runs the Q&A round in plan mode** — dispositions, conflicts, module offers, each with options and a recommendation;
+- **writes into the target's working tree only after the owner approves the plan**, and **never commits there** (the charter's *Commit rights end at this repository*).
+
+The skill is **machinery of this repo**, not an embeddable deliverable: it lives in `.claude/skills/`, the same status as `assemble-charters`. `GUIDE_ADOPTION.md` stays in `templates/guides/` as the authority the skill executes, but nothing copies it into an adopter. The only embeddable skills left are `graduate-idea` and `update-living-docs`.
+
+**2. The kit is abolished.**
+
+No `agent/` folder, no `PREFIX` parameter, no `TEMPLATE_VERSION.md` delivered into the target, no teardown step, no one-shot skill to remove. What an adopted project ends up with is exactly what it keeps:
+
+| | lands in the target |
+|---|---|
+| **adopt** (existing project) | merged `CLAUDE.md` · `.claude/memory/{roadmap,decisions,template-version,MEMORY}.md` · `.claude/requirements/…` (each *keep*) · `.claude/skills/graduate-idea` (+ `update-living-docs` with the module) · `ideas/inbox.md` |
+| **new** (greenfield) | the above, plus `.claude/charter/CHARTER_*.md` composed with the chosen modules, and a `CLAUDE.md` wired to it |
+| **upgrade** | the reconciled `CLAUDE.md` and memory; a rewritten stamp |
+
+`.claude/` is the single convention — `adopt` already promised *"a single versioned home under `.claude/`"* for every kept deliverable; `new` now uses it too, instead of a second convention (`agent/`) that existed only to hold a kit that no longer exists.
+
+**3. `tools/install.sh` survives as the deterministic layer.**
+
+Judgment belongs to the skill; file operations do not. The installer keeps its three modes and its never-overwrite guarantee, and the skill calls it. What goes away is its **adopter-facing** face: the Makefile keeps `assemble` (maintainers), and the README stops teaching `make adopt` / `make new` / `make upgrade`. One door means one door.
+
+**4. Provenance is a manifest, not a marker.**
+
+`.claude/memory/template-version.md` gains a **disposition table** — for each charter section, module, and requirement: the disposition (keep / adapt / already-covered / skip), its tag (*architectural* / *conflict-avoided*), and **where it landed** in the target (the `CLAUDE.md` heading, or the file under `.claude/`). Together with the source commit already stamped there, that is what a future upgrade reads: it can recompose the charter *at the adopted commit*, diff it against the current one, and know for each changed section whether the project took it, adapted it, or refused it — and where to look.
+
+Nothing is written **into** the shared `CLAUDE.md` to mark it as ours. Adopted text is deliberately *adapted* into the project's own terms and then evolves under the project's own charter; a marker claiming ownership of a line is a lie one edit later, and it pollutes the file the agent reads every session.
+
+## Why
+
+- The kit was the delivery mechanism for a session that could not reach the templates. When the clone is on the same machine — which it must be, since the whole install is a clone — the kit is a copy that exists to be deleted. `make upgrade` already proved the point by installing nothing.
+- Two doors (a `make` command *and* a skill) meant the owner-facing flow and the agent-facing flow could drift. They did: the last three adoptions were run from here, against a README that described the opposite.
+- The upgrade needs to know **what the project did with each section**, not **which bytes came from us**. A manifest answers the first question; a marker answers only the second, and answers it badly.
+
+## Risks to watch in the first host-side adoption
+
+- **A host-side session does not know the target project.** The merging session used to be the one that lives with the project daily; now it is a stranger with read access. The inventory step and the plan-mode approval carry that weight — if a first host-side adoption produces a plan that misreads the project, that is the finding, and it belongs back in this inbox.
+- **The target's own `CLAUDE.md` does not govern the host session.** A session here runs under *this* repo's charter while editing a foreign tree. That is already the rule for adoption work, but it is now the *only* mode, so it gets exercised every time.
+
+## Open questions
+
+None blocking. Deferred until a real adopter asks: whether an adopter who does **not** want to clone the templates needs a fallback path (today: copy the files by hand, which still works because the installer only ever adds files).

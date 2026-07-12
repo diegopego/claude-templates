@@ -1,8 +1,12 @@
-# Third adopter — nogueira-adjustments (friction report + adoption plan)
+# Third adopter — nogueira-adjustments (friction report + adoption record)
 
-Written 2026-07-12 from a session in **orderboard**, which had read access to both repos but could not do the work: every correction below belongs in *this* repo, and the adoption must be driven from here. Planned and approved by the owner; **nothing has been executed yet**.
+Written 2026-07-12 from a session in **orderboard**, which had read access to both repos but could not do the work. **Executed 2026-07-12** from this repo: all six corrections shipped (`3b1eea8`), and the upgrade ran in that project (uncommitted there, by design).
 
-`~/devel/nogueira-adjustments` is the templates' **third adopter** and the roadmap's *"record every friction point during adoption"* item, delivered. It is worth more than a third install: because it was built independently and is unusually well-articulated, it functions as an **independent re-derivation** of the charter — and where the two disagree, it is mostly the charter that is wrong.
+> **Correction, made during execution — the premise below was wrong on one point.** This project was **not** built independently of these templates. Its own session log records the truth: *"2026-07-09 — Owner charter absorbed into CLAUDE.md (cherry-pick from the owner's legacy-transformation template)"*. Its adoption commit (`d44c07d`, `2026-07-09T22:39:29-03:00`) dates it to **claude-templates @ `1bbf79a`** — the very first commit of this repo. That also explains the byte-identical `REQUIREMENT_PORTABLE_APPLIANCE.md`: it was copied, and that file has zero changed lines since `1bbf79a`. So it is an **old unstamped adopter**, and what it got was an **upgrade**, not a first adoption.
+>
+> **The six corrections survive this intact — and are better evidenced by it.** They rest on its ADRs **0031** (operate the sheet), **0032** (v1 starts empty) and **0033** (two golden sources), all dated 2026-07-12, i.e. *three days after* it absorbed the charter. They are not a coincidental re-derivation; they are a project that **had** the charter, hit reality, and contradicted it. A charter contradicted in practice by the project running it is the strongest defect report there is. What dies is only the "independent re-derivation" framing — read the report below with that substitution.
+
+`~/devel/nogueira-adjustments` is the templates' **third adopter** and the roadmap's *"record every friction point during adoption"* item, delivered.
 
 ## What the project is
 

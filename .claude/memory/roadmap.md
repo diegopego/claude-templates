@@ -34,9 +34,25 @@ Charters are generated: edit `templates/charters/sources/`, then `make assemble`
 - [x] **`MODULE_PRODUCT_AUDIENCE`: the membership model** (2026-07-12) — multi-tenant *and* multi-user; one shared user base, permissions on the membership (user × tenant × role), with the three consequences both adopters hit spelled out
 - [x] **`MODULE_LIVING_DOCS`: cadence** (2026-07-12) — both changelogs curated per significant change; git history named as the raw record
 - [x] `make assemble` + installer exercised end to end (2026-07-12) — `make new` (legacy bare, and with both add-on modules), `make adopt` into a throwaway with a pre-existing `CLAUDE.md` (15 files, down from 16; `CLAUDE.md` untouched), `make upgrade` round-tripping the stamp; `MODULES="data-migration"` now fails with a clean *unknown module*. Greenfield recomposed byte-identical
-- [ ] **Owner authorizes the commit** — everything above is in the working tree, unstaged
-- [ ] **Adopt into nogueira-adjustments** — `make adopt DEST=~/devel/nogueira-adjustments`, then the merge runs inside that project (its own session commits it; this project never commits there). Decisions already taken and the expected disposition matrix are in `adopter-nogueira-adjustments.md`
-- [ ] **Upgrade orderboard** — `make upgrade DEST=~/devel/nogueira/orderboard` and fold the same corrections in
+- [x] **Owner authorized the commit** (2026-07-12) — `3b1eea8`. **Not pushed**: the push publishes the landing, and it needs its own per-instance authorization (the auto-mode classifier correctly refused to infer it). *Pending.*
+- [x] **Adopt into nogueira-adjustments** (2026-07-12) — and it turned out **not to be a fresh adopter at all**: its session log records the charter being cherry-picked on 2026-07-09, and its adoption commit's timestamp dates it to **`1bbf79a`, this repo's first commit**. So it ran the **upgrade** branch (owner's call), stamped `1bbf79a` → `3b1eea8`. The delta was effectively the whole charter (it was rewritten and modularized in between), so every section was classified anyway — the approved disposition matrix held. Adopted: membership model, classify-on-extraction, corrected-copy, Q&A *options + recommendation*, session handoff, idea inbox, living-docs guard-rails. `CLAUDE.md` **+57 lines, −0**; direction/decisions kept their `specs/` homes; ADR 0035 records the matrix; `make verify` 29/29. Left uncommitted there, as the charter requires. **The "independent re-derivation" premise in `adopter-nogueira-adjustments.md` was false and is corrected in place — the six corrections survive it, better evidenced: they come from ADRs written *after* it absorbed the charter, by a project contradicting the charter it was running**
+- [x] **Upgrade orderboard** (2026-07-12) — reconciled `3e09fd2..3b1eea8`, stamped at `3b1eea8`; `make upgrade` now reports *already up to date* for **both** adopters. Three corrections reached its text (operate-the-sheet, corrected-copy, plural golden sources — the sheet *and* its Apps Scripts, the script winning a disagreement); two were *already covered because they came from there* (changelog cadence, membership model); and its migration section was kept **as its own rule**, marked in its `CLAUDE.md` so a future upgrade does not read it as orphaned template text. **The upgrade found a live gap in it**: its extraction was a reading exercise — the service account still holds the **read-only** scope, and it has never written to its own writable copy — so its golden standards, which M5 will harden into test oracles, were derived without ever driving the sheet. That is now an M4 item there. Left uncommitted, as the charter requires
+- [x] **Milestone 7 closed** (2026-07-12) — see the two frictions it produced, in `ideas/inbox.md`
+
+## Milestone 8 — Host-side adoption: one door, no kit (current)
+
+Spec: **`ideas/host-side-adoption.md`** (Status: agreed, 2026-07-12) — graduated from the two 2026-07-12 inbox entries. Decisions: `decisions.md`, *Adoption runs from the templates repo; the kit is abolished*.
+
+The installer stops pushing a kit into the adopter and the adopting session stops running inside it. Both move here. Two of the four recorded frictions cease to exist rather than being fixed.
+
+**Sequencing** — the orderboard upgrade (Milestone 7) is scoped and its corrections are waiting; do it first under the current flow, and let the *next* adoption be the first host-side run. Doing it the other way makes orderboard the guinea pig for machinery that has never run.
+
+- [ ] `adopt-template` moves `templates/skills/` → `.claude/skills/` (meta-project machinery, like `assemble-charters`); gains the three-mode inventory branch and the plan-mode approval gate
+- [ ] Kit abolished: no `agent/`, no `PREFIX`, no delivered `TEMPLATE_VERSION.md`, no teardown; `new` composes the charter into `.claude/charter/`
+- [ ] `tools/install.sh` keeps its three modes as the deterministic layer the skill calls; the Makefile keeps only `assemble` — exercised end to end before the commit, as always
+- [ ] `.claude/memory/template-version.md` gains the **disposition table** (section → disposition + tag → where it landed) — the provenance record an upgrade reads, instead of markers inside the adopter's `CLAUDE.md`
+- [ ] `GUIDE_ADOPTION.md` rewritten for the host-side flow; `README.md` + `docs/index.html` teach the single door (the `make` install instructions go); this repo's `CLAUDE.md` records that adoption skills are authored under `.claude/`
+- [ ] First host-side adoption run against a real project — the risk to watch is the one the spec names: a host session is a stranger to the target
 
 ## Parked (reactivate on demand)
 
