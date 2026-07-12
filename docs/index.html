@@ -292,8 +292,9 @@
       <pre>git clone https://github.com/diegopego/claude-templates
 cd claude-templates
 
-make adopt DEST=~/path/to/your-project                    <span class="cm"># existing project</span>
-make new   DEST=~/path/to/new-project CHARTER=greenfield  <span class="cm"># or CHARTER=legacy</span></pre>
+make adopt   DEST=~/path/to/your-project                    <span class="cm"># existing project</span>
+make new     DEST=~/path/to/new-project CHARTER=greenfield  <span class="cm"># or CHARTER=legacy</span>
+make upgrade DEST=~/path/to/adopted-project                 <span class="cm"># already on an older version</span></pre>
       <p style="margin:1.5rem 0 0;color:var(--soft)">
         Then open Claude Code <b>in your project</b> and paste the prompt the installer just printed:
       </p>
@@ -317,13 +318,15 @@ make new   DEST=~/path/to/new-project CHARTER=greenfield  <span class="cm"># or 
         </article>
         <article class="card">
           <h3>already adopted an earlier version</h3>
-          <p>Run <code class="path">make adopt</code> again and you get an <b>upgrade</b>, not a re-merge.
-          Every install is stamped with the version it came from
-          (<code class="path">.claude/memory/template-version.md</code>), so the agent reconciles
-          <b>only what changed</b> between your version and the new one — your own instructions are never
-          re-litigated, and questions you already answered are not asked twice. Anything a past adoption
-          dropped merely to avoid a clash — rather than because you decided against it — comes back to you
-          for a fresh decision instead of quietly hardening into a rule.</p>
+          <p><code class="path">make upgrade DEST=…</code> gives you an <b>upgrade</b>, not a re-merge —
+          and installs nothing, because an upgrade needs a diff, not a copy. Every install is stamped with
+          the version it came from (<code class="path">.claude/memory/template-version.md</code>), so the
+          agent reconciles <b>only what changed</b> between your version and the new one — your own
+          instructions are never re-litigated, and questions you already answered are not asked twice.
+          Adopted before stamping existed? Your repo still knows <i>when</i> it adopted, and the command
+          dates the source commit from that. Anything a past adoption dropped merely to avoid a clash —
+          rather than because you decided against it — comes back to you for a fresh decision instead of
+          quietly hardening into a rule.</p>
         </article>
       </div>
       <p class="aside">Already have a Claude Code session open in the project? Run

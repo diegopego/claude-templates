@@ -10,14 +10,16 @@ Clone this repo and point the installer at your project's folder — that is the
 git clone https://github.com/diegopego/claude-templates
 cd claude-templates
 
-make adopt DEST=~/path/to/your-project                    # existing project
-make new   DEST=~/path/to/new-project CHARTER=greenfield  # or CHARTER=legacy
+make adopt   DEST=~/path/to/your-project                    # existing project
+make new     DEST=~/path/to/new-project CHARTER=greenfield  # or CHARTER=legacy
+make upgrade DEST=~/path/to/adopted-project                 # already on an older version
 ```
 
 Then open Claude Code **in your project** and paste the prompt the installer just printed:
 
 - **Existing project** → `Adopt the templates in agent/ into this project.`
 - **New project** → `Read CLAUDE.md and start Setup.`
+- **Already adopted** → `Upgrade the templates in this project.`
 
 Done — the installer only adds files, **nothing is ever overwritten**. Already have a Claude Code session open in the project? Run **`/reload-skills`** there first (skills load at startup). No `make`? Copying the files by hand works exactly the same — the installer is convenience, not machinery.
 
@@ -25,7 +27,7 @@ Done — the installer only adds files, **nothing is ever overwritten**. Already
 
 - **Existing project** (`make adopt`) — a **non-destructive merge**. The agent inventories your current instructions, keeps or adapts each template section per [`GUIDE_ADOPTION.md`](templates/guides/GUIDE_ADOPTION.md), and raises every conflict to you instead of overwriting. Code and infrastructure changes are deferred to a roadmap, so the running system is never touched by surprise. When the merge is done it tidies up after itself: each section you keep lands in a single versioned home (under `.claude/` by default) and the one-shot delivery kit and `adopt-template` skill are removed — while the permanent `graduate-idea` skill (and `update-living-docs` if you took the living-docs module) stays.
 - **New project** (`make new`) — composes your charter (plus any add-on modules) and seeds the kit: a `CLAUDE.md` wired to the charter, a `.claude/memory/`, an `ideas/inbox.md`, and the `graduate-idea` skill. The charter's **Setup** step then confirms every parameter with you (stated defaults, never silent assumptions) and **scaffolds a minimum runnable project**, so real work starts against something that already runs.
-- **Already adopted an earlier version?** (`make adopt` again) — an **upgrade**, not a re-merge. Every install is stamped with the version it came from (`.claude/memory/template-version.md`), so the agent reconciles **only what changed** between your version and the new one — your own instructions are never re-litigated, and questions you already answered are not asked again. Anything a past adoption dropped merely to avoid a clash (rather than because you decided against it) comes back to you for a fresh decision, instead of quietly hardening into a rule.
+- **Already adopted an earlier version?** (`make upgrade DEST=…`) — an **upgrade**, not a re-merge, and it installs nothing: an upgrade needs a diff, not a copy. Every install is stamped with the version it came from (`.claude/memory/template-version.md`), so the agent reconciles **only what changed** between your version and the new one — your own instructions are never re-litigated, and questions you already answered are not asked again. Adopted before stamping existed? Your repo still knows *when* it adopted, and the command dates the source commit from that. Anything a past adoption dropped merely to avoid a clash (rather than because you decided against it) comes back to you for a fresh decision, instead of quietly hardening into a rule.
 
 Files land in a namespaced `agent/` folder by default (override with `PREFIX=…`).
 

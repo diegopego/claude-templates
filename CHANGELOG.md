@@ -2,6 +2,12 @@
 
 Curated for template adopters, one entry per significant change (newest first). The git history is the full technical record underneath. Entries before 2026-07-11 live in the old `changelog/` directory, reachable in git history.
 
+## 2026-07-12 — `make upgrade`: one command for the version diff, no kit to install
+
+The upgrade path gets its own command, from the first real run of it. **`make upgrade DEST=…`** reads your project's stamp, prints exactly which template files changed since — and whether any of them is charter text that would fold into your `CLAUDE.md` — and tells you the commit to stamp next. It **installs nothing**: an upgrade needs a diff, not a copy, so there is no delivery kit to tear down afterwards (`make adopt` still ships one, for adopters who do not have the template clone at hand).
+
+**Adopted before stamping existed?** You are not asked for a commit hash you cannot know. Your repo still records *when* it adopted, and the command resolves the source commit from that instant — then shows you the diff so a wrong guess is visibly wrong before anything is written.
+
 ## 2026-07-12 — Re-adopting a newer version is now an upgrade, not a re-merge
 
 If you adopted these templates and later re-run `make adopt` with a newer version, the agent used to treat your `CLAUDE.md` — which *is* the filled-in charter it produced last time — as if it were foreign instructions, and ask you to re-decide the whole thing. No longer:

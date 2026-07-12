@@ -4,7 +4,7 @@
 
 PREFIX ?= agent
 
-.PHONY: help assemble new adopt
+.PHONY: help assemble new adopt upgrade
 
 help:
 	@echo "claude-templates — installer"
@@ -21,6 +21,11 @@ help:
 	@echo "      an older version, the upgrade diff) runs later inside Claude, with every conflict raised"
 	@echo "      to you."
 	@echo ""
+	@echo "  make upgrade DEST=~/devel/already-adopted"
+	@echo "      A project that already adopted an EARLIER version: read its stamp (or date it from its own"
+	@echo "      adoption commit), then print which template text changed since — and what to stamp next."
+	@echo "      Installs NOTHING: an upgrade needs a diff, not a copy, so there is no kit to tear down."
+	@echo ""
 	@echo "  make assemble"
 	@echo "      Regenerate the shipped composed charters from templates/charters/sources/ (maintainers)."
 
@@ -32,3 +37,6 @@ new:
 
 adopt:
 	@sh tools/install.sh adopt "$(DEST)" "" "" "$(PREFIX)"
+
+upgrade:
+	@sh tools/install.sh upgrade "$(DEST)"

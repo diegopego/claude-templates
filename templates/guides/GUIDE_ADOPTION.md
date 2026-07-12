@@ -67,9 +67,20 @@ If the inventory in step 1 finds no instruction files, there is nothing to prese
 
 A project that adopted these templates once will be re-adopted every time they improve. Its `CLAUDE.md` **is** the filled-in charter the last adoption produced, its `.claude/memory/` already follows the conventions, and the kit that just arrived carries a *newer* version of that same text. Treating this as a merge makes the agent argue with its own charter and re-ask the owner questions he already answered. It is a **version reconciliation**, and it reconciles only the delta.
 
-1. **Read the stamp.** `.claude/memory/template-version.md` gives the source commit the project came from, its charter, and its adopted modules. If the project is plainly an instance of an older charter but carries no stamp (it was adopted before stamping existed), say so, confirm with the owner which charter and modules it came from, and write the stamp before continuing.
+0. **Run `make upgrade DEST=<project>`** from a clone of the template repository. It **installs nothing** — an upgrade needs a diff, not a copy, so there is no kit to deliver and none to tear down. It reads the project's stamp (or dates it, below), and prints exactly which template files changed since, and the commit to stamp next. Without the clone, `make adopt` still delivers the kit and its `TEMPLATE_VERSION.md` is the other end of the diff.
 
-2. **Diff the two versions.** The delivered kit records its own commit in `TEMPLATE_VERSION.md`. What changed between them is the entire scope of the upgrade — from a clone of the template repository, literally `git diff <stamped-commit>..<kit-commit> -- templates/`. Template text the project already carries unchanged is **not** re-litigated, and the project's own sections — the ones it wrote itself — are never questioned.
+1. **Read the stamp.** `.claude/memory/template-version.md` gives the source commit the project came from, its charter, and its adopted modules.
+
+   **No stamp?** Every project adopted before stamping existed still knows *when* it adopted — its own git history has the `Adopt…` commit. The source is the template commit that was `HEAD` **at that instant** (the instant, not the day: a template repo can ship several commits in one day, and a date-granular bound resolves to the last of them — text the project never saw):
+
+   ```sh
+   git -C <project>   log -1 --format=%cI --grep='[Aa]dopt'
+   git -C <templates> rev-list -1 --before=<that timestamp> HEAD
+   ```
+
+   `make upgrade` does this for you. Show the owner the resulting diff summary and confirm the charter and modules with him before writing the stamp — a wrong bound produces a visibly wrong diff. If the timestamp resolves to nothing (an old kit applied long after it was cut), search by content instead: `git log -S "<a characteristic phrase from a charter section>" -- templates/`.
+
+2. **Diff the two versions.** What changed between the stamped commit and the current template set is the entire scope of the upgrade — literally `git diff <stamped-commit>..HEAD -- templates/`. Template text the project already carries unchanged is **not** re-litigated, and the project's own sections — the ones it wrote itself — are never questioned.
 
 3. **Classify the delta, same vocabulary.** Each changed charter section, each newly available module, each new or revised requirement gets one disposition — keep as-is / adapt / already covered / skip-with-reason — tagged *architectural* or *conflict-avoided*, exactly as in the merge. Conflicts still go to the owner in one batched Q&A round.
 

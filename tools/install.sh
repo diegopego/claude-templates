@@ -1,7 +1,8 @@
 #!/bin/sh
 # Installer for the claude-templates deliverables. Called by the Makefile:
-#   tools/install.sh new   DEST CHARTER MODULES PREFIX
-#   tools/install.sh adopt DEST ""      ""      PREFIX
+#   tools/install.sh new     DEST CHARTER MODULES PREFIX
+#   tools/install.sh adopt   DEST ""      ""      PREFIX
+#   tools/install.sh upgrade DEST                        (installs nothing)
 #
 # Deterministic file installation only: it composes/copies documents and
 # seeds inert scaffolding. All judgment (the Setup Q&A, the adoption merge)
@@ -19,7 +20,7 @@ PREFIX=${5:-agent}
 fail() { echo "error: $*" >&2; exit 1; }
 note() { echo "  $*"; }
 
-[ -n "$MODE" ] || fail "mode missing (new|adopt)"
+[ -n "$MODE" ] || fail "mode missing (new|adopt|upgrade)"
 [ -n "$DEST" ] || fail "DEST is required, e.g. make $MODE DEST=~/devel/myapp"
 
 # `make adopt DEST=~/...` reaches us with a literal ~ (shells only expand it
@@ -248,7 +249,64 @@ EOF
   echo "(If a Claude Code session is already open there, run /reload-skills first — or restart the session, which always works.)"
   ;;
 
+upgrade)
+  # Reconciles a project that already adopted an earlier version. It is a *read*:
+  # nothing is copied into DEST, so there is no kit to tear down afterwards. The
+  # upgrade needs a diff between two commits, and both live in this clone.
+  [ -d "$DEST" ] || fail "$DEST does not exist"
+  git -C "$REPO" rev-parse --is-inside-work-tree >/dev/null 2>&1 \
+    || fail "'upgrade' needs this template set to be a git checkout — it diffs template text between two commits"
+
+  HEAD_SHA=$(git -C "$REPO" rev-parse --short HEAD)
+  HEAD_DATE=$(git -C "$REPO" log -1 --date=short --format=%cd)
+  STAMP="$DEST/.claude/memory/template-version.md"
+
+  echo "Upgrade check for $DEST (nothing will be installed)"
+  echo ""
+
+  if [ -f "$STAMP" ]; then
+    FROM=$(sed -n 's/.*\*\*Source commit\*\*:[^@]*@ \([0-9a-f]\{7,\}\).*/\1/p' "$STAMP" | head -1)
+    [ -n "$FROM" ] || fail "found $STAMP but could not read a source commit from it — fix its '**Source commit**: … @ <sha>' line"
+    note "stamped at   $FROM"
+  else
+    # No stamp: every pre-stamp instance still knows *when* it adopted. Take the
+    # template commit that was HEAD at the *instant* of the project's last
+    # adoption commit. The instant matters, not the day: a template repo can ship
+    # several commits in one day, and a date-granular bound would resolve to the
+    # last of them — i.e. to text the project never saw.
+    ADOPT_TS=$(git -C "$DEST" log -1 --format=%cI --grep='[Aa]dopt' 2>/dev/null || true)
+    [ -n "$ADOPT_TS" ] || ADOPT_TS=$(git -C "$DEST" log -1 --format=%cI 2>/dev/null || true)
+    [ -n "$ADOPT_TS" ] || fail "$DEST has no stamp and no git history to date it — stamp it by hand"
+    FROM=$(git -C "$REPO" rev-list -1 --before="$ADOPT_TS" HEAD | cut -c1-7)
+    [ -n "$FROM" ] || fail "no template commit predates $ADOPT_TS — try a content search: git -C $REPO log -S '<phrase from a charter section>' -- templates/"
+    note "no stamp     — dated from the project's adoption commit ($ADOPT_TS) -> $FROM"
+    note "             confirm the diff below looks right before stamping"
+  fi
+
+  note "clone is at  $HEAD_SHA ($HEAD_DATE)"
+  echo ""
+
+  CHANGED=$(git -C "$REPO" diff --name-only "$FROM..HEAD" -- templates/ 2>/dev/null || true)
+  if [ -z "$CHANGED" ]; then
+    echo "No template text changed since $FROM — the project is already up to date."
+    echo "Nothing to reconcile; stamp it at $HEAD_SHA."
+    exit 0
+  fi
+
+  echo "Template text changed between them:"
+  printf '%s\n' "$CHANGED" | sed 's/^/  /'
+  echo ""
+  if printf '%s\n' "$CHANGED" | grep -qE '^templates/(charters|requirements)/'; then
+    echo "Charter/requirement text changed — that is what folds into the project's CLAUDE.md."
+  else
+    echo "No charter, module, or requirement changed — nothing to fold into CLAUDE.md."
+  fi
+  echo ""
+  echo "Next: open Claude Code in $DEST and say:"
+  echo "  \"Upgrade the templates in this project.\"  (runs the adopt-template skill's Upgrade branch)"
+  ;;
+
 *)
-  fail "unknown mode '$MODE' (new|adopt)"
+  fail "unknown mode '$MODE' (new|adopt|upgrade)"
   ;;
 esac
