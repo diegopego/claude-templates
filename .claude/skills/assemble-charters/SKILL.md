@@ -22,7 +22,7 @@ make assemble            # = python3 tools/assemble.py --all
 - Relative links in the sources already target `../requirements/…`, which resolves from `templates/charters/` — keep them verbatim.
 - The composed file is self-contained: a reader must never need the sources. No `{{ }}` or `SLOT` markers may survive into the output (the script aborts if one would).
 - Determinism: same sources → same composed output, byte for byte — that is what the hook diffs against.
-- The shipped charters stay **minimal** (see the manifest); an adopting project that wants `MODULE_PRODUCT_AUDIENCE`, `MODULE_LIVING_DOCS`, or `MODULE_DATA_MIGRATION` composes them into its own copy (`make new … MODULES=…`) — do not add them to the shipped rows here.
+- The shipped charters stay **minimal** (see the manifest); an adopting project that wants `MODULE_PRODUCT_AUDIENCE` or `MODULE_LIVING_DOCS` composes them into its own copy (`make new … MODULES=…`) — do not add them to the shipped rows here.
 
 ## After assembling
 

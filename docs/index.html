@@ -350,21 +350,20 @@ make upgrade DEST=~/path/to/adopted-project                 <span class="cm"># a
         <article class="card">
           <h3>Legacy transformation charter <span class="tag">charter</span></h3>
           <p>Extract the knowledge inside an existing system — a spreadsheet, an old app, a paper
-          process — and rebuild it as a modern application, with traceable extraction, every rule
-          classified as domain, instance-config, or workaround, and data migration with a planned
-          cutover.</p>
+          process — and rebuild it as a modern application: one or more golden sources, operated
+          rather than merely read, every rule traced to the source it came from and classified as
+          domain, instance-config, or workaround, and a planned cutover.</p>
         </article>
         <article class="card">
           <h3>Add-on modules <span class="tag">modules</span></h3>
           <p>The shipped charters are deliberately minimal; heavier opinions are modules you compose
           in only when your project is that kind of project.</p>
           <p><code class="path">MODULE_PRODUCT_AUDIENCE</code> — a product for an audience: multi-tenant
-          from v1, your organization as tenant #1, domain rules separated from instance configuration.
+          <em>and</em> multi-user from v1, your organization as tenant #1, a person belonging to several
+          tenants with a role in each, domain rules separated from instance configuration.
           <br><code class="path">MODULE_LIVING_DOCS</code> — curated changelogs, a living product doc,
           and a landing page whose skin is designed once at Setup, with an approval loop on every publish;
-          automated by the <code class="path">update-living-docs</code> skill (rebuild + update).
-          <br><code class="path">MODULE_DATA_MIGRATION</code> — built into the legacy charter; addable
-          to a greenfield project that imports inherited data.</p>
+          automated by the <code class="path">update-living-docs</code> skill (rebuild + update).</p>
         </article>
         <article class="card">
           <h3>Portable-appliance requirement <span class="tag">requirement</span></h3>

@@ -10,8 +10,8 @@ To reuse: copy this file into the new repo, fill in the **Project Parameters** b
 
 | Parameter | Value |
 |---|---|
-| Legacy system (golden source) | *(spreadsheet / legacy app / document set that runs the business today)* |
-| Access method | *(API + credentials, exported files, source code, screenshots…)* |
+| Golden sources | *(every system that encodes how the business runs today — the spreadsheet, the legacy app, the document set, a licensed reference manual. Name each one; where two can disagree, say which wins)* |
+| Access method | *(per source: API + credentials, exported files, source code, screenshots…)* |
 | Embedded logic locations | *(formulas, macros, Apps Scripts, stored procedures — where the rules hide)* |
 | Domain expert role | *(the specialist hat the agent wears, e.g. senior residential appraiser)* |
 | System author / oracle | *(who answers Q&A rounds — usually the user)* |
@@ -24,27 +24,29 @@ To reuse: copy this file into the new repo, fill in the **Project Parameters** b
 
 ---
 
-## 1. Golden source, not a mirror
+## 1. Golden sources, not a mirror
 
-The legacy system is the **golden standard**: it encodes how the business actually runs. The mission is to **extract the architecture, concepts, workflows, and rules behind it** — then redesign them as a proper application. Do not replicate the legacy system's shape or inherit its limitations; replicate its *knowledge*. Where the current process is manual, look for what the app can automate. Treat embedded logic (formulas, scripts, macros, triggers) as primary business-rule documentation — often the only accurate one.
+The **golden sources** named in the Project Parameters encode how the business actually runs. There is usually more than one — the workbook that operates the business *and* the licensed manual its rates were transcribed from; the desktop app *and* the scripts bolted onto it — so name each one individually, and where two can disagree, record which one wins. The mission is to **extract the architecture, concepts, workflows, and rules behind them** — then redesign those as a proper application. Do not replicate a legacy system's shape or inherit its limitations; replicate its *knowledge*. Where the current process is manual, look for what the app can automate. Treat embedded logic (formulas, scripts, macros, triggers) as primary business-rule documentation — often the only accurate one.
 
-Four rules keep the extraction honest:
+Six rules keep the extraction honest:
 
-- **A copy, not production.** The author provides the legacy system as a copy; the live system stays with the author, untouched. The agent has read/write access to the copy — writing is welcome to probe behavior (run a formula, exercise a script) — but the copy is still the golden source: keep writes deliberate and reversible so extraction evidence stays valid, and remember the copy drifts from live production (the cutover re-verification in the data-migration rules exists for exactly that).
-- **Traceability.** Every extracted rule cites where it came from — sheet/tab/cell, formula, script function, or the Q&A round that established it.
+- **A copy, not production.** The author provides each golden source as a copy; the live system stays with the author, untouched. The agent has read/write access to the copy — writing is expected, not merely tolerated (see the next two rules) — and the copy starts drifting from live production the moment it is handed over, which is what the cutover re-verification exists for.
+- **Operate it; don't just read it.** Reading a system does not find its defects. Drive it through whatever surface it exposes — a REST API, an MCP server, a browser driver against its UI, a script harness — and observe what it *does*: change an input, force an edge case, watch what recalculates. One changed dropdown can expose an error that a month of reading formulas would not. Probing writes are deliberate, reversible, and residue-free: **snapshot → write → recalculate → read → restore**.
+- **The copy gets corrected.** Extraction finds genuine errors in the golden source — a mistyped rate, a formula that breaks on an edge case. They are neither silently worked around nor silently fixed: each is reported to the system author with its evidence, corrected in the copy once agreed, and **reconciled by the author back into production**, who then re-provides the copy. A correction is a traceable extraction output like any other.
+- **Traceability.** Every extracted rule cites **which source** it came from and where inside it — sheet/tab/cell, formula, script function, manual edition and page, or the Q&A round that established it.
 - **Classify on extraction.** Every extracted rule is tagged **domain | instance-config | workaround** in the golden standards, alongside its citation: rules general to the domain are kept as behavior; values particular to today's operation become configuration, never hardcoded; workarounds forced by the old medium are named so they are not faithfully rebuilt.
-- **Conflicts are surfaced, never silently resolved.** When embedded logic contradicts manual practice, or historical data contradicts the current process, bring it to an Align round; the system author arbitrates.
+- **Conflicts are surfaced, never silently resolved.** When embedded logic contradicts manual practice, when historical data contradicts the current process, or when **two golden sources disagree**, bring it to an Align round; the system author arbitrates. A precedence rule agreed once in the Project Parameters settles that pair for good — anything it does not cover is a question, never an inference.
 
 ## 2. Method — phased transformation
 
 Work advances through explicit phases; the agent always states which phase it is in:
 
 0. **Setup** — walk the **Project Parameters** block with the system author and confirm every value; where a default applies (artifact language → English, Stack → strict TypeScript), state it so the system author can correct it — never assume silently. Then settle the technology choices and **scaffold the minimum runnable project**: skeleton and configuration for the chosen stack, a project `CLAUDE.md` that references this charter, and a seeded `.claude/memory/` (`roadmap.md`, `decisions.md`, `MEMORY.md` index). Understand and Build then start against a project that runs, not a blank folder. *Exit: parameters agreed and recorded; project scaffolded.*
-1. **Understand** — map the legacy system's structure, data, and embedded logic; draft the domain model and a first-pass concept inventory. *Exit: draft model and concept inventory presented to the system author.*
-2. **Align** — Q&A rounds with the system's author to resolve ambiguities, confirm extracted concepts, and separate essential rules from workarounds forced by the old medium. Answers are recorded in repo memory. *Exit: no open question the author considers blocking.*
-3. **Golden standards** — record the agreed business rules with the legacy system as the source of truth, each v1 feature with acceptance criteria. These documents become the spec and the test oracles, and include an explicit **not-in-v1 list** — restraint written down is restraint enforceable. *Exit: golden standards approved by the author.*
+1. **Understand** — map the golden sources' structure, data, and embedded logic, **operating them** rather than only reading them; draft the domain model and a first-pass concept inventory. *Exit: draft model and concept inventory presented to the system author.*
+2. **Align** — Q&A rounds with the system's author to resolve ambiguities, confirm extracted concepts, arbitrate disagreements between golden sources, and separate essential rules from workarounds forced by the old medium. Answers are recorded in repo memory. *Exit: no open question the author considers blocking.*
+3. **Golden standards** — record the agreed business rules with the golden sources as the source of truth, each v1 feature with acceptance criteria. These documents become the spec and the test oracles, and include an explicit **not-in-v1 list** — restraint written down is restraint enforceable. *Exit: golden standards approved by the author.*
 4. **Prototype** — build UI/UX prototypes with the designated prototyping tool. Phases 2–4 loop — reviews raise questions, answers update the golden standards, golden standards reshape the prototypes — until model and prototypes are approved. *Exit: system author approves the prototypes.*
-5. **Build** — implement the application per the stack and testing rules below, validating against the golden standards (and against real legacy data where available). *Exit: v1 acceptance criteria demonstrated by tests, migration reconciled per the data-migration rules below, and the appliance criteria met — deploy, backup, and an exercised restore per [REQUIREMENT_PORTABLE_APPLIANCE.md](../requirements/REQUIREMENT_PORTABLE_APPLIANCE.md).*
+5. **Build** — implement the application per the stack and testing rules below, validating against the golden standards (and against real legacy data where available). *Exit: v1 acceptance criteria demonstrated by tests, the cutover agreed with the system author, and the appliance criteria met — deploy, backup, and an exercised restore per [REQUIREMENT_PORTABLE_APPLIANCE.md](../requirements/REQUIREMENT_PORTABLE_APPLIANCE.md).*
 
 Phases move forward through **Q&A rounds** — the agent's one tool for turning uncertainty into written, agreed decisions, used at Setup, in Align, in the Prototype loop, and at every "ask, don't infer" moment:
 
@@ -56,7 +58,7 @@ Phases move forward through **Q&A rounds** — the agent's one tool for turning 
 
 ## 3. Roles
 
-Act simultaneously as: a **senior domain expert** (per Project Parameters — domain conclusions must be sound to a practitioner), a **senior software architect**, a **senior software engineer/developer**, and any additional senior role the task genuinely requires. After the first pass over the legacy system, state which extra roles apply and why.
+Act simultaneously as: a **senior domain expert** (per Project Parameters — domain conclusions must be sound to a practitioner), a **senior software architect**, a **senior software engineer/developer**, and any additional senior role the task genuinely requires. After the first pass over the golden sources, state which extra roles apply and why.
 
 ## 4. Language protocol
 
@@ -88,20 +90,17 @@ Seniority shows in restraint:
 - Golden standards from the Golden standards phase become executable test oracles; where feasible, verify outputs against real data from the legacy system.
 - A feature is done when its behavior is demonstrated by tests, not when the code compiles.
 
-## 8. Data migration & cutover
+## 8. Cutover
 
-Historical data in the legacy system is part of the deliverable, not an afterthought:
+The legacy system stays live — and keeps changing — while the app is built. That is true even of a project that inherits **zero** historical records, so it is planned regardless: decide when the legacy system freezes, whether the two run in parallel and for how long, and what makes the new app trusted enough to switch to. Before switching over, **re-verify the extracted rules against the source** — the copy the extraction was built from has been drifting from production ever since it was provided.
 
-- **Profile real data early.** Expect duplicates, format drift, and hand-typed inconsistencies; decide per field whether to clean, preserve, or park.
-- **Imports are features**: repeatable, tested, and safe to re-run.
-- **Reconcile.** Row counts and money totals must match the legacy source; every discrepancy is explained, not ignored.
-- **Plan the cutover.** The legacy system stays live — and keeps changing — while the app is built. Decide when it freezes, whether the two run in parallel, and re-verify extracted rules against the source before switching over.
+**Inherited historical data is out of scope for this charter.** If the app must carry records over from the legacy system, that import is a feature like any other: it is specified in the golden standards with acceptance criteria, and it goes on the roadmap. A project that starts empty owes none of it.
 
 ## 9. Memory, roadmap & decisions
 
 All project knowledge the agent accumulates lives **inside the repo** at `.claude/memory/`, versioned with the code — never in the agent's global memory: a fresh clone must be enough to resume work. One fact per file, indexed one-line-per-entry in `MEMORY.md`; update or delete memories that prove wrong. Two files carry direction:
 
-- **`roadmap.md`** — the single source of direction: the milestones toward v1, each with its ordered near-term tasks — including the migration & cutover work from the data-migration section. Born from Understand's concept inventory; every session starts by reading it and ends by updating it. Work not on the roadmap is scope creep until the system author puts it there. When a milestone closes, move its completed tasks to `roadmap-archive.md` — archive by milestone, not task by task, so the roadmap stays lean and history stays reachable.
+- **`roadmap.md`** — the single source of direction: the milestones toward v1, each with its ordered near-term tasks — including the cutover work. Born from Understand's concept inventory; every session starts by reading it and ends by updating it. Work not on the roadmap is scope creep until the system author puts it there. When a milestone closes, move its completed tasks to `roadmap-archive.md` — archive by milestone, not task by task, so the roadmap stays lean and history stays reachable.
 - **`decisions.md`** — one short entry per architectural or directional decision: what was decided, why, and the strongest rejected alternative. Written when the decision is made; a reversal is a new entry pointing at the old one, never a rewrite. An entry that outgrows a dozen lines is golden-standard material — the log records *why*, the golden standards record *what*.
 
 ## 10. Ideas & specs

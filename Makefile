@@ -9,7 +9,7 @@ PREFIX ?= agent
 help:
 	@echo "claude-templates — installer"
 	@echo ""
-	@echo "  make new    DEST=~/devel/myapp CHARTER=greenfield|legacy [MODULES=\"product-audience living-docs data-migration\"] [PREFIX=agent]"
+	@echo "  make new    DEST=~/devel/myapp CHARTER=greenfield|legacy [MODULES=\"product-audience living-docs\"] [PREFIX=agent]"
 	@echo "      Start a NEW project: compose the charter (with optional add-on modules) into DEST/PREFIX/,"
 	@echo "      copy the appliance requirement, and seed CLAUDE.md, .claude/memory/, ideas/inbox.md and the"
 	@echo "      graduate-idea skill. Never overwrites; aborts if DEST already has a CLAUDE.md."

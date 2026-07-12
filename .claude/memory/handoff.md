@@ -1,29 +1,41 @@
 # Handoff
 
-Written 2026-07-12, at the close of the session that closed **Milestone 6 — Validation in a real project**. For a successor with zero conversation context: read `roadmap.md` first, then `decisions.md` (the four 2026-07-12 entries), then this.
+Written 2026-07-12, **in this repo**, by the session that executed the six charter corrections the previous (orderboard-based) planning session had only designed.
 
-## Current state
+## State
 
-Everything below is **committed and pushed** (`236c68e`); the landing at `https://diegopego.github.io/claude-templates/` is live with it.
+**All six corrections are done and staged; nothing is committed.** The working tree carries the whole of Milestone 7's first half — sources, composed charters, tooling, guide, skills, README, landing, CHANGELOG, four `decisions.md` entries, roadmap. The pre-commit freshness hook passes (`CLAUDE_PROJECT_DIR=$(pwd) .claude/hooks/check-freshness.sh` → 0). The commit awaits the owner's authorization; **that is the next action**, and the two adoption steps depend on it because the stamp must point at a commit that contains the corrected text.
 
-Milestone 6 is fully closed. The templates were exercised outside this repo for the first time, and the friction loop — *real adoption → inbox note → spec → template text* — ran end to end for the first time. What that produced, in order:
+The plan in `adopter-nogueira-adjustments.md` was reviewed critically before execution, as the previous handoff demanded, and it held up on both of its flagged risks:
 
-1. **Re-adoption became an upgrade** (`ideas/template-upgrade.md`, incorporated). Installs are stamped with the template repo's commit (`.claude/memory/template-version.md`; the kit carries `TEMPLATE_VERSION.md`); `GUIDE_ADOPTION` + `adopt-template` gained a third branch that reconciles only the version diff; dispositions are tagged **architectural** or **conflict-avoided**, and the conflict-avoided ones re-open on upgrade; the adoption kit now ships `charters/sources/` whole with every paired skill.
-2. **Self-adoption merge** (`decisions.md`, *Self-adoption merge*). All 17 dispositions recorded; `CLAUDE.md` gained *Method* (the repo's real lifecycle: capture → graduate → incorporate → **validate in an adopter**), *Proving the tooling*, the session-handoff rule, and the **commit-rights-end-here** rule. This repo is stamped as its own adopter #1.
-3. **First real upgrade: orderboard** (`~/devel/nogueira/orderboard`, the owner's legacy-charter project). Unstamped older instance → dated, stamped at `29468ef`, reconciled up to `3e09fd2`. **The diff folded nothing into its `CLAUDE.md`** — only the adoption machinery had changed — which is the branch working: the previous re-adoption had rebuilt its entire instruction layer because nothing could tell it what had actually changed.
-4. **`make upgrade`** (`ideas/upgrade-ergonomics.md`, incorporated), graduated from the two frictions that run produced.
+- **The empty slot composes clean.** `expand_slots` in `tools/assemble.py` drops a line only when it holds *nothing but* empty slots; `<!-- SLOT: cutover -->## Memory, roadmap & decisions` keeps its heading. Greenfield recomposed byte-identical, which is the proof.
+- **Orderboard is self-sufficient.** Its `CLAUDE.md` §*Data migration & cutover* states those rules in its own terms (`IMPORT*` tabs, ATC/TPA, money totals). Deleting the module upstream removes nothing from it.
 
-## Next steps
+Two things the plan did not predict:
 
-1. The roadmap's remaining item is deliberately a brake: **prefer more adopters over more text.** The templates now have two real users (this repo, orderboard) and one closed friction loop. A third adopter teaches more than another section.
-2. **Uncommitted, in a foreign repo:** orderboard has three files in its working tree from the upgrade — `.claude/memory/template-version.md` (new), `decisions.md`, `MEMORY.md`. Its own session commits them; **this project never commits there** (see `CLAUDE.md` → *Commit ritual*).
+- A **third** stale reference to the deleted module, inside the *a copy, not production* rule (the plan listed only `method_build` and `roadmap_scope`).
+- **The cutover got its own section**, not a bullet in the extraction rules list. The list keeps the *extraction* honest — six rules already — and cutover is project sequencing. The core's `data_migration` slot was renamed `cutover` and is now filled by `MODULE_EXTRACTION_LEGACY`.
+
+## Next
+
+`roadmap.md` → Milestone 7, the two open items:
+
+1. **Adopt into nogueira-adjustments** — `make adopt DEST=~/devel/nogueira-adjustments`, then the merge runs *inside* that project. Decisions already taken (do not re-ask) and the expected disposition matrix: `adopter-nogueira-adjustments.md`. Its two deferred consequences — the membership data model and the living-docs pipeline — are roadmap items *there*, not merge edits.
+2. **Upgrade orderboard** — `make upgrade DEST=~/devel/nogueira/orderboard`. The genuinely new text for it is **operate-it-don't-read-it** (its Apps Script analysis was a reading exercise and its sheet is a writable copy) and the corrected copy rule. Its migration section is an **architectural keep** — the module is gone upstream, its rules are not.
 
 ## Dead ends / cautions
 
-- **A date bound is not a timestamp bound.** `make upgrade`'s first cut dated an unstamped instance by the *day* of its adoption commit; on orderboard that resolved to the template repo's HEAD of the same day and reported "already up to date" — silently skipping the diff. It uses `%cI` (the instant) now. Any future date arithmetic against the template history has this trap.
-- **Charters are generated** — edit `templates/charters/sources/`, then `assemble-charters`. The composed files are never hand-edited.
-- **Shipped charters stay minimal** — never fold `MODULE_PRODUCT_AUDIENCE` / `MODULE_LIVING_DOCS` / `MODULE_DATA_MIGRATION` back into the greenfield manifest row; adopters compose them in.
-- **Skill templates get copied into foreign repos** — reference the charter/guide/template set by name, never by relative path.
-- **`tools/` is exercised, not reviewed** (`CLAUDE.md` → *Proving the tooling*): run `make new` / `make adopt` / `make upgrade` into a throwaway destination before committing a change to them. Today's bug was invisible in the diff and obvious on the first run.
-- Old artifacts (pt-BR tree, dual changelogs, `update-product-doc`, `REQUIREMENT_PROJECT_CLI.md`) live only in git history (≤ `600a06b`). Do not resurrect them without the reactivation criteria in `roadmap.md` → *Parked*.
+- **Charters are generated** — edit `templates/charters/sources/`, then `make assemble`. Never hand-edit a composed charter.
+- **`tools/` is exercised, not reviewed.** This session ran `make new` (bare + both modules), `make adopt` into a throwaway with a pre-existing `CLAUDE.md`, and `make upgrade`. Keep doing that.
+- **The freshness hook fires on *any* `git commit` run through Bash**, including one inside an unrelated throwaway repo used to test the installer — it blocked a `git init && git commit` in `/tmp`. Harmless once you know it, and a good inbox note: the hook should probably scope itself to this repo.
+- **`make upgrade` only sees committed history.** It diffs `<stamp>..HEAD` — uncommitted corrections are invisible to it. That is why the commit gates the two adoptions.
+- **A date bound is not a timestamp bound** — `make upgrade` dates an unstamped instance from its adoption commit's `%cI` (the instant). Any future date arithmetic against the template history has this trap.
+- **Shipped charters stay minimal** — never fold `MODULE_PRODUCT_AUDIENCE` / `MODULE_LIVING_DOCS` into the manifest rows; adopters compose them in.
+- **Skill templates get copied into foreign repos** — reference the charter/guide set by name, never by relative path.
+- **This project never commits in a foreign repo.** The adopting project's own session authorizes its own commit. Orderboard may still have the three files from its earlier upgrade uncommitted.
+- Old artifacts (pt-BR tree, dual changelogs, `update-product-doc`, `REQUIREMENT_PROJECT_CLI.md`) live only in git history (≤ `600a06b`); reactivation criteria in `roadmap.md` → *Parked*.
 - Conversation with the owner in pt-BR; every artifact (including this file) in English.
+
+## Open, not decided
+
+Unchanged from the previous handoff, and still not part of Milestone 7: the owner floated moving orderboard's direction and decisions out of `.claude/memory/roadmap.md` + `decisions.md` into a `specs/`-based layout, because that is what nogueira-adjustments does (a live ordered queue + numbered ADRs) and he prefers it. If **both** adopters prefer `specs/` homes, the charter's *Memory, roadmap & decisions* section is what is wrong, and the fix belongs here rather than in two per-project dispositions. **Decide the charter's rule first, then migrate.** Needs its own Q&A round.

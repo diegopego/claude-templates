@@ -11,7 +11,7 @@ Usage:
   tools/assemble.py --all [--outdir DIR]
   tools/assemble.py --charter greenfield|legacy [--modules a,b] --out FILE
 
-Module short names: product-audience, living-docs, data-migration.
+Module short names: product-audience, living-docs.
 """
 
 import argparse
@@ -31,7 +31,6 @@ CHARTER_KEYS = {
 MODULE_ALIASES = {
     "product-audience": "MODULE_PRODUCT_AUDIENCE.md",
     "living-docs": "MODULE_LIVING_DOCS.md",
-    "data-migration": "MODULE_DATA_MIGRATION.md",
 }
 # Slots whose contents accumulate across modules instead of last-wins.
 APPEND_SLOTS = {"project_parameters_extra"}

@@ -91,7 +91,7 @@ Default stack is **modern, strict TypeScript** — deliberately: the agent is fl
 - <!-- SLOT: testing_oracle -->
 - A feature is done when its behavior is demonstrated by tests, not when the code compiles.
 
-<!-- SLOT: data_migration -->## Memory, roadmap & decisions
+<!-- SLOT: cutover -->## Memory, roadmap & decisions
 
 All project knowledge the agent accumulates lives **inside the repo** at `.claude/memory/`, versioned with the code — never in the agent's global memory: a fresh clone must be enough to resume work. One fact per file, indexed one-line-per-entry in `MEMORY.md`; update or delete memories that prove wrong. Two files carry direction:
 

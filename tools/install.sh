@@ -205,7 +205,6 @@ adopt)
            charters/sources/CHARTER_CORE.md \
            charters/sources/MODULE_DISCOVERY_GREENFIELD.md \
            charters/sources/MODULE_EXTRACTION_LEGACY.md \
-           charters/sources/MODULE_DATA_MIGRATION.md \
            charters/sources/MODULE_PRODUCT_AUDIENCE.md \
            charters/sources/MODULE_LIVING_DOCS.md \
            charters/sources/charters.manifest.md \
