@@ -1,87 +1,116 @@
 ---
 name: adopt-template
-description: Adopt these templates into an existing project without losing its current instructions — inventory the project's `CLAUDE.md` (and any convention docs), classify each charter section and requirement as keep/adapt/already-covered/skip, raise every conflict to the owner, then produce a merged `CLAUDE.md` and seeded `.claude/memory/`. Also handles an upgrade: a project already running an earlier version of these templates reconciles only the version diff. Use when the owner asks to adopt, bring in, merge, or upgrade these templates in a project that already exists.
+description: Install, adopt, or upgrade these templates in another project — from a session in THIS repository, with the target as an additional working directory. Inventories the target's existing instructions, branches into new / adopt / upgrade, classifies every charter section, module and requirement with the owner, then writes the merged CLAUDE.md and seeded .claude/memory/ into the target (never committing there). Use when the owner asks to adopt, bring in, merge, install, or upgrade these templates in another project.
 ---
 
 # adopt-template
 
-> **Embeddable skill template.** Copy this directory into the target project's `.claude/skills/adopt-template/`, with the template set (charters, requirements, `guides/GUIDE_ADOPTION.md`) available in the working set. The agent then runs it when the owner asks to adopt the templates. This note is harmless to leave in place.
+**One door.** Starting a project, adopting into an existing one, and upgrading one are the same skill, run **here — in the templates clone** — with the target project as an additional working directory. Nothing is delivered into the target to be torn down again: what lands there is exactly what it keeps.
 
-This skill drives the **Adoption Guide** (`GUIDE_ADOPTION.md`) — the non-destructive merge that brings the templates' practices into a project that **already exists and already works**, which may or may not already use Claude, **without losing the instructions it already has**. The running system is not touched to satisfy a template; only its instruction and practice layer is reconciled and extended. The guide is the authority; this skill is how you execute it, step by step, with the owner deciding.
+This skill is **machinery of this repository**, not an embeddable deliverable. It is authored here, under `.claude/skills/`, alongside `assemble-charters` — it never travels into an adopter. The authority it executes is [`templates/guides/GUIDE_ADOPTION.md`](../../../templates/guides/GUIDE_ADOPTION.md); read it when a judgment call is not covered below.
 
-## When to run
+## Before anything
 
-When the owner asks to adopt / bring in / merge / "set up these templates in" / **upgrade the templates in** a project that already exists. Adoption is a one-time reconciliation of the instruction layer, not ongoing work — run it once per project, then tear down the delivered kit and remove this skill (or leave it inert) — the final step below. A project already running an older version of these templates runs the **upgrade** branch instead (step 1a), and the same teardown applies afterwards.
+**The target must be an additional working directory** for this session, or you cannot read or write it. If it is not, say so and ask the owner to add it (`/add-dir <path>`) rather than working around it.
 
-## What to do
+Then, from this repo, run the deterministic layer's **read**:
 
-Follow the guide's non-destructive merge. Read `GUIDE_ADOPTION.md` first if it is in the working set — these steps mirror it.
+```sh
+sh tools/install.sh upgrade <target>     # a read; installs nothing
+```
 
-1. **Inventory first, before touching anything.** Read every existing instruction source: `CLAUDE.md`, `AGENTS.md`, `.cursorrules`, `CONTRIBUTING`, and any ad-hoc convention docs. Catalog the current rules. The inventory decides which of three branches you are in:
-   - **Nothing found** — the project does not use Claude yet: jump to *No existing instructions* below.
-   - **`.claude/memory/template-version.md` found**, or a `CLAUDE.md` that is unmistakably a filled-in instance of one of these charters — the project already runs an **earlier version of these templates**: jump to *Upgrade* below. Do **not** run the merge; it would make you argue with your own charter and re-ask the owner questions he already answered.
-   - **The project's own instructions** — run the merge, from step 2.
+It prints the target's stamp (or dates an unstamped instance from its own adoption commit) and the template text that changed since. It is the cheapest possible inventory, and it is the first evidence about which branch you are in.
 
-2. **Pick the charter that fits, then classify every section against the project.** Choose `CHARTER_GREENFIELD.md` for continued new-feature work, or `CHARTER_LEGACY_TRANSFORMATION.md` if the project is itself replacing a legacy system. The shipped charters are minimal — offer the add-on modules (`MODULE_PRODUCT_AUDIENCE`, `MODULE_LIVING_DOCS`) only where the project is that kind of project; the kit carries the charter **sources**, so each module's text is on hand to fold into `CLAUDE.md`. A module that ships a paired skill — `MODULE_LIVING_DOCS` ↔ `update-living-docs` — brings that skill with it: install it into `.claude/skills/` from the kit when you adopt the module. For **each section of that charter, each chosen module, and each requirement**, record exactly one disposition:
-   - **keep as-is** — the project has no equivalent; adopt the template's version verbatim;
-   - **adapt** — the project already does this informally; rephrase the existing rule into the template's framing, keeping the project's specifics;
-   - **already covered** — the project's instruction is equivalent or better; leave it, note the overlap;
-   - **skip** — not applicable; record *why*, so the decision stays legible.
+## 1. Inventory — before touching anything
 
-   The template is a menu, not a mandate. A **skip** is recorded, not deleted from consideration — it can move onto the roadmap later.
+Read every instruction source in the target: `CLAUDE.md`, `AGENTS.md`, `.cursorrules`, `CONTRIBUTING`, convention docs, and `.claude/memory/template-version.md`. Catalog what the project already says. The inventory decides the branch:
 
-   **Tag each disposition** *architectural* (a genuine choice about this project — *this does not fit us, and here is why*) or **conflict-avoided** (it exists only to stop the template from colliding with what was already there). A future upgrade acts on the tag: architectural dispositions stand, conflict-avoided ones re-open once the collision is gone. Untagged, a workaround reads as law on the next adoption.
+- **No instructions at all** → **new**. Compose a charter and seed the project.
+- **`.claude/memory/template-version.md` exists** → **upgrade**. Reconcile only the version delta.
+- **The project's own instructions** → **adopt** (the merge). But **check provenance first** (below) — a project can be an unstamped adopter and not know it.
 
-3. **Conflicts: always ask.** When an existing instruction conflicts with a template practice, **stop and put it to the owner with a recommendation** — batched with the other open questions, in the Q&A round the charter defines in its Method section. Neither side wins automatically: nothing is silently overwritten, nothing is silently kept.
+### Provenance — check it, do not assume independence
 
-4. **Separate the two layers — and never cross them during the merge.**
-   - **Instruction-layer adoption** (merging `CLAUDE.md`, memory conventions, roadmap / decision-log structure) is safe and immediate: it changes how the agent works, not how the software runs. Do it now.
-   - **Practice adoption that would change code or infrastructure** (the portable-appliance requirement, a testing methodology, a stack migration) **does not happen during the merge.** It becomes incremental, owner-approved work seeded onto the roadmap. The running system is not edited to satisfy a template.
+A project whose `CLAUDE.md` looks self-written may still be an **old, unstamped adopter**: someone copied charter text into it by hand, long before stamping existed. Treat that as an upgrade, not a first adoption, or you will ask the owner to re-decide what he already decided.
 
-5. **Produce the output.**
-   - A **merged `CLAUDE.md`** that layers the adopted template practices over the preserved project instructions.
-   - A seeded **`.claude/memory/`**: a `roadmap.md` splitting *adopted now* from *deferred* practices, a `decisions.md`, and a `MEMORY.md` index.
-   - A **decision-log entry** recording, per section, what was kept / adapted / skipped and why, each tagged *architectural* or *conflict-avoided*. The adoption itself is traceable.
-   - A **template-version stamp** at `.claude/memory/template-version.md`: the template set's source commit (the kit carries it in `TEMPLATE_VERSION.md`), the charter adopted, the modules adopted, and a pointer to the dispositions in the decision log. The kit goes away at teardown; this file is what a future re-adoption reads to run an upgrade instead of a from-scratch merge.
-   - **A single versioned home for every kept deliverable.** A requirement (or other standalone reference doc) classified *keep* is copied into the project under `.claude/` by default (e.g. `.claude/requirements/`), referenced by the merged `CLAUDE.md` — and, for a code/infra practice, by the roadmap item that will apply it later (step 4). The owner may repath to match the project's conventions; what matters is **one owner, versioned**. The charter and any adopted modules fold into `CLAUDE.md`, not separate files.
+Cheap checks, in order — one of them is usually decisive:
 
-6. **Tear down the delivery kit.** Once every kept deliverable has its versioned home, remove the delivered template set (the install folder — `agent/` by default, wherever `PREFIX` placed it) and remove this one-shot skill (or leave it inert). A lingering kit is a second copy of everything the merge just took a single owner for — two copies invite the drift adoption exists to prevent. Only `adopt-template` and the kit are one-shot: the permanent skills the installer delivered — `graduate-idea`, plus `update-living-docs` if the living-docs module was adopted — stay in `.claude/skills/`.
+- `git -C <target> log --oneline --all | grep -i 'adopt\|charter'` and the project's own session notes / work logs. A line like *"charter absorbed into CLAUDE.md"* settles it.
+- A requirement file that is **byte-identical** to one of ours (`diff <target>/… templates/requirements/…`) is a copy, not a coincidence.
+- Charter phrasing surviving verbatim in its `CLAUDE.md`: `git log -S "<a characteristic phrase>" -- templates/`.
 
-7. **Prove by functioning.** After the instruction merge, confirm the project still builds and its tests still pass **exactly as before** — adoption is proven by the project continuing to work, not by the merge looking clean.
+If it *is* an unstamped adopter, date it from the instant of its adoption commit (`tools/install.sh upgrade` does this automatically when there is no stamp) and **tell the owner what you found** — the branch is his call, and the honest record matters more than the shortest path. A charter rewritten between then and now can make the delta effectively the whole charter, in which case you classify every section anyway; what changes is what the stamp records.
 
-## No existing instructions
+## 2. Classify — every section, with the owner
 
-If step 1 finds no instruction files, there is nothing to preserve and no conflicts to resolve. Adoption reduces to: choose a charter, fill its Project Parameters (confirming each value with the owner, per the charter's Setup step), seed `.claude/memory/` (roadmap + decisions + index + the template-version stamp), and put any code/infra practice onto the roadmap rather than applying it immediately. The two-layer rule (step 4), the kit teardown (step 6), and *prove by functioning* (step 7) still hold.
+Pick the charter that fits (`CHARTER_GREENFIELD` for continued new-feature work; `CHARTER_LEGACY_TRANSFORMATION` when the project is itself replacing a legacy system) and offer the add-on modules — `MODULE_PRODUCT_AUDIENCE`, `MODULE_LIVING_DOCS` — **only** where the project is that kind of project. The shipped charters are minimal by design.
 
-## Upgrade — the project already runs an earlier version of these templates
+For **each charter section, each offered module, and each requirement**, record exactly one disposition:
 
-Its `CLAUDE.md` *is* the filled-in charter a previous adoption produced. Reconcile **only the delta** between the version it came from and the version in the kit — never the whole charter, and never the project's own sections.
+- **keep as-is** — the project has no equivalent; adopt the template's text;
+- **adapt** — the project already does this informally; rephrase it into the template's framing, keeping the project's specifics;
+- **already covered** — the project's instruction is equivalent or better; leave it, note the overlap;
+- **skip** — not applicable; record *why*.
 
-0. **`make upgrade DEST=<project>`**, from a clone of the template repository, does steps 1–2 for you and **installs nothing** (an upgrade needs a diff, not a copy — no kit to deliver, none to tear down). Without the clone, the kit `make adopt` delivers carries its own commit in `TEMPLATE_VERSION.md`, which is the other end of the diff.
-1. **Read the stamp.** `.claude/memory/template-version.md` gives the source commit, the charter, and the modules the project adopted.
+And **tag** each one:
 
-   **No stamp but plainly an older instance?** Do not investigate — date it. The project's own git history has its `Adopt…` commit, and the source is the template commit that was `HEAD` **at that instant** (`git -C <project> log -1 --format=%cI --grep='[Aa]dopt'`, then `git -C <templates> rev-list -1 --before=<that timestamp> HEAD`). Use the *instant*, not the day: a template repo can ship several commits in one day, and a date bound would resolve to the last of them — text the project never saw. Show the owner the diff summary and confirm the charter and modules before writing the stamp; a wrong bound yields a visibly wrong diff. If the timestamp resolves to nothing, search by content: `git log -S "<a characteristic phrase from a charter section>" -- templates/`.
-2. **Diff the versions.** `git diff <stamped-commit>..HEAD -- templates/` in the template clone is the whole scope of the upgrade. Unchanged text the project already carries is not re-litigated.
-3. **Classify the delta** — each changed charter section, each newly available module, each new or revised requirement — with the same four dispositions and the same *architectural* / *conflict-avoided* tag as step 2 of the merge. Conflicts go to the owner in one batched Q&A round.
-4. **Re-open the provisional dispositions** from the earlier adoption's decision log: **architectural** ones stand (do not reopen unless the owner does); **conflict-avoided** ones are provisional — put each back to the owner, since the collision it dodged may be gone in the new version; **untagged** ones predate the tag — treat them as conflict-avoided and re-confirm. A requirement dropped merely to dodge a clash must not fossilize as law.
-5. **Finish like any adoption.** Two-layer rule (code/infra practice → roadmap, never edited here), kit teardown, prove by functioning. Rewrite `.claude/memory/template-version.md` to the kit's commit and record the upgrade in the decision log.
+- **architectural** — a genuine choice about this project (*this does not fit us, and here is why*). It stands on a future upgrade.
+- **conflict-avoided** — it exists only to stop the template colliding with what was already there. It re-opens on a future upgrade, because the collision may be gone.
+
+Untagged, a workaround reads as law the next time around.
+
+**A template is a menu, not a mandate**, and the traffic runs both ways: when a project's own practice is better than the charter's, the disposition is *already covered* **and the charter is what needs fixing** — record that as an inbox note here (`ideas/inbox.md`). Three of the charter's rules arrived exactly that way.
+
+## 3. Put it to the owner — in plan mode, before writing anything
+
+Present the whole thing as **one batched Q&A round**: the branch you are in and why, the charter, the modules, the disposition table, and every conflict — each with **options and a recommendation**, so the owner decides from a position rather than a blank page. Conflicts are never resolved silently in either direction: nothing is overwritten, nothing is quietly kept.
+
+**Two layers, and never cross them during the merge:**
+
+- **Instruction-layer adoption** (the merged `CLAUDE.md`, memory conventions, roadmap/decision-log structure) is safe and immediate — it changes how the agent works, not how the software runs. Do it now.
+- **Practice adoption that would change code or infrastructure** (the portable-appliance requirement, a testing methodology, a stack migration, a data-model consequence like multi-tenant membership) **does not happen here.** It becomes an owner-approved item on the target's roadmap. The running system is not edited to satisfy a template.
+
+Write into the target only after the owner approves the plan.
+
+## 4. Write — into the target's working tree
+
+**Judgment (you write these):**
+
+- the **merged `CLAUDE.md`** — the adopted practices layered over the project's preserved instructions, in *its* voice and with *its* specifics;
+- the seeded **`.claude/memory/`** — `MEMORY.md` index, `handoff.md`, and `template-version.md` (below). Seed `roadmap.md` / `decisions.md` **only if the project has no home for direction and decisions already**. If it has better ones — a `specs/` tree, numbered ADRs — say so in the index and point into them. A second source of direction is the exact failure the memory rule exists to prevent;
+- an entry in whatever **decision log the project actually uses**, recording the dispositions.
+
+**File operations (the script does these), after approval:**
+
+```sh
+sh tools/install.sh adopt <target> "<modules>" "<kept requirements>"
+# e.g. sh tools/install.sh adopt ~/devel/app "living-docs" "REQUIREMENT_PORTABLE_APPLIANCE.md"
+```
+
+It installs only what the project keeps: each kept requirement into `.claude/requirements/`, the permanent `graduate-idea` skill, `update-living-docs` when the living-docs module was adopted, and an empty `ideas/inbox.md`. It never overwrites.
+
+For a **new** project: `sh tools/install.sh new <target> greenfield|legacy "<modules>"` composes the charter into `.claude/charter/`, seeds `CLAUDE.md`, memory, inbox and skills, then run the charter's Setup phase with the owner.
+
+## 5. The stamp is a manifest, not a marker
+
+`.claude/memory/template-version.md` carries the **source commit** and a **disposition table** — for each charter section, module and requirement: the disposition, its tag, and **where it landed** in the target (the `CLAUDE.md` heading, or the file under `.claude/`).
+
+That is what a future upgrade reads. With it, an upgrade can recompose the charter *at the adopted commit*, diff it against the current one, and for each changed section already know whether this project took it, adapted it or refused it — and where to look. Keep **`- **Source commit**: claude-templates @ <sha>`** as the single machine-readable line (`tools/install.sh` parses exactly that); everything else — history, narrative — goes in prose below it.
+
+**Nothing is written into the target's `CLAUDE.md` to mark text as ours.** Adopted text is deliberately *adapted* into the project's own terms and then evolves under the project's own charter; a marker claiming ownership of a line is a lie one edit later, and it pollutes the file the agent reads every session.
+
+## 6. Finish
+
+- **Prove by functioning.** Confirm the target still builds and its tests still pass exactly as before. Adoption is proven by the project continuing to work, not by the merge looking clean.
+- **Never commit in the target.** Leave the changes in its working tree, list them, and say plainly that the project's own session — under its own charter — authorizes its own commit. This holds even when the owner is the same person.
+- **Feed the loop back.** Friction, gaps, and any place the charter was wrong go into `ideas/inbox.md` **here**. That is how the templates improve.
 
 ## Definition of done
 
-- Every charter section, chosen module, and requirement has a recorded disposition (keep / adapt / already-covered / skip-with-reason), each tagged *architectural* or *conflict-avoided*.
+- Every charter section, offered module and requirement has a disposition (keep / adapt / already-covered / skip-with-reason), each tagged *architectural* or *conflict-avoided*.
+- The branch (new / adopt / upgrade) was chosen from evidence, including a provenance check — not from the target's appearance.
 - No existing instruction was changed without the owner deciding the conflict.
-- `CLAUDE.md` and `.claude/memory/` reflect the merged result; the decision log explains it; `.claude/memory/template-version.md` records the version adopted.
-- On an upgrade: only the version delta was reconciled, and every conflict-avoided (or untagged) disposition from the previous adoption was re-confirmed with the owner.
-- Each kept deliverable has a single versioned home (under `.claude/` by default); the delivery kit and the one-shot `adopt-template` skill are removed, leaving no duplicate copies.
-- The project builds and passes its tests exactly as it did before the merge.
-- Code / infra practice adoption lives on the roadmap, not in surprise edits to the running system.
-
-## Rules
-
-- **Non-destructive, always.** Never overwrite an existing instruction silently and never force a template section that does not fit. The existing project is the source of truth about what works; the templates offer better-articulated practices to complement it.
-- **Upgrade reconciles the delta, never the charter.** When the project already runs an earlier version, re-classifying text it already carries is not thoroughness — it is asking the owner to re-decide what he already decided.
-- **Conflicts go to the owner.** Every conflict is raised with a recommendation and resolved by the owner — this is the same Q&A-driven alignment the charters prescribe.
-- **Don't touch the running system.** Code and infrastructure changes are roadmap items for later approval, never part of the merge.
-- **Answers become artifacts.** Every disposition and every resolved conflict lands in the decision log or seeded memory — traceable to this adoption.
-- **English artifacts.** The merged `CLAUDE.md`, decision entries, roadmap, and memory index follow the project's language protocol (English by default); only an owner-facing scratchpad may be in another language.
-- **No commits without authorization.** Prepare the merged files and stop; committing needs the owner's explicit per-instance go-ahead.
+- The target's `CLAUDE.md`, its decision log, and `.claude/memory/template-version.md` (with the disposition manifest) reflect the result.
+- On an upgrade: only the version delta was reconciled, and every *conflict-avoided* (or untagged) disposition from the previous adoption was re-confirmed with the owner.
+- Code/infra practice adoption is on the target's roadmap, not in surprise edits to its running system.
+- The target builds and passes its tests as it did before. Nothing was committed there.

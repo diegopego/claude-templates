@@ -30,10 +30,14 @@ Two things the plan did not predict:
 
 ## Next
 
-`roadmap.md` → **Milestone 8 — Host-side adoption**. Read `ideas/host-side-adoption.md` first; the tasks are already broken out. Two cautions specific to it, beyond the standing ones below:
+**Milestone 8 is built** (2026-07-12) — the kit is abolished, adoption is one door (the `adopt-template` skill, now this repo's own machinery under `.claude/skills/`), `new` composes into the target's `.claude/charter/`, the Makefile is maintainer-only, and the stamp is a disposition manifest. Guide, README, landing, CHANGELOG and this repo's `CLAUDE.md` all follow. All three installer modes exercised end to end.
 
-- **The kit's abolition touches `tools/install.sh`, the Makefile, and the README's whole install story.** That is the largest single change to the tooling so far, and *Proving the tooling* applies with full force — exercise all three modes into a throwaway before committing.
-- **`template-version.md` is being redesigned into a disposition manifest.** Both adopters' stamps are hand-written today (and orderboard's was hand-fixed to keep `Source commit` machine-readable — see the inbox friction). Whatever shape the manifest takes, it must be able to *read* the two stamps that already exist in the wild, or those two projects need a migration.
+**Exercising it caught a regression that reading the diff would not have:** the self-adoption refresh force-installed `update-living-docs` into this repo — auto-activating a skill the self-adoption merge had explicitly *declined* (the landing here is hand-regenerated with a fixed skin, not pipeline-driven). Fixed, and it is the sharpest evidence yet for *Proving the tooling*.
+
+What remains in Milestone 8:
+
+1. **The first host-side adoption against a real project.** This is the spec's own named risk, and it is not a formality: a host session is a **stranger** to the target, where the merging session used to be the one that lived with the project daily. If it produces a plan that misreads the project, *that is the finding* — it goes in `ideas/inbox.md`. Neither existing adopter is a good first target (both are current); wait for a real one, or re-run against a throwaway clone of one.
+2. **The two existing stamps predate the manifest** — they carry the source commit and prose, no disposition table. They still parse (the installer reads only `- **Source commit**:`), so nothing is broken; decide whether to backfill at their next upgrade or leave them.
 
 **Waiting on their own sessions, not on us:**
 

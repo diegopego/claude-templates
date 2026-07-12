@@ -286,53 +286,59 @@
         <h2>Install</h2>
       </div>
       <p class="lede" style="margin-top:-0.6rem;margin-bottom:1.4rem;font-size:var(--step-1)">
-        Clone this repo and point the installer at your project's folder — that is the whole install.
-        Files land in a namespaced <code class="path">agent/</code> folder, and nothing is ever overwritten.
+        Clone this repo, open Claude Code <b>here</b>, add your project as a working directory, and say
+        what you want. <b>Nothing is delivered into your repo to be cleaned up later</b> — what lands in
+        your project is exactly what your project keeps, and nothing is ever overwritten.
       </p>
       <pre>git clone https://github.com/diegopego/claude-templates
 cd claude-templates
-
-make adopt   DEST=~/path/to/your-project                    <span class="cm"># existing project</span>
-make new     DEST=~/path/to/new-project CHARTER=greenfield  <span class="cm"># or CHARTER=legacy</span>
-make upgrade DEST=~/path/to/adopted-project                 <span class="cm"># already on an older version</span></pre>
+claude                       <span class="cm"># then, in the session:</span>
+                             <span class="cm">#   /add-dir ~/path/to/your-project</span></pre>
       <p style="margin:1.5rem 0 0;color:var(--soft)">
-        Then open Claude Code <b>in your project</b> and paste the prompt the installer just printed:
+        Then just ask, in your own words:
       </p>
-      <div class="paths" style="margin-top:1rem">
+      <pre><span class="cm">"adopt the templates into ~/path/to/your-project"</span>
+<span class="cm">"start a new project at ~/path/to/new-project"</span>
+<span class="cm">"upgrade the templates in ~/path/to/your-project"</span></pre>
+      <p style="margin:1.5rem 0 0;color:var(--soft)">
+        The agent reads your project, works out which of the three situations you are in,
+        <b>puts a plan to you before writing anything</b>, and then writes into your project's working
+        tree. It <b>never commits there</b> — your project's own session does that, when you say so.
+      </p>
+      <div class="paths" style="margin-top:1.6rem">
         <article class="card">
           <h3>existing project</h3>
-          <p>Paste <code class="path">Adopt the templates in agent/ into this project.</code> — a
-          <b>non-destructive merge</b>: the agent inventories your current instructions, keeps or adapts
-          each section per the adoption guide, and raises every conflict to you instead of overwriting.
-          Code and infrastructure changes are deferred to a roadmap, so the running system is never
-          touched by surprise. When the merge is done it tidies up: each section you keep lands in a
-          single versioned home (under <code class="path">.claude/</code> by default) and the one-shot
-          delivery kit and <code class="path">adopt-template</code> skill are removed — while the permanent
-          <code class="path">graduate-idea</code> skill stays.</p>
+          <p>A <b>non-destructive merge</b>: the agent inventories your current instructions, classifies
+          each section as keep / adapt / already-covered / skip per the adoption guide, and raises every
+          conflict to you instead of overwriting. You get a merged <code class="path">CLAUDE.md</code> in
+          your own voice, a seeded <code class="path">.claude/memory/</code>, each kept requirement in one
+          versioned home, and the <code class="path">graduate-idea</code> skill. Code and infrastructure
+          changes are deferred to your roadmap, so the running system is never touched by surprise.</p>
         </article>
         <article class="card">
           <h3>new project</h3>
-          <p>Paste <code class="path">Read CLAUDE.md and start Setup.</code> — the charter's Setup step
-          confirms every parameter with you (stated defaults, never silent) and scaffolds a minimum
-          runnable project, so real work starts against something that already runs.</p>
+          <p>Your charter is composed with the modules you chose into
+          <code class="path">.claude/charter/</code> and wired to a fresh
+          <code class="path">CLAUDE.md</code>. The charter's Setup step then confirms every parameter with
+          you (stated defaults, never silent) and scaffolds a minimum runnable project, so real work starts
+          against something that already runs.</p>
         </article>
         <article class="card">
           <h3>already adopted an earlier version</h3>
-          <p><code class="path">make upgrade DEST=…</code> gives you an <b>upgrade</b>, not a re-merge —
-          and installs nothing, because an upgrade needs a diff, not a copy. Every install is stamped with
-          the version it came from (<code class="path">.claude/memory/template-version.md</code>), so the
-          agent reconciles <b>only what changed</b> between your version and the new one — your own
-          instructions are never re-litigated, and questions you already answered are not asked twice.
-          Adopted before stamping existed? Your repo still knows <i>when</i> it adopted, and the command
-          dates the source commit from that. Anything a past adoption dropped merely to avoid a clash —
-          rather than because you decided against it — comes back to you for a fresh decision instead of
-          quietly hardening into a rule.</p>
+          <p>An <b>upgrade</b>, not a re-merge. Every install is stamped with the version it came from —
+          and with what you did with each section and where it landed — so the agent reconciles
+          <b>only what changed</b>. Your own instructions are never re-litigated, and questions you already
+          answered are not asked twice. Adopted before stamping existed? Your repo still knows <i>when</i>
+          it adopted, and the source commit is dated from that. Anything a past adoption dropped merely to
+          avoid a clash — rather than because you decided against it — comes back to you for a fresh
+          decision instead of quietly hardening into a rule. And a section we delete upstream is never
+          silently deleted from your project: if you have real rules living in it, you keep them, as
+          yours.</p>
         </article>
       </div>
-      <p class="aside">Already have a Claude Code session open in the project? Run
-      <code class="path">/reload-skills</code> there first — skills load at startup. No
-      <code class="path">make</code>? Copying the files by hand works exactly the same; the installer is
-      convenience, not machinery.</p>
+      <p class="aside">Templates improve <b>from</b> their adopters: where a real project's practice turned
+      out to be better than the charter, the charter is what got fixed. No clone? The templates are plain
+      Markdown — copying the files by hand works exactly the same.</p>
     </section>
 
     <section id="charters">
@@ -380,19 +386,17 @@ make upgrade DEST=~/path/to/adopted-project                 <span class="cm"># a
         </article>
         <article class="card">
           <h3>Embeddable skills <span class="tag">skill</span></h3>
-          <p>Drop-in Claude Code skills a project copies into its own
-          <code class="path">.claude/skills/</code>. Three so far: <code class="path">graduate-idea</code>,
-          which drives a rough idea from the inbox through its Q&amp;A round into an agreed spec;
-          <code class="path">adopt-template</code>, which runs the adoption guide for you — inventorying an
-          existing project's instructions, classifying each section, and producing a merged
-          <code>CLAUDE.md</code> with every conflict raised to you (or, when the project already runs an
-          older version of the templates, reconciling just the version diff); and
+          <p>Claude Code skills that land in your project's <code class="path">.claude/skills/</code> and
+          stay. Two: <code class="path">graduate-idea</code>, which drives a rough idea from the inbox
+          through its Q&amp;A round into an agreed spec, installed by every adoption; and
           <code class="path">update-living-docs</code>, the executable arm of
-          <code class="path">MODULE_LIVING_DOCS</code> — it builds and keeps a project's dual changelogs,
-          living product doc, and landing page current, with a <b>rebuild</b> mode that regenerates the
-          whole set from a project's current state (a large project adopting the pipeline mid-life, or a
-          forced re-creation) and an <b>update</b> mode for single changes, publishing only behind an
-          approval loop.</p>
+          <code class="path">MODULE_LIVING_DOCS</code> and installed only with that module — it builds and
+          keeps a project's dual changelogs, living product doc, and landing page current, with a
+          <b>rebuild</b> mode that regenerates the whole set from a project's current state (a large
+          project adopting the pipeline mid-life, or a forced re-creation) and an <b>update</b> mode for
+          single changes, publishing only behind an approval loop.</p>
+          <p>The <b>adoption skill itself is not one of them</b> — it runs in the templates clone, not in
+          your repo. One door, and nothing to uninstall afterwards.</p>
         </article>
       </div>
     </section>

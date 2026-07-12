@@ -1,5 +1,6 @@
-<!-- TEMPLATE — instantiated by `make new` as the target project's CLAUDE.md.
-     {{CHARTER_PATH}} is replaced with the installed charter's relative path.
+<!-- TEMPLATE — instantiated by `tools/install.sh new` as the target project's CLAUDE.md.
+     {{CHARTER_PATH}} is replaced with the composed charter's relative path
+     (.claude/charter/CHARTER_*.md).
      Named CLAUDE_MD.template.md so Claude Code never auto-loads it here. -->
 # Project working agreement
 

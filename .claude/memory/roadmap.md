@@ -47,12 +47,13 @@ The installer stops pushing a kit into the adopter and the adopting session stop
 
 **Sequencing** — the orderboard upgrade (Milestone 7) is scoped and its corrections are waiting; do it first under the current flow, and let the *next* adoption be the first host-side run. Doing it the other way makes orderboard the guinea pig for machinery that has never run.
 
-- [ ] `adopt-template` moves `templates/skills/` → `.claude/skills/` (meta-project machinery, like `assemble-charters`); gains the three-mode inventory branch and the plan-mode approval gate
-- [ ] Kit abolished: no `agent/`, no `PREFIX`, no delivered `TEMPLATE_VERSION.md`, no teardown; `new` composes the charter into `.claude/charter/`
-- [ ] `tools/install.sh` keeps its three modes as the deterministic layer the skill calls; the Makefile keeps only `assemble` — exercised end to end before the commit, as always
-- [ ] `.claude/memory/template-version.md` gains the **disposition table** (section → disposition + tag → where it landed) — the provenance record an upgrade reads, instead of markers inside the adopter's `CLAUDE.md`
-- [ ] `GUIDE_ADOPTION.md` rewritten for the host-side flow; `README.md` + `docs/index.html` teach the single door (the `make` install instructions go); this repo's `CLAUDE.md` records that adoption skills are authored under `.claude/`
-- [ ] First host-side adoption run against a real project — the risk to watch is the one the spec names: a host session is a stranger to the target
+- [x] `adopt-template` moved `templates/skills/` → `.claude/skills/` (2026-07-12) — meta-project machinery, like `assemble-charters`; rewritten for the host-side flow, with the three-mode inventory branch, an explicit **provenance check** (a project that looks self-written may be an unstamped adopter — nogueira-adjustments was), and the plan-before-writing gate
+- [x] Kit abolished (2026-07-12) — no `agent/`, no `PREFIX`, no delivered `TEMPLATE_VERSION.md`, no teardown, no one-shot skill; `new` composes the charter into `.claude/charter/` (the charter's `../requirements/` link resolves unchanged from there)
+- [x] `tools/install.sh` keeps its three modes as the deterministic layer the skill calls; the Makefile is maintainer-only (`assemble`, `refresh-skills`) (2026-07-12). **Exercised end to end, and it caught a regression the review would not have**: the self-adoption refresh force-installed `update-living-docs` here — auto-activating a skill this repo had explicitly declined. Fixed; only `graduate-idea` is refreshed
+- [x] `.claude/memory/template-version.md` gains the **disposition table** (2026-07-12) — section → disposition + tag → where it landed; `- **Source commit**:` stays the single machine-readable line (which is what the installer parses, and what the orderboard stamp friction was about)
+- [x] `GUIDE_ADOPTION.md` rewritten for the host-side flow; `README.md` + `docs/index.html` teach the single door; this repo's `CLAUDE.md` records the `.claude/skills/` authoring exception and *Adoption runs from here* (2026-07-12). The guide also gained a rule the orderboard upgrade proved it needed: **a section deleted upstream is a question, not an instruction** — a project keeps its real rules, as its own
+- [ ] **First host-side adoption run against a real project** — the risk the spec names: a host session is a *stranger* to the target, where the merging session used to be the one that lives with the project daily. If a host-side adoption produces a plan that misreads the project, that is the finding, and it belongs in `ideas/inbox.md`
+- [ ] The two existing adopters' stamps predate the manifest (they carry the source commit and prose, no disposition table). They still parse — decide whether to backfill them at their next upgrade or leave them
 
 ## Parked (reactivate on demand)
 

@@ -15,14 +15,14 @@ Assembly is implemented by a deterministic script — run it, do not prose-merge
 make assemble            # = python3 tools/assemble.py --all
 ```
 
-`tools/assemble.py` is the single implementation of the templating (`{{ vars }}`, `<!-- SLOT: name -->`, `===VARS===`/`===SLOT===` blocks, `project_parameters_extra` row appending, section numbering that skips *Project Parameters*). The same script powers `make new` (composing a charter with add-on modules at install time) and the pre-commit hook's freshness check (regenerate + byte-compare). If the script cannot express a new source construct, extend the script — never fall back to hand-editing the composed output.
+`tools/assemble.py` is the single implementation of the templating (`{{ vars }}`, `<!-- SLOT: name -->`, `===VARS===`/`===SLOT===` blocks, `project_parameters_extra` row appending, section numbering that skips *Project Parameters*). The same script powers `tools/install.sh new` (composing a charter with add-on modules at install time, into the target's `.claude/charter/`) and the pre-commit hook's freshness check (regenerate + byte-compare). If the script cannot express a new source construct, extend the script — never fall back to hand-editing the composed output.
 
 ## Rules
 
 - Relative links in the sources already target `../requirements/…`, which resolves from `templates/charters/` — keep them verbatim.
 - The composed file is self-contained: a reader must never need the sources. No `{{ }}` or `SLOT` markers may survive into the output (the script aborts if one would).
 - Determinism: same sources → same composed output, byte for byte — that is what the hook diffs against.
-- The shipped charters stay **minimal** (see the manifest); an adopting project that wants `MODULE_PRODUCT_AUDIENCE` or `MODULE_LIVING_DOCS` composes them into its own copy (`make new … MODULES=…`) — do not add them to the shipped rows here.
+- The shipped charters stay **minimal** (see the manifest); an adopting project that wants `MODULE_PRODUCT_AUDIENCE` or `MODULE_LIVING_DOCS` composes them into its own copy (the adoption skill passes them to `tools/install.sh`) — do not add them to the shipped rows here.
 
 ## After assembling
 

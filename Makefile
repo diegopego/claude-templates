@@ -1,42 +1,36 @@
-# Installer and maintenance entry points for claude-templates.
-# Deterministic file operations only — judgment (Setup Q&A, adoption merge)
-# stays with Claude inside the target project.
+# Maintainer entry points for claude-templates.
+#
+# There is no `make new` / `make adopt` / `make upgrade` any more: adoption has
+# ONE door, and it is the `adopt-template` skill, run in a Claude Code session in
+# this repository with the target project as an additional working directory. The
+# skill decides, and calls tools/install.sh for the file operations. Two doors
+# meant the owner-facing flow and the agent-facing flow could drift — and they did.
+#
+# To adopt, upgrade, or start a project, open Claude Code here and say:
+#   "adopt the templates into ~/devel/myapp"
+#   "upgrade the templates in ~/devel/myapp"
+#   "start a new project at ~/devel/myapp"
 
-PREFIX ?= agent
-
-.PHONY: help assemble new adopt upgrade
+.PHONY: help assemble refresh-skills
 
 help:
-	@echo "claude-templates — installer"
-	@echo ""
-	@echo "  make new    DEST=~/devel/myapp CHARTER=greenfield|legacy [MODULES=\"product-audience living-docs\"] [PREFIX=agent]"
-	@echo "      Start a NEW project: compose the charter (with optional add-on modules) into DEST/PREFIX/,"
-	@echo "      copy the appliance requirement, and seed CLAUDE.md, .claude/memory/, ideas/inbox.md and the"
-	@echo "      graduate-idea skill. Never overwrites; aborts if DEST already has a CLAUDE.md."
-	@echo ""
-	@echo "  make adopt  DEST=~/devel/existing [PREFIX=agent]"
-	@echo "      EXISTING project: copy the template set (charters + all module sources, requirement,"
-	@echo "      adoption guide, paired skills) into DEST/PREFIX/, stamped with this repo's commit, plus"
-	@echo "      the adopt-template skill. Touches nothing else — the merge (or, for a project already on"
-	@echo "      an older version, the upgrade diff) runs later inside Claude, with every conflict raised"
-	@echo "      to you."
-	@echo ""
-	@echo "  make upgrade DEST=~/devel/already-adopted"
-	@echo "      A project that already adopted an EARLIER version: read its stamp (or date it from its own"
-	@echo "      adoption commit), then print which template text changed since — and what to stamp next."
-	@echo "      Installs NOTHING: an upgrade needs a diff, not a copy, so there is no kit to tear down."
+	@echo "claude-templates — maintainer targets"
 	@echo ""
 	@echo "  make assemble"
-	@echo "      Regenerate the shipped composed charters from templates/charters/sources/ (maintainers)."
+	@echo "      Regenerate the shipped composed charters from templates/charters/sources/."
+	@echo "      Run after editing any charter source; the pre-commit hook enforces freshness."
+	@echo ""
+	@echo "  make refresh-skills"
+	@echo "      Self-adoption: refresh this repo's working copies of the embeddable skills"
+	@echo "      (.claude/skills/) from their sources in templates/skills/. Never edit a working copy."
+	@echo ""
+	@echo "  Adoption is not a make target. Open Claude Code here and say:"
+	@echo "      \"adopt the templates into ~/devel/myapp\"   (existing project)"
+	@echo "      \"upgrade the templates in ~/devel/myapp\"   (already adopted, older version)"
+	@echo "      \"start a new project at ~/devel/myapp\"     (greenfield)"
 
 assemble:
 	python3 tools/assemble.py --all
 
-new:
-	@sh tools/install.sh new "$(DEST)" "$(CHARTER)" "$(MODULES)" "$(PREFIX)"
-
-adopt:
-	@sh tools/install.sh adopt "$(DEST)" "" "" "$(PREFIX)"
-
-upgrade:
-	@sh tools/install.sh upgrade "$(DEST)"
+refresh-skills:
+	@sh tools/install.sh adopt . "" ""

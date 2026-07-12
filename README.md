@@ -4,32 +4,29 @@ Reusable working agreements that bootstrap **Claude-driven software projects** �
 
 ## Install
 
-Clone this repo and point the installer at your project's folder — that is the whole install:
+Clone this repo, open Claude Code **here**, add your project as a working directory, and say what you want:
 
 ```sh
 git clone https://github.com/diegopego/claude-templates
 cd claude-templates
-
-make adopt   DEST=~/path/to/your-project                    # existing project
-make new     DEST=~/path/to/new-project CHARTER=greenfield  # or CHARTER=legacy
-make upgrade DEST=~/path/to/adopted-project                 # already on an older version
+claude                       # then, in the session:  /add-dir ~/path/to/your-project
 ```
 
-Then open Claude Code **in your project** and paste the prompt the installer just printed:
+> *"adopt the templates into ~/path/to/your-project"* — an existing project
+> *"start a new project at ~/path/to/new-project"* — greenfield
+> *"upgrade the templates in ~/path/to/your-project"* — already on an older version
 
-- **Existing project** → `Adopt the templates in agent/ into this project.`
-- **New project** → `Read CLAUDE.md and start Setup.`
-- **Already adopted** → `Upgrade the templates in this project.`
+That is the whole install. The agent reads your project, works out which of the three situations you are in, **puts a plan to you before writing anything**, and then writes into your project's working tree. It **never commits there** — your project's own session does that, when you say so. Nothing is ever overwritten.
 
-Done — the installer only adds files, **nothing is ever overwritten**. Already have a Claude Code session open in the project? Run **`/reload-skills`** there first (skills load at startup). No `make`? Copying the files by hand works exactly the same — the installer is convenience, not machinery.
+**Nothing is delivered into your repo to be cleaned up later.** What lands in your project is exactly what your project keeps.
 
 ## What happens when you adopt
 
-- **Existing project** (`make adopt`) — a **non-destructive merge**. The agent inventories your current instructions, keeps or adapts each template section per [`GUIDE_ADOPTION.md`](templates/guides/GUIDE_ADOPTION.md), and raises every conflict to you instead of overwriting. Code and infrastructure changes are deferred to a roadmap, so the running system is never touched by surprise. When the merge is done it tidies up after itself: each section you keep lands in a single versioned home (under `.claude/` by default) and the one-shot delivery kit and `adopt-template` skill are removed — while the permanent `graduate-idea` skill (and `update-living-docs` if you took the living-docs module) stays.
-- **New project** (`make new`) — composes your charter (plus any add-on modules) and seeds the kit: a `CLAUDE.md` wired to the charter, a `.claude/memory/`, an `ideas/inbox.md`, and the `graduate-idea` skill. The charter's **Setup** step then confirms every parameter with you (stated defaults, never silent assumptions) and **scaffolds a minimum runnable project**, so real work starts against something that already runs.
-- **Already adopted an earlier version?** (`make upgrade DEST=…`) — an **upgrade**, not a re-merge, and it installs nothing: an upgrade needs a diff, not a copy. Every install is stamped with the version it came from (`.claude/memory/template-version.md`), so the agent reconciles **only what changed** between your version and the new one — your own instructions are never re-litigated, and questions you already answered are not asked again. Adopted before stamping existed? Your repo still knows *when* it adopted, and the command dates the source commit from that. Anything a past adoption dropped merely to avoid a clash (rather than because you decided against it) comes back to you for a fresh decision, instead of quietly hardening into a rule.
+- **Existing project** — a **non-destructive merge**. The agent inventories your current instructions, classifies each template section as keep / adapt / already-covered / skip per [`GUIDE_ADOPTION.md`](templates/guides/GUIDE_ADOPTION.md), and raises every conflict to you instead of overwriting. You get a merged `CLAUDE.md` in your own voice, a seeded `.claude/memory/`, each kept requirement in one versioned home under `.claude/`, and the `graduate-idea` skill. Code and infrastructure changes are deferred to your roadmap, so the running system is never touched by surprise.
+- **New project** — composes your charter (plus any add-on modules) into `.claude/charter/`, seeds a `CLAUDE.md` wired to it, `.claude/memory/`, `ideas/inbox.md` and the skills. The charter's **Setup** step then confirms every parameter with you (stated defaults, never silent assumptions) and **scaffolds a minimum runnable project**, so real work starts against something that already runs.
+- **Already adopted an earlier version?** — an **upgrade**, not a re-merge. Every install is stamped with the version it came from (`.claude/memory/template-version.md`), together with what you did with each section and where it landed — so the agent reconciles **only what changed** between your version and the new one. Your own instructions are never re-litigated, and questions you already answered are not asked again. Adopted before stamping existed? Your repo still knows *when* it adopted, and the source commit is dated from that. Anything a past adoption dropped merely to avoid a clash — rather than because you decided against it — comes back to you for a fresh decision instead of quietly hardening into a rule. And a section we delete upstream is never silently deleted from your project: if you have real rules living in it, you keep them, as yours.
 
-Files land in a namespaced `agent/` folder by default (override with `PREFIX=…`).
+Templates improve **from** their adopters: where a real project's practice turned out to be better than the charter, the charter is what got fixed. Friction you hit is worth reporting.
 
 ## What you get
 
@@ -41,11 +38,12 @@ Files land in a namespaced `agent/` folder by default (override with `PREFIX=…
   - `MODULE_LIVING_DOCS` — curated changelogs for maintainers and users, plus a living product doc rendered as a landing page whose skin is designed once at Setup and whose every publish passes your approval. Its pipeline is automated by the `update-living-docs` skill (rebuild + update).
 - **Requirements** — [`templates/requirements/`](templates/requirements/):
   - [`REQUIREMENT_PORTABLE_APPLIANCE.md`](templates/requirements/REQUIREMENT_PORTABLE_APPLIANCE.md) — every application must be destroyable and rebuildable on a fresh machine from `repo + secrets + backup` in under 30 minutes.
-- **Adoption guide** — [`templates/guides/GUIDE_ADOPTION.md`](templates/guides/GUIDE_ADOPTION.md): the non-destructive merge above and the upgrade path, written out in full.
-- **Embeddable skills** — [`templates/skills/`](templates/skills/): drop-in Claude Code skills an adopting project copies into its own `.claude/skills/`:
-  - **`graduate-idea`** — drives a rough idea from the inbox through a Q&A round into an agreed spec on the roadmap.
-  - **`adopt-template`** — runs the adoption guide for you: inventories an existing project's instructions, classifies each template section, and produces a merged `CLAUDE.md` with every conflict raised to you — or, when the project already runs an older version of the templates, reconciles just the version diff.
-  - **`update-living-docs`** — the executable arm of `MODULE_LIVING_DOCS`: builds and keeps a project's living docs current — the dual changelogs, the living product doc, and its landing page. Two modes: **rebuild** (regenerate the whole set from the project's current state — for a large project adopting the pipeline mid-life, or a forced re-creation) and **update** (fold one change in incrementally); the landing publishes only behind an approval loop.
+- **Adoption guide** — [`templates/guides/GUIDE_ADOPTION.md`](templates/guides/GUIDE_ADOPTION.md): the non-destructive merge above, the new-project path, and the upgrade path, written out in full. It is the authority the adoption skill executes.
+- **Embeddable skills** — [`templates/skills/`](templates/skills/): Claude Code skills that land in your project's `.claude/skills/` and stay:
+  - **`graduate-idea`** — drives a rough idea from the inbox through a Q&A round into an agreed spec on the roadmap. Installed by every adoption.
+  - **`update-living-docs`** — the executable arm of `MODULE_LIVING_DOCS`, and installed only with that module: builds and keeps your living docs current — the dual changelogs, the living product doc, and its landing page. Two modes: **rebuild** (regenerate the whole set from your project's current state — for a large project adopting the pipeline mid-life, or a forced re-creation) and **update** (fold one change in incrementally); the landing publishes only behind an approval loop.
+
+  The **adoption skill itself is not one of them.** It runs in the templates clone, not in your repo — one door, and nothing to uninstall afterwards.
 
 Templates are authored in **English** (translations return when an adopter asks for them).
 

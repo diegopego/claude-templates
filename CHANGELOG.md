@@ -2,6 +2,25 @@
 
 Curated for template adopters, one entry per significant change (newest first). The git history is the full technical record underneath. Entries before 2026-07-11 live in the old `changelog/` directory, reachable in git history.
 
+## 2026-07-12 — One door: adoption runs from the templates, and the kit is gone
+
+**Breaking change to how you install.** `make adopt` / `make new` / `make upgrade` no longer exist. Adoption, first install, and upgrade are now one thing: a skill you run **in the templates clone**, with your project added as a working directory.
+
+```sh
+git clone https://github.com/diegopego/claude-templates && cd claude-templates
+claude          # /add-dir ~/path/to/your-project
+```
+
+> *"adopt the templates into ~/path/to/your-project"*
+
+**The delivery kit is abolished.** No `agent/` folder pushed into your repo, no `PREFIX`, no `TEMPLATE_VERSION.md` to fold in, no teardown step, no one-shot skill to delete afterwards. What lands in your project is exactly what your project keeps: a merged `CLAUDE.md`, `.claude/memory/`, each kept requirement under `.claude/requirements/`, `.claude/skills/graduate-idea` (plus `update-living-docs` if you took that module), and `ideas/inbox.md`. A new project additionally gets its composed charter at `.claude/charter/` — the same `.claude/` convention, so the two modes stop disagreeing about where things live.
+
+Why: the kit was a delivery mechanism for a session that could not reach the templates — but the clone is on the same machine, since cloning *is* the install. It existed to be deleted. Two of the four frictions our own adoptions recorded were artifacts of that flow, and they do not get fixed here; they cease to exist. And having two doors (a `make` command *and* a skill) let the owner-facing flow drift from the agent-facing one — which it did: the last three real adoptions were all driven from the templates repo, against a README that described the opposite.
+
+**The version stamp becomes a manifest.** `.claude/memory/template-version.md` now records, for each charter section, module and requirement: what you did with it (keep / adapt / already-covered / skip), whether that was a real decision or just a collision dodged, **and where it landed in your repo**. An upgrade reads that — it can recompose the charter at the version you adopted, diff it against today's, and for each changed section already know whether you took it, adapted it, or refused it, and where to look. Nothing is written into your `CLAUDE.md` to mark text as "ours": adopted text is adapted into your voice and then evolves under your charter, so a marker claiming ownership of a line would be a lie one edit later.
+
+**Nothing is ever committed in your project.** The templates session writes into your working tree and stops; your project's own session, under its own charter, authorizes its own commit.
+
 ## 2026-07-12 — The legacy charter, corrected by a third project that never used it
 
 A third project — built independently, with its own well-articulated working agreements — was mapped against the charter section by section. Where the two disagreed, it was mostly the **charter** that was wrong. Six corrections, and the ones you will notice:

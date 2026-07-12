@@ -4,7 +4,7 @@
 Composes self-contained charters from templates/charters/sources/
 (CHARTER_CORE.md + modules, per charters.manifest.md). Same sources ->
 same output, byte for byte; this is the engine behind `make assemble`,
-`make new` (module composition at install time), the assemble-charters
+`tools/install.sh new` (module composition at install time), the assemble-charters
 skill, and the pre-commit freshness check.
 
 Usage:
