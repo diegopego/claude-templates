@@ -53,6 +53,8 @@ Conversation with the owner happens in **Brazilian Portuguese**; every artifact 
 
 Before any commit: if a charter source changed, regenerate the composed charters (`assemble-charters` skill); if `templates/` or `ideas/` changed, update `CHANGELOG.md`; if an adopter-facing deliverable changed (composed charters, requirements, guides, skills), refresh `README.md`; if `README.md` changed, regenerate `docs/index.html` from it — all staged in the same commit. The pre-commit hook blocks commits that skip a step. Publishing happens on `git push` (GitHub Pages serves `docs/` from `master`), so the push authorization **is** the publish approval. And as always: **never `git commit` or `git push` without explicit, per-instance authorization from the owner.**
 
+**Commit rights end at this repository.** Validating the templates means working inside other projects (adoption merges, upgrades) — a session started here may edit a foreign repo's `CLAUDE.md`, memory, or stamp, but **never commits or pushes there**. Leave the changes in that project's working tree and report them; its own session, under its own charter, commits them.
+
 ## Editing the templates
 
 - **Charters are generated — edit the sources, never the composed files.** The composed `templates/charters/CHARTER_*.md` are assembled from `templates/charters/sources/` (a shared `CHARTER_CORE.md` plus pluggable modules, per `charters.manifest.md`). Edit the shared spine in the core, the divergent parts in the modules, then run `assemble-charters`.
