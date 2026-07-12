@@ -192,3 +192,35 @@ Graduated the two open Milestone-6 frictions from `ideas/inbox.md` into one spec
 - **The third mode is a branch inside `GUIDE_ADOPTION` / `adopt-template`, not a separate skill.** A stamped project takes the *upgrade* branch — reconcile the version diff — instead of the from-scratch merge; the same disposition vocabulary (keep/adapt/already-covered/skip) and the same Q&A round apply. One door, one place for the owner to look. Rejected: a separate `upgrade-template` skill (a second deliverable to keep in sync, and the owner must know which to call); installer-only detection (cheap, but leaves the judgment — what the diff *means* — with no normative text).
 - **Past dispositions are tagged, and conflict-avoided ones re-open.** From now on each recorded disposition is tagged **architectural** or **conflict-avoided**; on upgrade the conflict-avoided ones (and every untagged legacy entry, since it predates the tag) return to the table as provisional, while architectural ones stand unless the owner objects. This is the orderboard failure generalized: `REQUIREMENT_PORTABLE_APPLIANCE` was dropped in c55680b merely to avoid a conflict with an old attempt, was logged as if it were a decision, and the skill later read it as binding law. Rejected: re-confirming every prior entry on every upgrade (safe but turns each version bump into a full Q&A round — ceremony); re-opening only *skip*/removal dispositions (covers orderboard, misses the general case of an adapt made under duress).
 - **One spec, not two: the kit must ship `charters/sources/` whole.** The sibling friction (adoption delivers only `MODULE_LIVING_DOCS`, so "adopt a module à la carte" has no source text for the other modules) is folded in as a prerequisite rather than graduated separately — an upgrade diff has to compare against *all* module sources and their paired skills, so a complete kit is the same problem seen from the other end. Rejected: keeping them as separate specs (the installer change would land twice, and the upgrade spec would depend on an ungraduated inbox note).
+
+## 2026-07-12 — Self-adoption merge: every charter section given a tagged disposition
+
+Ran `adopt-template` against this repo (Milestone 6). Inventory found this repo's own hand-written `CLAUDE.md` and no version stamp → the **merge** branch, against `CHARTER_GREENFIELD` (the meta-project builds something new; it inherits no legacy system). Every disposition below is tagged, per the tag introduced the same day (see *Re-adoption becomes an upgrade*). This is the first exercise of the tag — and of the merge — on a real project.
+
+| Charter section | Disposition | Tag |
+|---|---|---|
+| Project Parameters | already covered | architectural — the prose states owner, audience, and languages; a table would duplicate them |
+| 1. Vision first, code last | adapt | architectural — reframed in the new *Method*: the risk here is prescribing a practice no real project exercised |
+| 2. Method — phased discovery | adapt | architectural — the five phases presuppose an application; replaced by capture → graduate → incorporate → **validate**, keeping the Q&A-round rules verbatim |
+| 3. Roles | adapt | architectural — senior technical writer / prompt engineer / product thinker, plus *the adopter's advocate* |
+| 4. Language protocol | already covered | architectural — the *Languages* section is equivalent and more specific |
+| 5. Stack philosophy | skip | architectural — no application stack; the tooling is Markdown + a Python assembler + POSIX sh |
+| 6. Anti-over-engineering | already covered | architectural — *Composed charters ship minimal by design* is the same restraint, stated for prose |
+| 7. Testing methodology | adapt | architectural — no test suite, but a break in `tools/` reaches adopters, so the new *Proving the tooling* section requires exercising `make new`/`make adopt` end to end before commit |
+| 8. Memory, roadmap & decisions | already covered | architectural — the *Memory* section is equivalent (one deviation kept: a few curated files, not one-fact-per-file) |
+| 9. Ideas & specs | already covered | architectural — the `ideas/` pipeline is the same practice, already more concrete |
+| 10. Git authorization | already covered | architectural — the commit ritual carries it |
+| 11. Session handoff | **keep as-is** | architectural — `handoff.md` existed but no rule required it; the charter's rule is now in *Memory* |
+| 12. Secrets & sensitive data | skip | architectural — no secrets, no PII; a public repo of prose |
+| `REQUIREMENT_PORTABLE_APPLIANCE` | skip | architectural — nothing is deployed; the product is text in a git repo. Reconsider only if the meta-project ever ships a service |
+| `MODULE_LIVING_DOCS` | already covered | architectural — the commit ritual (hook-enforced README + `docs/index.html` + CHANGELOG, publish-on-push approval) is a more specific statement of the module; folding the module in would leave two formulations of one rule |
+| `MODULE_PRODUCT_AUDIENCE` | skip | architectural — no tenants, no product instances |
+| `MODULE_DATA_MIGRATION` | skip | architectural — no data |
+
+Owner Q&A settled the three outcome-changing ones:
+
+- **Tooling gets a behavioral proof rule, not tests.** Rejected: skipping section 7 outright (a broken `install.sh` would surface only in the next adopter's repo) and a real pytest suite (it changes code/infra → by the two-layer rule it would be a roadmap item, not part of the merge; it can still become one if the tooling grows).
+- **`MODULE_LIVING_DOCS` stays already-covered.** Rejected: adopting the module text (duplicates the ritual in vaguer words) and installing only the `update-living-docs` working copy to dogfood it (attractive — the virtuous cycle — but this repo's landing is hand-regenerated from README with a fixed skin, which is not the pipeline the skill drives; revisit if that changes).
+- **The method is adapted, not skipped.** Rejected: keeping only the Q&A-round rules and dropping the phases (true to the letter, but leaves the repo's actual lifecycle — inbox → spec → template text → validated in an adopter — unwritten, which is exactly what a new contributor needs).
+
+No conflicts required overwriting anything: nothing in `CLAUDE.md` was removed, and the merge is additive (two new sections, two extended ones). Stamped in `.claude/memory/template-version.md` @ c65ea84. **No disposition is tagged conflict-avoided** — nothing here was dropped merely to dodge a collision.

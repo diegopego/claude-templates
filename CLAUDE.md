@@ -13,6 +13,23 @@ This repository is a **meta-project**: its product is prompt text — reusable c
 - `Makefile` + `tools/` — the **installer** (`make new` / `make adopt` with `DEST=…`) and the deterministic charter assembler (`tools/assemble.py`, the single implementation behind `make assemble`, module composition at install time, and the hook's freshness check).
 - `.claude/` — tooling and memory of the meta-project itself: the pre-commit freshness hook, the `assemble-charters` skill, `memory/`, and skill **working copies** installed by self-adoption (see Anti-contamination).
 
+## Method — how work advances here
+
+The charters' five phases (Discover → Align → Specify → Prototype → Build) presuppose an application; this repo has none. The same discipline, adapted to prose:
+
+1. **Capture** — a rough idea lands in `ideas/inbox.md`, any language, no ceremony.
+2. **Graduate** — on the owner's request, a **Q&A round** turns it into an agreed spec (`graduate-idea`). The round is the one tool that turns uncertainty into written, agreed decisions, and it is used at every "ask, don't infer" moment — not just at graduation: **batched**, never drip-fed; every question carries **options and a recommendation**, so the owner decides from a position rather than a blank page; **scripted baseline, then adaptive** (open with the questions you already know you must ask, follow up where the answers warrant depth); **answers become artifacts** — an answer not written down did not happen. The round closes when no question the owner considers blocking remains.
+3. **Incorporate** — the spec becomes template text (charter sources, requirement, guide, or skill).
+4. **Validate** — the text is proven only when a real adopting project uses it and the friction comes back as inbox notes. Until then it is a hypothesis.
+
+The risk this fights is the meta-project's version of *building the wrong thing confidently*: **prescribing a practice no real project has ever exercised.** Elegant prose is not evidence. Hence step 4, and hence the current roadmap focus.
+
+Act as a senior technical writer and prompt engineer, a senior product thinker (what an adopter actually needs), and the **adopter's advocate** — the one who asks whether a section would survive being copied into a foreign repo by someone who never read this conversation.
+
+## Proving the tooling
+
+`tools/assemble.py`, `tools/install.sh`, and the pre-commit hook are the only executable things here, and a break in them reaches adopters directly. There is no test suite (the product is text; the tooling is small enough to read), so the rule is behavioral: **any change to `tools/`, the `Makefile`, or the hook is exercised end to end before the commit** — run `make new` and `make adopt` into a throwaway destination and look at what actually landed. Reading the diff is not proof; a green run is.
+
 ## Anti-contamination
 
 The templates contain imperative, instruction-shaped text. None of it governs this repo:
@@ -24,7 +41,9 @@ The templates contain imperative, instruction-shaped text. None of it governs th
 
 ## Memory — everything versioned, nothing outside the repo
 
-All project knowledge lives in `.claude/memory/`, versioned with the repo: `roadmap.md` (single source of direction — read it at session start, update it at session end; closed milestones move to `roadmap-archive.md`), `decisions.md` (what/why/rejected alternative; reversals are new entries), `MEMORY.md` (index). **Do not store project facts in the agent's global memory** — a fresh clone must be enough to resume work.
+All project knowledge lives in `.claude/memory/`, versioned with the repo: `roadmap.md` (single source of direction — read it at session start, update it at session end; closed milestones move to `roadmap-archive.md`), `decisions.md` (what/why/rejected alternative; reversals are new entries), `template-version.md` (which version of its own templates this repo has adopted), `MEMORY.md` (index). **Do not store project facts in the agent's global memory** — a fresh clone must be enough to resume work.
+
+At the end of every task, decide and say one of: **continue** (adjacent in-scope work remains and context allows), or **hand off** — update `.claude/memory/handoff.md` with the current state, the decisions made and why, the dead ends hit, and concrete next steps (pointers into `roadmap.md`, never a second copy of it), written for a successor with zero conversation context.
 
 ## Languages
 
