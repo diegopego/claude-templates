@@ -63,6 +63,21 @@ install_skill() { # name [force]
   install_file "$REPO/templates/skills/$1/SKILL.md" "$DEST/.claude/skills/$1/SKILL.md" "${2:-}"
 }
 
+# Provenance of the delivered kit: the template repo's commit. A later
+# re-adoption reads it to reconcile a version diff (`git diff <sha>..HEAD --
+# templates/`) instead of re-merging the whole charter from scratch. The
+# adoption merge folds this into the project as
+# .claude/memory/template-version.md, which survives the kit teardown.
+template_commit() {
+  if git -C "$REPO" rev-parse --short HEAD >/dev/null 2>&1; then
+    printf '%s (%s)' \
+      "$(git -C "$REPO" rev-parse --short HEAD)" \
+      "$(git -C "$REPO" log -1 --date=short --format=%cd)"
+  else
+    printf 'unknown (not a git checkout)'
+  fi
+}
+
 case "$MODE" in
 
 new)
@@ -123,11 +138,27 @@ EOF
 
 - [roadmap.md](roadmap.md) — single source of direction: milestones and near-term tasks
 - [decisions.md](decisions.md) — decision log: what was decided, why, rejected alternatives
+- [template-version.md](template-version.md) — which version of the templates these instructions came from
 EOF
   seed_file "$DEST/ideas/inbox.md" <<'EOF'
 # Idea inbox
 
 Owner's scratchpad — any language, draft quality, one line per idea. The agent never reorganizes, rewrites, or deletes entries; an idea graduates into a spec only when the owner asks.
+EOF
+  # Provenance stamp. `new` has no adoption merge to fold it in, so it is
+  # written straight into project memory — the same file a later re-adoption
+  # reads to run an upgrade diff instead of a from-scratch merge.
+  seed_file "$DEST/.claude/memory/template-version.md" <<EOF
+# Template version
+
+Which version of the claude-templates set this project's instructions came from.
+A re-adoption reads this to reconcile only what changed since — see the adoption
+guide's *Upgrade* branch. Update it whenever an upgrade is completed.
+
+- **Source commit**: claude-templates @ $(template_commit)
+- **Charter**: $CHARTER
+- **Modules**: ${MODULES:-none}
+- **Dispositions**: seeded by \`make new\` — no adoption merge ran, so every charter section is *keep as-is*
 EOF
   install_skill graduate-idea
   # MODULE_LIVING_DOCS ships a paired skill; install it when that module is composed in.
@@ -165,13 +196,38 @@ adopt)
   echo "Installing the template set into $DEST for adoption (prefix: $PREFIX/)"
 
   # Reference set the merge classifies against; relative links stay valid.
-  # MODULE_LIVING_DOCS and its paired skill travel too, so the merge can adopt
-  # that opt-in module and install its skill when the project wants a public face.
+  # The charter *sources* travel whole — every add-on module plus the manifest —
+  # so the merge can fold in any opt-in module à la carte (the guide promises
+  # this), and so an upgrade can diff the project against the module text it
+  # actually adopted. Each module that ships a paired skill brings it along.
   for f in charters/CHARTER_GREENFIELD.md charters/CHARTER_LEGACY_TRANSFORMATION.md \
+           charters/sources/CHARTER_CORE.md \
+           charters/sources/MODULE_DISCOVERY_GREENFIELD.md \
+           charters/sources/MODULE_EXTRACTION_LEGACY.md \
+           charters/sources/MODULE_DATA_MIGRATION.md \
+           charters/sources/MODULE_PRODUCT_AUDIENCE.md \
+           charters/sources/MODULE_LIVING_DOCS.md \
+           charters/sources/charters.manifest.md \
            requirements/REQUIREMENT_PORTABLE_APPLIANCE.md guides/GUIDE_ADOPTION.md \
-           charters/sources/MODULE_LIVING_DOCS.md skills/update-living-docs/SKILL.md; do
+           skills/update-living-docs/SKILL.md; do
     install_file "$REPO/templates/$f" "$DEST/$PREFIX/$f"
   done
+
+  # Provenance of this kit. The merge folds it into the project as
+  # .claude/memory/template-version.md (filling in the charter, the modules and
+  # the dispositions it actually adopted); the kit itself is torn down.
+  cat > "$DEST/$PREFIX/TEMPLATE_VERSION.md" <<EOF
+# Kit provenance
+
+This template set was delivered from **claude-templates @ $(template_commit)**.
+
+The adoption merge records this commit in the project as
+\`.claude/memory/template-version.md\`, together with the charter and modules it
+adopted. That file outlives this kit: a later re-adoption reads it, diffs the two
+versions (\`git -C <templates> diff <commit>..HEAD -- templates/\`) and reconciles
+only what changed — instead of re-merging the whole charter from scratch.
+EOF
+  note "stamped         $DEST/$PREFIX/TEMPLATE_VERSION.md"
   install_skill adopt-template
   # graduate-idea is a permanent, charter-prescribed skill (the idea-inbox
   # practice) — install it to stay, unlike the one-shot adopt-template the merge
@@ -185,7 +241,10 @@ EOF
 
   echo ""
   echo "Done. Nothing existing was overwritten — the installer only adds files. Next step: open Claude Code in $DEST and say:"
-  echo "  \"Adopt the templates in $PREFIX/ into this project.\"  (runs the adopt-template skill's non-destructive merge)"
+  echo "  \"Adopt the templates in $PREFIX/ into this project.\"  (runs the adopt-template skill)"
+  echo "It merges non-destructively against the project's own instructions — or, if the project already"
+  echo "runs an older version of these templates (.claude/memory/template-version.md), reconciles only"
+  echo "the diff between that version and this kit."
   echo "(If a Claude Code session is already open there, run /reload-skills first — or restart the session, which always works.)"
   ;;
 

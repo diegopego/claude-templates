@@ -25,6 +25,7 @@ Done — the installer only adds files, **nothing is ever overwritten**. Already
 
 - **Existing project** (`make adopt`) — a **non-destructive merge**. The agent inventories your current instructions, keeps or adapts each template section per [`GUIDE_ADOPTION.md`](templates/guides/GUIDE_ADOPTION.md), and raises every conflict to you instead of overwriting. Code and infrastructure changes are deferred to a roadmap, so the running system is never touched by surprise. When the merge is done it tidies up after itself: each section you keep lands in a single versioned home (under `.claude/` by default) and the one-shot delivery kit and `adopt-template` skill are removed — while the permanent `graduate-idea` skill (and `update-living-docs` if you took the living-docs module) stays.
 - **New project** (`make new`) — composes your charter (plus any add-on modules) and seeds the kit: a `CLAUDE.md` wired to the charter, a `.claude/memory/`, an `ideas/inbox.md`, and the `graduate-idea` skill. The charter's **Setup** step then confirms every parameter with you (stated defaults, never silent assumptions) and **scaffolds a minimum runnable project**, so real work starts against something that already runs.
+- **Already adopted an earlier version?** (`make adopt` again) — an **upgrade**, not a re-merge. Every install is stamped with the version it came from (`.claude/memory/template-version.md`), so the agent reconciles **only what changed** between your version and the new one — your own instructions are never re-litigated, and questions you already answered are not asked again. Anything a past adoption dropped merely to avoid a clash (rather than because you decided against it) comes back to you for a fresh decision, instead of quietly hardening into a rule.
 
 Files land in a namespaced `agent/` folder by default (override with `PREFIX=…`).
 
@@ -39,10 +40,10 @@ Files land in a namespaced `agent/` folder by default (override with `PREFIX=…
   - `MODULE_DATA_MIGRATION` — migration and cutover rules; built into the legacy charter, addable to a greenfield project that imports inherited data.
 - **Requirements** — [`templates/requirements/`](templates/requirements/):
   - [`REQUIREMENT_PORTABLE_APPLIANCE.md`](templates/requirements/REQUIREMENT_PORTABLE_APPLIANCE.md) — every application must be destroyable and rebuildable on a fresh machine from `repo + secrets + backup` in under 30 minutes.
-- **Adoption guide** — [`templates/guides/GUIDE_ADOPTION.md`](templates/guides/GUIDE_ADOPTION.md): the non-destructive merge above, written out in full.
+- **Adoption guide** — [`templates/guides/GUIDE_ADOPTION.md`](templates/guides/GUIDE_ADOPTION.md): the non-destructive merge above and the upgrade path, written out in full.
 - **Embeddable skills** — [`templates/skills/`](templates/skills/): drop-in Claude Code skills an adopting project copies into its own `.claude/skills/`:
   - **`graduate-idea`** — drives a rough idea from the inbox through a Q&A round into an agreed spec on the roadmap.
-  - **`adopt-template`** — runs the adoption guide for you: inventories an existing project's instructions, classifies each template section, and produces a merged `CLAUDE.md` with every conflict raised to you.
+  - **`adopt-template`** — runs the adoption guide for you: inventories an existing project's instructions, classifies each template section, and produces a merged `CLAUDE.md` with every conflict raised to you — or, when the project already runs an older version of the templates, reconciles just the version diff.
   - **`update-living-docs`** — the executable arm of `MODULE_LIVING_DOCS`: builds and keeps a project's living docs current — the dual changelogs, the living product doc, and its landing page. Two modes: **rebuild** (regenerate the whole set from the project's current state — for a large project adopting the pipeline mid-life, or a forced re-creation) and **update** (fold one change in incrementally); the landing publishes only behind an approval loop.
 
 Templates are authored in **English** (translations return when an adopter asks for them).

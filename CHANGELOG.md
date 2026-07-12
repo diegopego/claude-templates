@@ -2,6 +2,15 @@
 
 Curated for template adopters, one entry per significant change (newest first). The git history is the full technical record underneath. Entries before 2026-07-11 live in the old `changelog/` directory, reachable in git history.
 
+## 2026-07-12 — Re-adopting a newer version is now an upgrade, not a re-merge
+
+If you adopted these templates and later re-run `make adopt` with a newer version, the agent used to treat your `CLAUDE.md` — which *is* the filled-in charter it produced last time — as if it were foreign instructions, and ask you to re-decide the whole thing. No longer:
+
+- **Every install is stamped.** `make adopt` marks the delivered kit with the template repo's commit, and adoption records it in your project as `.claude/memory/template-version.md` (source commit, charter, modules, a pointer to the dispositions). `make new` seeds it directly. The kit is torn down; the stamp survives.
+- **A third branch: upgrade.** [`GUIDE_ADOPTION.md`](templates/guides/GUIDE_ADOPTION.md) and the `adopt-template` skill now recognize three situations, not two — no instructions (seed), your own instructions (merge), and *an earlier version of these templates* (upgrade). The upgrade reconciles **only the diff between your version and the kit's**; text you already carry unchanged, and every section you wrote yourself, is left alone.
+- **Workarounds stop hardening into law.** Each disposition an adoption records is now tagged *architectural* (you decided this) or *conflict-avoided* (it only dodged a collision). On upgrade the architectural ones stand and the conflict-avoided ones come back to you — because the clash they dodged may not exist anymore. Untagged entries from an older adoption are re-confirmed. This came from a real adoption where a requirement dropped purely to avoid a clash was later read back as a binding *skip*.
+- **The kit ships every module.** Adoption now delivers the charter sources whole — all add-on modules plus the manifest, and each module's paired skill — so adopting `MODULE_PRODUCT_AUDIENCE` or `MODULE_DATA_MIGRATION` à la carte finally has the source text it needs. Previously only `MODULE_LIVING_DOCS` travelled.
+
 ## 2026-07-11 — Adopted projects keep the `graduate-idea` skill
 
 Adoption now leaves a project with the skills its charter actually prescribes. `make adopt` installs **`graduate-idea`** (the idea-inbox/graduation practice every charter carries) and seeds an empty `ideas/inbox.md` if the project has none — additively, never overwriting. Before, adoption shipped only the one-shot `adopt-template`, which the merge removes at teardown, so an adopted project ended up with **no skills at all** — including the one its own `CLAUDE.md` told it to use. `graduate-idea` (and `update-living-docs` if you adopt the living-docs module) is permanent; only `adopt-template` and the delivery kit are torn down.

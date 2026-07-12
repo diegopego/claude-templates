@@ -315,6 +315,16 @@ make new   DEST=~/path/to/new-project CHARTER=greenfield  <span class="cm"># or 
           confirms every parameter with you (stated defaults, never silent) and scaffolds a minimum
           runnable project, so real work starts against something that already runs.</p>
         </article>
+        <article class="card">
+          <h3>already adopted an earlier version</h3>
+          <p>Run <code class="path">make adopt</code> again and you get an <b>upgrade</b>, not a re-merge.
+          Every install is stamped with the version it came from
+          (<code class="path">.claude/memory/template-version.md</code>), so the agent reconciles
+          <b>only what changed</b> between your version and the new one — your own instructions are never
+          re-litigated, and questions you already answered are not asked twice. Anything a past adoption
+          dropped merely to avoid a clash — rather than because you decided against it — comes back to you
+          for a fresh decision instead of quietly hardening into a rule.</p>
+        </article>
       </div>
       <p class="aside">Already have a Claude Code session open in the project? Run
       <code class="path">/reload-skills</code> there first — skills load at startup. No
@@ -362,7 +372,9 @@ make new   DEST=~/path/to/new-project CHARTER=greenfield  <span class="cm"># or 
         <article class="card">
           <h3>Adoption guide <span class="tag">guide</span></h3>
           <p>Bring these practices into a project that already exists and works — without losing the
-          instructions it already has. A non-destructive merge that raises every conflict to you.</p>
+          instructions it already has. A non-destructive merge that raises every conflict to you — and,
+          for a project already running an older version of the templates, an upgrade path that
+          reconciles only the version diff.</p>
         </article>
         <article class="card">
           <h3>Embeddable skills <span class="tag">skill</span></h3>
@@ -371,7 +383,8 @@ make new   DEST=~/path/to/new-project CHARTER=greenfield  <span class="cm"># or 
           which drives a rough idea from the inbox through its Q&amp;A round into an agreed spec;
           <code class="path">adopt-template</code>, which runs the adoption guide for you — inventorying an
           existing project's instructions, classifying each section, and producing a merged
-          <code>CLAUDE.md</code> with every conflict raised to you; and
+          <code>CLAUDE.md</code> with every conflict raised to you (or, when the project already runs an
+          older version of the templates, reconciling just the version diff); and
           <code class="path">update-living-docs</code>, the executable arm of
           <code class="path">MODULE_LIVING_DOCS</code> — it builds and keeps a project's dual changelogs,
           living product doc, and landing page current, with a <b>rebuild</b> mode that regenerates the
